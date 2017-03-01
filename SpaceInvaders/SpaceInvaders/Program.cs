@@ -15,9 +15,9 @@ namespace SpaceInvaders
         static void Main()
         {
             RenderWindow lol = new RenderWindow(new VideoMode(300, 600), "lol");
-            while (true)
+            while (lol.IsOpen)
             {
-
+                lol.Display();
             }
         }
     }
