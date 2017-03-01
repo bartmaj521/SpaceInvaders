@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using SFML.Graphics;
 using SFML.Window;
 
+using SpaceInvaders.Classes;
 
 namespace SpaceInvaders
 {
@@ -17,7 +18,7 @@ namespace SpaceInvaders
             RenderWindow lol = new RenderWindow(new VideoMode(300, 600), "lol");
             while (true)
             {
-
+               
             }
         }
     }
