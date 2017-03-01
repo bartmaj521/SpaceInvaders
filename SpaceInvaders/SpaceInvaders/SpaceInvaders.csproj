@@ -66,7 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Enemy.cs" />
     <Compile Include="Classes\GameObject.cs" />
+    <Compile Include="Classes\Particle.cs" />
+    <Compile Include="Classes\ParticleEmitter.cs" />
+    <Compile Include="Classes\Player.cs" />
+    <Compile Include="Classes\Projectile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
