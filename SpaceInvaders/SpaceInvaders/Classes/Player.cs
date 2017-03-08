@@ -17,6 +17,11 @@ namespace SpaceInvaders.Classes
 
         public float playerSpeed { get; set; }
 
+        public Player(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale): base(ref txt, _frames, _frameTime, startingPosition, Scale)
+        {
+            playerSpeed = 100f;   
+        }
+
         public override void update(float deltaTime)
         {
             Vector2f offset = new Vector2f(0,0);
@@ -28,6 +33,7 @@ namespace SpaceInvaders.Classes
             {
                 offset.X = playerSpeed * deltaTime;
             }
+
             collider.Left += offset.X;
             if(collider.Left + animation.animationSprite.Texture.Size.X * animation.animationSprite.Scale.X > rightBoundary)
             {

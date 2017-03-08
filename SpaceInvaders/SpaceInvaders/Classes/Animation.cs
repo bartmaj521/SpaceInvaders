@@ -22,8 +22,10 @@ namespace SpaceInvaders.Classes
         public Animation(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale)
         {
             animationSprite = new Sprite();
-            animationSprite.Texture = txt;
             frames = _frames;
+            animationSprite.Texture = txt;
+            IntRect llolol = new IntRect(0, 0, Convert.ToInt32(animationSprite.Texture.Size.X), Convert.ToInt32(animationSprite.Texture.Size.Y / frames.Length));
+            animationSprite.TextureRect = llolol;
             frameTime = _frameTime;
             animationSprite.Position = startingPosition;
             animationSprite.Scale = Scale;
@@ -43,7 +45,7 @@ namespace SpaceInvaders.Classes
                 {
                     currentFrame = 0;
                 }
-                animationSprite.TextureRect = new IntRect(0, Convert.ToInt32(animationSprite.Texture.Size.Y / frames.Length * frames[currentFrame]), Convert.ToInt32(animationSprite.Texture.Size.X), Convert.ToInt32(animationSprite.Texture.Size.Y / frames.Length * frames[currentFrame] + animationSprite.Texture.Size.Y / frames.Length));
+                animationSprite.TextureRect = new IntRect(0, Convert.ToInt32(animationSprite.Texture.Size.Y / frames.Length * frames[currentFrame]), Convert.ToInt32(animationSprite.Texture.Size.X), Convert.ToInt32(animationSprite.Texture.Size.Y / frames.Length));
             }
         }
 
