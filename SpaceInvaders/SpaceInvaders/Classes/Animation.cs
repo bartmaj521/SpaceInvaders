@@ -19,13 +19,16 @@ namespace SpaceInvaders.Classes
         protected float frameTime;
         protected float currFrameTime;
 
+        public Animation()
+        {
+            animationSprite = new Sprite();
+        }
         public Animation(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale)
         {
             animationSprite = new Sprite();
             frames = _frames;
             animationSprite.Texture = txt;
-            IntRect llolol = new IntRect(0, 0, Convert.ToInt32(animationSprite.Texture.Size.X), Convert.ToInt32(animationSprite.Texture.Size.Y / frames.Length));
-            animationSprite.TextureRect = llolol;
+            animationSprite.TextureRect = new IntRect(0, 0, Convert.ToInt32(animationSprite.Texture.Size.X), Convert.ToInt32(animationSprite.Texture.Size.Y / frames.Length));
             frameTime = _frameTime;
             animationSprite.Position = startingPosition;
             animationSprite.Scale = Scale;

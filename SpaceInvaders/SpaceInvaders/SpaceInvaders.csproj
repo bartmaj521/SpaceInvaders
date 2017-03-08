@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Animation.cs" />
+    <Compile Include="Classes\Bullet.cs" />
     <Compile Include="Classes\Enemy.cs" />
     <Compile Include="Classes\GameObject.cs" />
     <Compile Include="Classes\GUI\OurButton.cs" />
