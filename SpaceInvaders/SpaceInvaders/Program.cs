@@ -15,25 +15,35 @@ namespace SpaceInvaders
 {
     static class Program
     {
-
-        
-    
         static void Main()
         {
-            Font myFont = new Font("comic.ttf");
-            OurButton btn_hello = new OurButton("Hello", myFont, new Vector2f(100, 100), Style.none);
+
             RenderWindow window = new RenderWindow(new VideoMode(300, 600), "lol");
             window.Closed += OnClose;
-
+            window.MouseMoved += onMouseMoved;
+            window.MouseButtonPressed += onMouseButtonPressed;
+            OurButton btnHello = new OurButton("Hello", new Vector2f(100, 100), 0);
             Event e = new Event();
+            
             while (window.IsOpen)
             {
                 window.DispatchEvents();
                 window.Display();
+                
 
-                btn_hello.update(e, window);
-                window.Draw(btn_hello);
+                btnHello.update(e, window);
+                window.Draw(btnHello);
             }
+        }
+
+        private static void onMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
+        private static void onMouseMoved(object sender, MouseMoveEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private static void OnClose(object sender, EventArgs e)
