@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Threading;
 
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
 
 using SpaceInvaders.Classes;
-using SpaceInvaders.Classes.GUI;
 
 namespace SpaceInvaders
 {
@@ -17,38 +16,22 @@ namespace SpaceInvaders
     {
         static void Main()
         {
+            RenderWindow lol = new RenderWindow(new VideoMode(1000, 800), "lol");
+            Texture txt = new Texture("Player.png");
+            int[] frames = new int[] { 0, 1 };
+            Player.leftBoundary = 0f;
+            Player.rightBoundary = 1000f;
+            Player player = new Player(ref txt, frames, 0.75f, new Vector2f(150, 540), new Vector2f(0.25f,0.5f));
+            Clock clock = new Clock();
 
-            RenderWindow window = new RenderWindow(new VideoMode(300, 600), "lol");
-            window.Closed += OnClose;
-            window.MouseMoved += onMouseMoved;
-            window.MouseButtonPressed += onMouseButtonPressed;
-            OurButton btnHello = new OurButton("Hello", new Vector2f(100, 100), 0);
-            Event e = new Event();
-            
-            while (window.IsOpen)
+            while (lol.IsOpen)
             {
-                window.DispatchEvents();
-                window.Display();
-                
+                player.update(clock.Restart().AsSeconds());
 
-                btnHello.update(e, window);
-                window.Draw(btnHello);
+                lol.Clear();
+                lol.Draw(player.animation.animationSprite);
+                lol.Display();
             }
-        }
-
-        private static void onMouseButtonPressed(object sender, MouseButtonEventArgs e)
-        {
-            
-        }
-
-        private static void onMouseMoved(object sender, MouseMoveEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void OnClose(object sender, EventArgs e)
-        {
-            (sender as RenderWindow).Close();
         }
     }
 }
