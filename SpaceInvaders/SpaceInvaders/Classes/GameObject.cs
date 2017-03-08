@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using SpaceInvaders.Classes;
 
 namespace SpaceInvaders.Classes
 {
     abstract class GameObject
     {
-        
-        protected Sprite animationSprite { get; set; }
-        protected int nbAnimationFrames;
-        protected int currentFrame;
-        protected float frameTime;
-        protected float currFrameTime;
+        public Animation animation { get; set; }
 
         protected FloatRect collider;
 
@@ -28,31 +24,12 @@ namespace SpaceInvaders.Classes
 
         }
 
-        public GameObject(ref Texture txt, int _nbAnimationFrames, float _frameTime, Vector2f startingPosition, Vector2f Scale)
+        public GameObject(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale)
         {
-            nbAnimationFrames = _nbAnimationFrames;
+            animation = new Animation(ref txt, _frames, _frameTime, startingPosition, Scale);
+            animation.updateAnimation(0, new Vector2f(0,0));
 
-            animationSprite.Texture = txt;
-            animationSprite.Position = startingPosition;
-            animationSprite.Scale = Scale;
-            animationSprite.TextureRect = new IntRect(0, 0, (int)animationSprite.Texture.Size.X, (int)animationSprite.Texture.Size.Y / nbAnimationFrames);
-
-            collider.Left = startingPosition.X;
-            collider.Top = startingPosition.Y;    
-            collider.Width = animationSprite.Texture.Size.X * Scale.X;
-            collider.Height = animationSprite.Texture.Size.Y * Scale.Y;
-
-            frameTime = _frameTime;
+            collider = new FloatRect(startingPosition.X, startingPosition.Y, animation.animationSprite.Texture.Size.X * Scale.X, animation.animationSprite.Texture.Size.Y * Scale.Y);
         }
-
-
-        
-
-
-
-
-
-
-
     }
 }
