@@ -22,7 +22,7 @@ namespace SpaceInvaders.Classes.GUI
         hovered = 1,
         clicked = 2
     }
-    class Button: Drawable
+    class OurButton: Drawable
     {
         #region Properties
         private Color m_bgNormal;
@@ -230,7 +230,7 @@ namespace SpaceInvaders.Classes.GUI
         }
         #endregion
 
-        Button(string text, Font font, Vector2f position, Style style)
+        public OurButton(string text, Font font, Vector2f position, Style style)
         {
             m_position = position;
             m_font = font;
@@ -242,7 +242,7 @@ namespace SpaceInvaders.Classes.GUI
             {
                 case Style.none:
                     {
-                        m_textNormal = new Color(255, 255, 255);
+                        m_textNormal = new Color(0, 0, 0);
                         m_textHover = new Color(255, 255, 255);
                         m_textClicked = new Color(255, 255, 255);
                         m_bgNormal = new Color(255, 255, 255, 100);
@@ -292,11 +292,12 @@ namespace SpaceInvaders.Classes.GUI
                     break;
             }
             #endregion 
-
+            m_text = new Text();
             m_text.DisplayedString = text;
             m_text.Font = font;
             m_text.Origin = new Vector2f(m_text.GetGlobalBounds().Width / 2, m_text.GetGlobalBounds().Height / 2);
-            m_text.Color = m_bgNormal;
+            m_text.Color = m_textNormal;
+            m_text.Position = m_position;
 
             m_borderThickness = 0;
             m_size = new Vector2f(m_text.GetGlobalBounds().Width*1.5f, m_text.GetGlobalBounds().Height*1.5f);
@@ -410,7 +411,8 @@ namespace SpaceInvaders.Classes.GUI
         }
         public void Draw(RenderTarget target, RenderStates states)
         {
-            throw new NotImplementedException();
+            target.Draw(m_buttonShape, states);
+            target.Draw(m_text, states);
         }
     }
 }
