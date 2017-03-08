@@ -12,6 +12,7 @@ namespace SpaceInvaders.Classes
 {
     abstract class GameObject
     {
+        
         protected Sprite animationSprite { get; set; }
         protected int nbAnimationFrames;
         protected int currentFrame;
