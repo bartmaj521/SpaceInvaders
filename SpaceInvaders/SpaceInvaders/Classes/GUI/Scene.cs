@@ -28,14 +28,16 @@ namespace SpaceInvaders.Classes.GUI
             window.MouseButtonPressed += onMouseButtonPressed;
             window.MouseButtonReleased += onMouseButtonReleased;
             window.Closed += onClosed;
-
+            window.SetMouseCursorVisible(false);
             
 
             while(window.IsOpen)
             {
+                window.Clear();
                 window.DispatchEvents();
                 updateComponents();
                 drawComponents(window);
+                
                 window.Display();
             }
         }

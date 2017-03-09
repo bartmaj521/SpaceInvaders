@@ -15,7 +15,7 @@ namespace SpaceInvaders.Classes.GUI
         hovered = 1,
         clicked = 2,
     }
-    class OurButton : Drawable
+    class OurButton : UIComponent,Drawable
     {
         private IntRect collider;
         private Sprite buttonSprite;
@@ -48,7 +48,7 @@ namespace SpaceInvaders.Classes.GUI
             text.Position = position;
 
         }
-        public void update()
+        public override void update()
         {
             switch (currentState)
             {
@@ -88,6 +88,7 @@ namespace SpaceInvaders.Classes.GUI
                 currentState = State.clicked;
                 if (this.text.DisplayedString == "Exit")
                     (sender as RenderWindow).Close();
+                
 
             }
             else if (collider.Contains((int)position.X, (int)position.Y))
@@ -103,7 +104,7 @@ namespace SpaceInvaders.Classes.GUI
                 currentState = State.normal;
         }
 
-        public void Draw(RenderTarget target, RenderStates states)
+        public override void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(buttonSprite, states);
             target.Draw(text, states);
