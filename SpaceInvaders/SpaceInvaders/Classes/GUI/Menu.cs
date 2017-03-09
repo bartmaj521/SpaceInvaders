@@ -9,7 +9,7 @@ using SFML.Graphics;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    class Menu: Scene
+    abstract class Menu: Scene
     {
         private List<UIComponent> componentList = new List<UIComponent>();
         public Menu(string _title):base(_title)
@@ -25,14 +25,11 @@ namespace SpaceInvaders.Classes.GUI
                 button.checkClick(new Vector2f(e.X, e.Y), e.Button, sender);
             }
         }
-
-        public override void callOnMouseButtonReleased(MouseButtonEventArgs e)
+        public override void callOnMouseButtonReleased(object sender, MouseButtonEventArgs e)
         {
             foreach (OurButton button in componentList.OfType<OurButton>())
-                button.checkUnclick(new Vector2f(e.X, e.Y), e.Button);
+                button.checkUnclick(new Vector2f(e.X, e.Y), e.Button, sender);
         }
-        
-
         public override void callOnMoved(MouseMoveEventArgs e)
         {
             foreach (OurButton button in componentList.OfType<OurButton>())
@@ -47,7 +44,7 @@ namespace SpaceInvaders.Classes.GUI
             componentList.Add(new OurButton(new Texture("buttonSprite.png"), "Play", new Vector2i(100, 32), new Vector2f(200, 100)));
             componentList.Add(new OurButton(new Texture("buttonSprite.png"), "Scores", new Vector2i(100, 32), new Vector2f(200, 140)));
             componentList.Add(new OurButton(new Texture("buttonSprite.png"), "Exit", new Vector2i(100, 32), new Vector2f(200, 180)));
-            componentList.Add(new Cursor(new Texture("cursor.png"), new Vector2f(0.1f, 0.1f)));
+            componentList.Add(new Cursor(new Texture("cursor2.png"), new Vector2f(1f, 1f)));
         }
 
         public override void drawComponents(RenderWindow window)
@@ -61,7 +58,7 @@ namespace SpaceInvaders.Classes.GUI
             {
                 component.update();
             }
-            
+
         }
     }
 }

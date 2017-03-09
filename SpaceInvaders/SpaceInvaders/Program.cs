@@ -17,7 +17,7 @@ namespace SpaceInvaders
         static void Main()
         {
             Menu mainMenu = new Menu("Main menu");
-            mainMenu.show();   
+            mainMenu.show();
         }
     }
 }

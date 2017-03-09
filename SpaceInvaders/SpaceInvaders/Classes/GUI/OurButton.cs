@@ -15,7 +15,7 @@ namespace SpaceInvaders.Classes.GUI
         hovered = 1,
         clicked = 2,
     }
-    class OurButton : UIComponent,Drawable
+    class OurButton : UIComponent, Drawable
     {
         private IntRect collider;
         private Sprite buttonSprite;
@@ -28,7 +28,7 @@ namespace SpaceInvaders.Classes.GUI
         public Font font { get; set; }
 
         public Text text;
-        public OurButton(Texture _texture, string _text,Vector2i spriteSize, Vector2f position)
+        public OurButton(Texture _texture, string _text, Vector2i spriteSize, Vector2f position)
         {
             currentState = 0;
             textNormal = new Color(91, 209, 255);
@@ -36,15 +36,15 @@ namespace SpaceInvaders.Classes.GUI
             textClicked = new Color(99, 200, 255);
             buttonSprite = new Sprite();
             buttonSprite.Texture = _texture;
-            buttonSprite.TextureRect = new IntRect(0, 32, spriteSize.X,spriteSize.Y);
+            buttonSprite.TextureRect = new IntRect(0, 32, spriteSize.X, spriteSize.Y);
             buttonSprite.Origin = new Vector2f(spriteSize.X / 2, spriteSize.Y / 2);
             buttonSprite.Position = position;
 
-            collider = new IntRect((int)position.X-spriteSize.X/2,(int)position.Y-spriteSize.Y/2,spriteSize.X,spriteSize.Y);
+            collider = new IntRect((int)position.X - spriteSize.X / 2, (int)position.Y - spriteSize.Y / 2, spriteSize.X, spriteSize.Y);
             font = new Font("comic.ttf");
-            text = new Text(_text,font);
+            text = new Text(_text, font);
             text.CharacterSize = 16;
-            text.Origin = new Vector2f(text.GetGlobalBounds().Left + text.GetLocalBounds().Width / 2, text.GetGlobalBounds().Top+text.GetLocalBounds().Height / 2);
+            text.Origin = new Vector2f(text.GetGlobalBounds().Left + text.GetLocalBounds().Width / 2, text.GetGlobalBounds().Top + text.GetLocalBounds().Height / 2);
             text.Position = position;
 
         }
@@ -81,25 +81,26 @@ namespace SpaceInvaders.Classes.GUI
             else
                 currentState = State.normal;
         }
-        public void checkClick(Vector2f position, Mouse.Button button,object sender)
+        public void checkClick(Vector2f position, Mouse.Button button, object sender)
         {
             if (collider.Contains((int)position.X, (int)position.Y) && button == Mouse.Button.Left)
             {
                 currentState = State.clicked;
-                if (this.text.DisplayedString == "Exit")
-                    (sender as RenderWindow).Close();
-                
-
             }
             else if (collider.Contains((int)position.X, (int)position.Y))
                 currentState = State.hovered;
             else
                 currentState = State.normal;
         }
-        public void checkUnclick(Vector2f position, Mouse.Button button)
+        public void checkUnclick(Vector2f position, Mouse.Button button, object sender)
         {
-            if (collider.Contains((int)position.X, (int)position.Y))
+            if (collider.Contains((int)position.X, (int)position.Y) && button == Mouse.Button.Left)
+            {
                 currentState = State.hovered;
+                if (this.text.DisplayedString == "Exit")
+                    (sender as RenderWindow).Close();
+            }
+
             else
                 currentState = State.normal;
         }
