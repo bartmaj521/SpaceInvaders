@@ -12,10 +12,11 @@ namespace SpaceInvaders.Classes.GUI
     abstract class Menu: Scene
     {
         protected List<UIComponent> componentList = new List<UIComponent>();
+        protected bool initialized;
 
         public Menu()
         {
-
+            initialized = false;
         }
         
 
@@ -37,11 +38,6 @@ namespace SpaceInvaders.Classes.GUI
                 button.checkHover(new Vector2f(e.X, e.Y));
             foreach (Cursor cursor in componentList.OfType<Cursor>())
                 cursor.moveCursor(new Vector2f(e.X, e.Y));
-        }
-
-        public override void initialize()
-        {
-
         }
 
         public override void drawComponents(SceneManager sceneManager)

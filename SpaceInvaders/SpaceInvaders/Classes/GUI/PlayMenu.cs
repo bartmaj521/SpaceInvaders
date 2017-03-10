@@ -4,27 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
-using SFML.Window;
 using SFML.System;
+using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    class MainMenu : Menu
+    class PlayMenu:Menu
     {
         #region Singleton constructor
-        private static MainMenu instance;
-        public static MainMenu Instance()
+        private static PlayMenu instance;
+        public static PlayMenu Instance()
         {
-            if(instance ==null)
+            if(instance==null)
             {
-                instance = new MainMenu();
+                instance = new PlayMenu();
             }
             return instance;
         }
-        private MainMenu() : base() { }
-        #endregion
+        private PlayMenu()
+        {
 
-        
+        }
+        #endregion
 
         //obsluga gdy scena zostanie wstrzymana
         public override void pause()
@@ -43,20 +44,19 @@ namespace SpaceInvaders.Classes.GUI
         {
             if (!initialized)
             {
-                OurButton btnPlay = new OurButton(new Texture("buttonSprite.png"), "Play", new Vector2i(100, 32), new Vector2f(200, 100));
-                componentList.Add(btnPlay);
+                OurButton btnMain = new OurButton(new Texture("buttonSprite.png"), "Main", new Vector2i(100, 32), new Vector2f(200, 100));
+                componentList.Add(btnMain);
                 OurButton btnExit = new OurButton(new Texture("buttonSprite.png"), "Exit", new Vector2i(100, 32), new Vector2f(200, 150));
                 componentList.Add(btnExit);
                 componentList.Add(Cursor.Instance(new Texture("cursor.png"), new Vector2f(1f, 1f)));
 
-                btnPlay.MousePressed += OnPlayButtonPressed;
+                btnMain.MousePressed += OnMainButtonPressed;
                 btnExit.MouseReleased += OnExitButtonReleased;
                 initialized = true;
             }
-            
+
         }
 
-        //wyczyszczenie listy componentów
         public override void cleanup()
         {
             componentList.Clear();
@@ -68,9 +68,9 @@ namespace SpaceInvaders.Classes.GUI
         }
 
         //obsluga klikniecia przycisku 
-        private void OnPlayButtonPressed(object sender, EventArgs e)
+        private void OnMainButtonPressed(object sender, EventArgs e)
         {
-            sceneManager.changeScene(PlayMenu.Instance());
+            sceneManager.changeScene(MainMenu.Instance());
         }
     }
 }

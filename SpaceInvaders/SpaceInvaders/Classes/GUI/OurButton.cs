@@ -28,6 +28,28 @@ namespace SpaceInvaders.Classes.GUI
         public Font font { get; set; }
 
         public Text text;
+
+        //event gdy nacisnieto przycisk myszy
+        public event EventHandler MousePressed;
+        //event gdy puszczono przycisk myszy
+        public event EventHandler MouseReleased;
+
+        //wywolanie eventu gdy ktos o niego prosi
+        protected virtual void OnMousePressed()
+        {
+            if (MousePressed != null)
+            {
+                MousePressed(this, EventArgs.Empty);
+            }
+        }
+        //wywolanie eventu gdy ktos o niego prosi
+        protected virtual void OnMouseReleased()
+        {
+            if(MouseReleased!=null)
+            {
+                MouseReleased(this, EventArgs.Empty);
+            }
+        }
         public OurButton(Texture _texture, string _text, Vector2i frameSize, Vector2f position)
         {
             currentState = 0;
@@ -48,6 +70,7 @@ namespace SpaceInvaders.Classes.GUI
             text.Position = position;
 
         }
+        //zmiana wygladu przycisku w zaleznosci od stanu
         public override void update()
         {
             switch (currentState)
@@ -74,6 +97,7 @@ namespace SpaceInvaders.Classes.GUI
                     break;
             }
         }
+
         public void checkHover(Vector2f position)
         {
             if (collider.Contains((int)position.X, (int)position.Y))
@@ -86,6 +110,8 @@ namespace SpaceInvaders.Classes.GUI
             if (collider.Contains((int)position.X, (int)position.Y) && button == Mouse.Button.Left)
             {
                 currentState = State.clicked;
+
+                OnMousePressed();
             }
             else if (collider.Contains((int)position.X, (int)position.Y))
                 currentState = State.hovered;
@@ -97,8 +123,7 @@ namespace SpaceInvaders.Classes.GUI
             if (collider.Contains((int)position.X, (int)position.Y) && button == Mouse.Button.Left)
             {
                 currentState = State.hovered;
-                if (this.text.DisplayedString == "Exit")
-                    (sender as RenderWindow).Close();
+                OnMouseReleased();
             }
 
             else

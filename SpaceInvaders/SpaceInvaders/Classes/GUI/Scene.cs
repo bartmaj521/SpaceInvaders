@@ -15,6 +15,8 @@ namespace SpaceInvaders.Classes.GUI
         public Scene()
         {
         }
+        //manager aktualnej(!!!) sceny
+        protected SceneManager sceneManager;
 
         //obsluga zdarzen
         public abstract void callOnMoved(object sender,MouseMoveEventArgs e,SceneManager sceneManager);
@@ -27,7 +29,13 @@ namespace SpaceInvaders.Classes.GUI
         public abstract void drawComponents(SceneManager sceneManager);
         public abstract void updateComponents(SceneManager sceneManager);
         public abstract void pause();
-        public abstract void reasume();       
+        public abstract void reasume();
+        public abstract void cleanup();
+
+        public void setManager(SceneManager manager)
+        {
+            sceneManager = manager;
+        }
 
     }
 }
