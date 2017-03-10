@@ -16,8 +16,10 @@ namespace SpaceInvaders
     {
         static void Main()
         {
-            Menu mainMenu = new Menu("Main menu");
-            mainMenu.show();
+            SceneManager.Instance(new VideoMode(400, 600), "Space Invaders");
+            SceneManager.Instance().changeScene(MainMenu.Instance());
+            SceneManager.Instance().run();
+
         }
     }
 }

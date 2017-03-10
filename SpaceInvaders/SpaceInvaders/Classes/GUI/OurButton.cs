@@ -28,7 +28,7 @@ namespace SpaceInvaders.Classes.GUI
         public Font font { get; set; }
 
         public Text text;
-        public OurButton(Texture _texture, string _text, Vector2i spriteSize, Vector2f position)
+        public OurButton(Texture _texture, string _text, Vector2i frameSize, Vector2f position)
         {
             currentState = 0;
             textNormal = new Color(91, 209, 255);
@@ -36,11 +36,11 @@ namespace SpaceInvaders.Classes.GUI
             textClicked = new Color(99, 200, 255);
             buttonSprite = new Sprite();
             buttonSprite.Texture = _texture;
-            buttonSprite.TextureRect = new IntRect(0, 32, spriteSize.X, spriteSize.Y);
-            buttonSprite.Origin = new Vector2f(spriteSize.X / 2, spriteSize.Y / 2);
+            buttonSprite.TextureRect = new IntRect(0, 32, frameSize.X, frameSize.Y);
+            buttonSprite.Origin = new Vector2f(frameSize.X / 2, frameSize.Y / 2);
             buttonSprite.Position = position;
 
-            collider = new IntRect((int)position.X - spriteSize.X / 2, (int)position.Y - spriteSize.Y / 2, spriteSize.X, spriteSize.Y);
+            collider = new IntRect((int)position.X - frameSize.X / 2, (int)position.Y - frameSize.Y / 2, frameSize.X, frameSize.Y);
             font = new Font("comic.ttf");
             text = new Text(_text, font);
             text.CharacterSize = 16;

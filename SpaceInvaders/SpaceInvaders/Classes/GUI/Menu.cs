@@ -11,26 +11,27 @@ namespace SpaceInvaders.Classes.GUI
 {
     abstract class Menu: Scene
     {
-        private List<UIComponent> componentList = new List<UIComponent>();
-        public Menu(string _title):base(_title)
+        protected List<UIComponent> componentList = new List<UIComponent>();
+
+        public Menu()
         {
 
         }
         
 
-        public override void callOnMouseButtonPressed(object sender,MouseButtonEventArgs e)
+        public override void callOnMouseButtonPressed(object sender,MouseButtonEventArgs e,SceneManager sceneManager)
         {
             foreach (OurButton button in componentList.OfType<OurButton>())
             {
                 button.checkClick(new Vector2f(e.X, e.Y), e.Button, sender);
             }
         }
-        public override void callOnMouseButtonReleased(object sender, MouseButtonEventArgs e)
+        public override void callOnMouseButtonReleased(object sender, MouseButtonEventArgs e, SceneManager sceneManager)
         {
             foreach (OurButton button in componentList.OfType<OurButton>())
                 button.checkUnclick(new Vector2f(e.X, e.Y), e.Button, sender);
         }
-        public override void callOnMoved(MouseMoveEventArgs e)
+        public override void callOnMoved(object sender,MouseMoveEventArgs e, SceneManager sceneManager)
         {
             foreach (OurButton button in componentList.OfType<OurButton>())
                 button.checkHover(new Vector2f(e.X, e.Y));
@@ -40,19 +41,15 @@ namespace SpaceInvaders.Classes.GUI
 
         public override void initialize()
         {
-            
-            componentList.Add(new OurButton(new Texture("buttonSprite.png"), "Play", new Vector2i(100, 32), new Vector2f(200, 100)));
-            componentList.Add(new OurButton(new Texture("buttonSprite.png"), "Scores", new Vector2i(100, 32), new Vector2f(200, 140)));
-            componentList.Add(new OurButton(new Texture("buttonSprite.png"), "Exit", new Vector2i(100, 32), new Vector2f(200, 180)));
-            componentList.Add(new Cursor(new Texture("cursor2.png"), new Vector2f(1f, 1f)));
+
         }
 
-        public override void drawComponents(RenderWindow window)
+        public override void drawComponents(SceneManager sceneManager)
         {
             foreach (var component in componentList)
-                window.Draw(component);
+                sceneManager.window.Draw(component);
         }
-        public override void updateComponents()
+        public override void updateComponents(SceneManager sceneManager)
         {
             foreach (var component in componentList)
             {

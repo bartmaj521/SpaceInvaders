@@ -14,7 +14,7 @@ namespace SpaceInvaders.Classes.GUI
         //stos scen
         private Stack<Scene> sceneStack;
         //okno gry
-        protected RenderWindow window;
+        public RenderWindow window;
 
         //wzorzec singleton - mozliwa tylko jedna instancja klasy
         #region Singleton Constructor
@@ -28,6 +28,10 @@ namespace SpaceInvaders.Classes.GUI
             {
                 instance = new SceneManager(vidmode,windowTitle);
             }
+            return instance;
+        }
+        public static SceneManager Instance()
+        {
             return instance;
         }
 
@@ -53,17 +57,17 @@ namespace SpaceInvaders.Classes.GUI
 
         private void onMouseButtonReleased(object sender, MouseButtonEventArgs e)
         {
-            sceneStack.Peek().callOnMouseButtonReleased(sender, e);
+            sceneStack.Peek().callOnMouseButtonReleased(sender, e,this);
         }
 
         private void onMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            sceneStack.Peek().callOnMouseButtonPressed(sender, e);
+            sceneStack.Peek().callOnMouseButtonPressed(sender, e,this);
         }
 
         private void onMouseMoved(object sender, MouseMoveEventArgs e)
         {
-            sceneStack.Peek().callOnMoved(e);
+            sceneStack.Peek().callOnMoved(sender,e,this);
 
         } 
         #endregion
@@ -86,7 +90,8 @@ namespace SpaceInvaders.Classes.GUI
         public void changeScene(Scene scene)
         {
             //zdjecie obecnej sceny
-            sceneStack.Pop();
+            if(sceneStack.Count !=0)
+                sceneStack.Pop();
             //dodanie nowej sceny na stos
             sceneStack.Push(scene);
             sceneStack.Peek().initialize();

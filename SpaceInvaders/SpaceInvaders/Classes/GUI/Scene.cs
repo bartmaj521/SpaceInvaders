@@ -11,15 +11,15 @@ using SFML.Window;
 namespace SpaceInvaders.Classes.GUI
 {
     abstract class Scene
-    {
+    { 
         public Scene()
         {
         }
 
         //obsluga zdarzen
-        public abstract void callOnMoved(MouseMoveEventArgs e);
-        public abstract void callOnMouseButtonPressed(object sender,MouseButtonEventArgs e);
-        public abstract void callOnMouseButtonReleased(object sender, MouseButtonEventArgs e);
+        public abstract void callOnMoved(object sender,MouseMoveEventArgs e,SceneManager sceneManager);
+        public abstract void callOnMouseButtonPressed(object sender,MouseButtonEventArgs e, SceneManager sceneManager);
+        public abstract void callOnMouseButtonReleased(object sender, MouseButtonEventArgs e, SceneManager sceneManager);
 
 
         //ponizsze metody wywolywane sa przez sceneManagera

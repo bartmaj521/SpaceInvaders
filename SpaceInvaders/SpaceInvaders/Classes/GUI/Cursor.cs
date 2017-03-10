@@ -14,13 +14,26 @@ namespace SpaceInvaders.Classes.GUI
         private Sprite cursorSprite;
         public Vector2f scale { get; set; }
 
-        public Cursor(Texture _texture, Vector2f _scale)
+        #region Singleton constructor
+        private static Cursor instance;
+        public static Cursor Instance(Texture _texture, Vector2f _scale)
+        {
+            if(instance==null)
+            {
+                instance = new Cursor(_texture, _scale);
+            }
+            return instance;
+        }
+
+        private Cursor(Texture _texture, Vector2f _scale)
         {
             cursorSprite = new Sprite(_texture);
             cursorSprite.Scale = _scale;
             cursorSprite.Origin = new Vector2f(0,0);
             cursorSprite.Position = new Vector2f((float)Mouse.GetPosition().X, (float)Mouse.GetPosition().Y);
         }
+        #endregion
+
         public override void update()
         {
 

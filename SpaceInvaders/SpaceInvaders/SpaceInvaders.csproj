@@ -70,6 +70,7 @@
     <Compile Include="Classes\Enemy.cs" />
     <Compile Include="Classes\GameObject.cs" />
     <Compile Include="Classes\GUI\Cursor.cs" />
+    <Compile Include="Classes\GUI\MainMenu.cs" />
     <Compile Include="Classes\GUI\Menu.cs" />
     <Compile Include="Classes\GUI\OurButton.cs" />
     <Compile Include="Classes\GUI\Scene.cs" />
