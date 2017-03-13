@@ -17,11 +17,14 @@ namespace SpaceInvaders.Classes.GUI
 
         public string text { get; set; }
         private bool isEmpty;
-        private bool isSelected = true;
+        public bool isSelected;
+        public bool isVisible;
 
         public OurTextbox(Texture _texture, Vector2i _texturesize,Vector2f _position, uint _fontSize)
         {
             isEmpty = true;
+            isSelected = false;
+            isVisible = false;
             text = "";
             displayedText = new Text(text, new Font("font.ttf"));
             txbSprite = new Sprite(_texture);
@@ -63,8 +66,11 @@ namespace SpaceInvaders.Classes.GUI
         }
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(txbSprite);
-            target.Draw(displayedText);
+            if (isVisible)
+            {
+                target.Draw(txbSprite);
+                target.Draw(displayedText); 
+            }
         }
 
         public override void update()

@@ -46,7 +46,9 @@ namespace SpaceInvaders.Classes.GUI
                 Vector2i buttonSize = new Vector2i(300,99);
                 uint fontSize = 26;
                 OurTextbox txbUsername = new OurTextbox(new Texture("txbSprite.png"), new Vector2i(400, 60), new Vector2f(window.Size.X * 0.5f,window.Size.Y*0.5f), 30);
+                txbUsername.componentID = "textbox";
                 componentList.Add(txbUsername);
+                
                 OurButton btnNewGame = new OurButton(new Texture("buttonSprite.png"), "nowa gra", buttonSize, new Vector2f(window.Size.X * 0.87f, window.Size.Y * 0.5f),fontSize);
                 componentList.Add(btnNewGame);
                 OurButton btnLoadGame = new OurButton(new Texture("buttonSprite.png"), "wczytaj gre", buttonSize, new Vector2f(window.Size.X * 0.87f, window.Size.Y * 0.64f),fontSize);
@@ -57,7 +59,7 @@ namespace SpaceInvaders.Classes.GUI
                 componentList.Add(btnExit);
                 componentList.Add(Cursor.Instance(new Texture("cursor.png"), new Vector2f(1f, 1f)));
 
-                btnNewGame.MousePressed += OnPlayButtonPressed;
+                btnNewGame.MousePressed += OnNewGameButtonPressed;
                 btnExit.MouseReleased += OnExitButtonReleased;
                 initialized = true;
             }
@@ -76,9 +78,11 @@ namespace SpaceInvaders.Classes.GUI
         }
 
         //obsluga klikniecia przycisku 
-        private void OnPlayButtonPressed(object sender, EventArgs e)
+        private void OnNewGameButtonPressed(object sender, EventArgs e)
         {
-            sceneManager.changeScene(PlayMenu.Instance());
+            var txb = (componentList.Find(x => x.componentID == "textbox") as OurTextbox);
+            txb.isSelected = true;
+            txb.isVisible = true;
         }
     }
 }
