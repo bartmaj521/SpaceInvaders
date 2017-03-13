@@ -45,12 +45,12 @@ namespace SpaceInvaders.Classes.GUI
         //wywolanie eventu gdy ktos o niego prosi
         protected virtual void OnMouseReleased()
         {
-            if(MouseReleased!=null)
+            if (MouseReleased != null)
             {
                 MouseReleased(this, EventArgs.Empty);
             }
         }
-        public OurButton(Texture _texture, string _text, Vector2i frameSize, Vector2f position)
+        public OurButton(Texture _texture, string _text, Vector2i frameSize, Vector2f position,uint fontSize)
         {
             currentState = 0;
             textNormal = new Color(91, 209, 255);
@@ -58,14 +58,14 @@ namespace SpaceInvaders.Classes.GUI
             textClicked = new Color(99, 200, 255);
             buttonSprite = new Sprite();
             buttonSprite.Texture = _texture;
-            buttonSprite.TextureRect = new IntRect(0, 32, frameSize.X, frameSize.Y);
+            buttonSprite.TextureRect = new IntRect(0, 0, frameSize.X, frameSize.Y);
             buttonSprite.Origin = new Vector2f(frameSize.X / 2, frameSize.Y / 2);
             buttonSprite.Position = position;
 
             collider = new IntRect((int)position.X - frameSize.X / 2, (int)position.Y - frameSize.Y / 2, frameSize.X, frameSize.Y);
-            font = new Font("comic.ttf");
+            font = new Font("font.ttf");
             text = new Text(_text, font);
-            text.CharacterSize = 16;
+            text.CharacterSize = fontSize;
             text.Origin = new Vector2f(text.GetGlobalBounds().Left + text.GetLocalBounds().Width / 2, text.GetGlobalBounds().Top + text.GetLocalBounds().Height / 2);
             text.Position = position;
 
@@ -78,19 +78,19 @@ namespace SpaceInvaders.Classes.GUI
                 case State.normal:
                     {
                         text.Color = textNormal;
-                        buttonSprite.TextureRect = new IntRect(0, 0, buttonSprite.TextureRect.Width, buttonSprite.TextureRect.Height);
+                        buttonSprite.TextureRect = new IntRect(0, 0 * buttonSprite.TextureRect.Height, buttonSprite.TextureRect.Width, buttonSprite.TextureRect.Height);
                     }
                     break;
                 case State.hovered:
                     {
                         text.Color = textHover;
-                        buttonSprite.TextureRect = new IntRect(0, 32, buttonSprite.TextureRect.Width, buttonSprite.TextureRect.Height);
+                        buttonSprite.TextureRect = new IntRect(0, 1 * buttonSprite.TextureRect.Height +1 , buttonSprite.TextureRect.Width, buttonSprite.TextureRect.Height);
                     }
                     break;
                 case State.clicked:
                     {
                         text.Color = textClicked;
-                        buttonSprite.TextureRect = new IntRect(0, 64, buttonSprite.TextureRect.Width, buttonSprite.TextureRect.Height);
+                        buttonSprite.TextureRect = new IntRect(0, 2 * buttonSprite.TextureRect.Height +2, buttonSprite.TextureRect.Width, buttonSprite.TextureRect.Height);
                     }
                     break;
                 default:

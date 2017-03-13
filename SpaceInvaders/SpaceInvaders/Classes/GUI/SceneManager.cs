@@ -40,13 +40,19 @@ namespace SpaceInvaders.Classes.GUI
         private SceneManager(VideoMode vidmode, string windowTitle)
         {
             sceneStack = new Stack<Scene>();
-            window = new RenderWindow(vidmode, windowTitle);
+            window = new RenderWindow(vidmode, windowTitle,Styles.Fullscreen);
             window.MouseMoved += onMouseMoved;
             window.MouseButtonPressed += onMouseButtonPressed;
             window.MouseButtonReleased += onMouseButtonReleased;
+            window.KeyPressed += onKeyPressed;
             window.Closed += onClosed;
             window.SetMouseCursorVisible(false);
             running = false;
+        }
+
+        private void onKeyPressed(object sender, KeyEventArgs e)
+        {
+            sceneStack.Peek().callOnKeyPressed(sender, e, this);
         }
         #endregion
 
@@ -80,7 +86,7 @@ namespace SpaceInvaders.Classes.GUI
             sceneStack.Peek().pause();
             //dodanie nowej sceny na stos
             sceneStack.Push(scene);
-            sceneStack.Peek().initialize();
+            sceneStack.Peek().initialize(window);
         }
         public void popScene()
         {
@@ -98,7 +104,7 @@ namespace SpaceInvaders.Classes.GUI
             }
             //dodanie nowej sceny na stos
             sceneStack.Push(scene);
-            sceneStack.Peek().initialize();
+            sceneStack.Peek().initialize(window);
         }
 
         //zmiana managera gdy zmienia sie scena

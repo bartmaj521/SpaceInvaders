@@ -15,7 +15,7 @@ namespace SpaceInvaders.Classes.GUI
         private static MainMenu instance;
         public static MainMenu Instance()
         {
-            if(instance ==null)
+            if (instance == null)
             {
                 instance = new MainMenu();
             }
@@ -24,7 +24,7 @@ namespace SpaceInvaders.Classes.GUI
         private MainMenu() : base() { }
         #endregion
 
-        
+
 
         //obsluga gdy scena zostanie wstrzymana
         public override void pause()
@@ -39,21 +39,29 @@ namespace SpaceInvaders.Classes.GUI
         }
 
         //inicjalizacja, dodawanie komponentów do listy komponentów
-        public override void initialize()
+        public override void initialize(RenderWindow window)
         {
             if (!initialized)
             {
-                OurButton btnPlay = new OurButton(new Texture("buttonSprite.png"), "Play", new Vector2i(100, 32), new Vector2f(200, 100));
-                componentList.Add(btnPlay);
-                OurButton btnExit = new OurButton(new Texture("buttonSprite.png"), "Exit", new Vector2i(100, 32), new Vector2f(200, 150));
+                Vector2i buttonSize = new Vector2i(300,99);
+                uint fontSize = 26;
+                OurTextbox txbUsername = new OurTextbox(new Texture("txbSprite.png"), new Vector2i(400, 60), new Vector2f(window.Size.X * 0.5f,window.Size.Y*0.5f), 30);
+                componentList.Add(txbUsername);
+                OurButton btnNewGame = new OurButton(new Texture("buttonSprite.png"), "nowa gra", buttonSize, new Vector2f(window.Size.X * 0.87f, window.Size.Y * 0.5f),fontSize);
+                componentList.Add(btnNewGame);
+                OurButton btnLoadGame = new OurButton(new Texture("buttonSprite.png"), "wczytaj gre", buttonSize, new Vector2f(window.Size.X * 0.87f, window.Size.Y * 0.64f),fontSize);
+                componentList.Add(btnLoadGame);
+                OurButton btnOptions = new OurButton(new Texture("buttonSprite.png"), "opcje", buttonSize, new Vector2f(window.Size.X * 0.87f, window.Size.Y * 0.78f),fontSize);
+                componentList.Add(btnOptions);
+                OurButton btnExit = new OurButton(new Texture("buttonSprite.png"), "wyjdz", buttonSize, new Vector2f(window.Size.X * 0.87f, window.Size.Y * 0.92f),fontSize);
                 componentList.Add(btnExit);
                 componentList.Add(Cursor.Instance(new Texture("cursor.png"), new Vector2f(1f, 1f)));
 
-                btnPlay.MousePressed += OnPlayButtonPressed;
+                btnNewGame.MousePressed += OnPlayButtonPressed;
                 btnExit.MouseReleased += OnExitButtonReleased;
                 initialized = true;
             }
-            
+
         }
 
         //wyczyszczenie listy componentów

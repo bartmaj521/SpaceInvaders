@@ -13,13 +13,21 @@ namespace SpaceInvaders.Classes.GUI
     {
         protected List<UIComponent> componentList = new List<UIComponent>();
         protected bool initialized;
+        Sprite background;
 
         public Menu()
         {
+            background = new Sprite(new Texture("bg.png"));
             initialized = false;
         }
-        
 
+        public override void callOnKeyPressed(object sender, KeyEventArgs e, SceneManager sceneManager)
+        {
+            foreach(OurTextbox txb in componentList.OfType<OurTextbox>())
+            {
+                txb.checkKey(e);
+            }
+        }
         public override void callOnMouseButtonPressed(object sender,MouseButtonEventArgs e,SceneManager sceneManager)
         {
             foreach (OurButton button in componentList.OfType<OurButton>())
@@ -42,6 +50,7 @@ namespace SpaceInvaders.Classes.GUI
 
         public override void drawComponents(SceneManager sceneManager)
         {
+            sceneManager.window.Draw(background);
             foreach (var component in componentList)
                 sceneManager.window.Draw(component);
         }

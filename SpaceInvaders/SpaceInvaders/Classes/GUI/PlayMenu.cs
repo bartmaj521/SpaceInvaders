@@ -21,7 +21,7 @@ namespace SpaceInvaders.Classes.GUI
             }
             return instance;
         }
-        private PlayMenu()
+        private PlayMenu():base()
         {
 
         }
@@ -40,13 +40,13 @@ namespace SpaceInvaders.Classes.GUI
         }
 
         //inicjalizacja, dodawanie komponentów do listy komponentów
-        public override void initialize()
+        public override void initialize(RenderWindow window)
         {
             if (!initialized)
             {
-                OurButton btnMain = new OurButton(new Texture("buttonSprite.png"), "Main", new Vector2i(100, 32), new Vector2f(200, 100));
+                OurButton btnMain = new OurButton(new Texture("buttonSprite.png"), "Main", new Vector2i(120,48), new Vector2f(200, 100),20);
                 componentList.Add(btnMain);
-                OurButton btnExit = new OurButton(new Texture("buttonSprite.png"), "Exit", new Vector2i(100, 32), new Vector2f(200, 150));
+                OurButton btnExit = new OurButton(new Texture("buttonSprite.png"), "Exit", new Vector2i(120,48), new Vector2f(200, 400),20);
                 componentList.Add(btnExit);
                 componentList.Add(Cursor.Instance(new Texture("cursor.png"), new Vector2f(1f, 1f)));
 
