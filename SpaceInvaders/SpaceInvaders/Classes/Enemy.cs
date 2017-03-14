@@ -8,9 +8,9 @@ namespace SpaceInvaders.Classes
 {
     class Enemy: GameObject
     {
-        public override void update(float deltaTime)
+        public override GameObject update(float deltaTime)
         {
-            
+            return this;
         }
     }
 }

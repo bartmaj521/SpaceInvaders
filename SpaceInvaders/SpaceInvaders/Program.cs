@@ -14,22 +14,24 @@ namespace SpaceInvaders
 {
     static class Program
     {
+        static List<Projectile> bulletList = new List<Projectile>();
+        static Player player;
+        static Texture shot;
         static void Main()
         {
             RenderWindow lol = new RenderWindow(new VideoMode(1000, 800), "lol");
             Texture txt = new Texture("Player.png");
-            Texture shot = new Texture("Shot.png");
+            shot = new Texture("Shot.png");
 
             int[] frames = new int[] { 0, 1, 2, 3 };
             Player.leftBoundary = 0f;
             Player.rightBoundary = 1000f;
-            Player player = new Player(ref txt, frames, 0.75f, new Vector2f(150, 740), new Vector2f(5f,5f));
+
+            Projectile.topBoundary = 0;
+
+            player = new Player(ref txt, frames, 0.75f, new Vector2f(450, 700), new Vector2f(5f, 5f));
+            player.addGun(new Gun(new Bullet(ref shot, 1, new Vector2f(1, 1)), 3, 2, 100, 0, 500, 3));
             Clock clock = new Clock();
-
-            List<Bullet> bulletList = new List<Bullet>();
-
-            bulletList.Add(new Classes.Bullet(new Vector2f(500, 750), new Vector2f(0, -500), ref shot));
-
 
             while (lol.IsOpen)
             {
@@ -38,12 +40,19 @@ namespace SpaceInvaders
                 player.update(deltaTime);
                 lol.Clear();
                 lol.Draw(player.animation.animationSprite);
-                foreach(Bullet bul in bulletList)
+                for (int i = 0; i < bulletList.Count; i++)
                 {
-                    bul.update(deltaTime);
-                    lol.Draw(bul.animation.animationSprite);
+                    if (bulletList[i] != null && bulletList[i].GetType() == typeof(Bullet))
+                    {
+                        lol.Draw(bulletList[i].animation.animationSprite);
+                        bulletList[i] = (Bullet)bulletList[i].update(deltaTime);
+                    }
                 }
+                List<Projectile> p = player.fire();
+                if (p != null)
+                    bulletList.AddRange(p);
                 lol.Display();
+                bulletList.RemoveAll(proj => proj == null);
             }
         }
     }

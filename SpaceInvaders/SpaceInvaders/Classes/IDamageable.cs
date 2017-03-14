@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using SFML.Graphics;
+
 namespace SpaceInvaders.Classes
 {
-    class ParticleEmitter : GameObject
+    interface IDamageable
     {
-        public override GameObject update(float deltaTime)
-        {
-            return this;
-        }
+        void getDamaged(float damage);
+        FloatRect getCollider();
     }
 }

@@ -12,17 +12,31 @@ namespace SpaceInvaders.Classes
 {
     class Player : GameObject
     {
-        public static float rightBoundary { get; set; }
+        // Lewa i prawa granica ruchu gracza
+        public static float rightBoundary { get; set; } 
         public static float leftBoundary { get; set; }
 
+        // Aktualne i maksymalne zdrowie gracza
+        public float health { get; set; }
+        public float maxHealth { get; set; }
+
+        // Prędkość poruszania gracza
         public float playerSpeed { get; set; }
 
+        // Lista broni gracza
+        private List<Gun> guns = new List<Gun>();
+
+        // Aktualna broń
+        int currGun = 0;
+
+        // Konstruktor txt - Tekstura gracza, _frames - kolejność klatek animacji, _frameTime - czas trawania klatki, startingPosition - pozycja startowa, Scale -skala
         public Player(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale): base(ref txt, _frames, _frameTime, startingPosition, Scale)
         {
             playerSpeed = 100f;   
         }
 
-        public override void update(float deltaTime)
+        //aktualizowanie pozycji gracza
+        public override GameObject update(float deltaTime)
         {
             Vector2f offset = new Vector2f(0,0);
             if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
@@ -44,11 +58,35 @@ namespace SpaceInvaders.Classes
                 collider.Left = 0;
             }
             animation.updateAnimation(deltaTime, new Vector2f(collider.Left, collider.Top));
+
+            foreach (var gun in guns)
+            {
+                gun.update(deltaTime);
+            }
+            return this;
         }
 
-        public Bullet fire(ref Texture txt)
+        // Dodanie broni dla gracza gun - broń do dodania
+        public void addGun(Gun gun)
         {
-            return new Bullet(new Vector2f(collider.Left + collider.Width / 2, collider.Top), new Vector2f(0, 300), ref txt);
+            guns.Add(gun);
+        }
+
+        // Wystrzelenie pocisku z aktualnej broni
+        public List<Projectile> fire()
+        {
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            {
+                Vector2f firePosition = new Vector2f(animation.animationSprite.Position.X + animation.animationSprite.Texture.Size.X * animation.animationSprite.Scale.X / 2, animation.animationSprite.Position.Y);
+                return guns[currGun].fire(firePosition);
+            }
+            return null;
+        }
+
+        public void switchGun(int x)
+        {
+            currGun += x;
+            currGun %= guns.Count;
         }
     }
 }
