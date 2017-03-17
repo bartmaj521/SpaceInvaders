@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,17 +17,16 @@ namespace SpaceInvaders.Classes.GUI
     }
     class OurButton : UIComponent, Drawable
     {
-        private IntRect collider;
-        private Sprite buttonSprite;
-        private State currentState;
+        protected IntRect collider;
+        protected State currentState;
 
-        public Color textNormal { get; set; }
-        public Color textHover { get; set; }
-        public Color textClicked { get; set; }
+        public Color TextNormal { get; set; }
+        public Color TextHover { get; set; }
+        public Color TextClicked { get; set; }
 
-        public Font font { get; set; }
+        public Font Font { get; set; }
 
-        public Text text;
+        public Text Text { get; set; }
 
         //event gdy nacisnieto przycisk myszy
         public event EventHandler MousePressed;
@@ -37,60 +36,64 @@ namespace SpaceInvaders.Classes.GUI
         //wywolanie eventu gdy ktos o niego prosi
         protected virtual void OnMousePressed()
         {
-            if (MousePressed != null)
+            if (Active)
             {
-                MousePressed(this, EventArgs.Empty);
+                if (MousePressed != null)
+                {
+                    MousePressed(this, EventArgs.Empty);
+                } 
             }
         }
         //wywolanie eventu gdy ktos o niego prosi
         protected virtual void OnMouseReleased()
         {
-            if (MouseReleased != null)
+            if (Active)
             {
-                MouseReleased(this, EventArgs.Empty);
+                if (MouseReleased != null)
+                {
+                    MouseReleased(this, EventArgs.Empty);
+                } 
             }
         }
-        public OurButton(Texture _texture, string _text, Vector2i frameSize, Vector2f position,uint fontSize)
+        public OurButton(Texture _texture, Vector2i frameSize,string _text,uint fontSize):base(_texture)
         {
             currentState = 0;
-            textNormal = new Color(91, 209, 255);
-            textHover = new Color(210, 245, 255);
-            textClicked = new Color(99, 200, 255);
-            buttonSprite = new Sprite();
-            buttonSprite.Texture = _texture;
-            buttonSprite.TextureRect = new IntRect(0, 0, frameSize.X, frameSize.Y);
-            buttonSprite.Origin = new Vector2f(frameSize.X / 2, frameSize.Y / 2);
-            buttonSprite.Position = position;
+            TextNormal = new Color(91, 209, 255);
+            TextHover = new Color(210, 245, 255);
+            TextClicked = new Color(99, 200, 255);
+            componentSprite.TextureRect = new IntRect(0,0, frameSize.X, frameSize.Y);
+            Position = new Vector2f(0, 0);
+            Size = new Vector2f(componentSprite.GetGlobalBounds().Width, componentSprite.GetGlobalBounds().Height);
 
-            collider = new IntRect((int)position.X - frameSize.X / 2, (int)position.Y - frameSize.Y / 2, frameSize.X, frameSize.Y);
-            font = new Font("font.ttf");
-            text = new Text(_text, font);
-            text.CharacterSize = fontSize;
-            text.Origin = new Vector2f(text.GetGlobalBounds().Left + text.GetLocalBounds().Width / 2, text.GetGlobalBounds().Top + text.GetLocalBounds().Height / 2);
-            text.Position = position;
+            collider = new IntRect(0,0, frameSize.X, frameSize.Y);
+            Font = new Font("font.ttf");
+            Text = new Text(_text, Font);
+            Text.CharacterSize = fontSize;
+            Text.Position = new Vector2f(Position.X+Size.X/2-Text.GetGlobalBounds().Width/2-Text.GetGlobalBounds().Left,Position.Y+Size.Y/2-Text.GetGlobalBounds().Height/2-Text.GetGlobalBounds().Top);
 
         }
         //zmiana wygladu przycisku w zaleznosci od stanu
         public override void update()
         {
+           
             switch (currentState)
             {
                 case State.normal:
                     {
-                        text.Color = textNormal;
-                        buttonSprite.TextureRect = new IntRect(0, 0 * buttonSprite.TextureRect.Height, buttonSprite.TextureRect.Width, buttonSprite.TextureRect.Height);
+                        Text.Color = TextNormal;
+                        componentSprite.TextureRect = new IntRect(0, 0 * componentSprite.TextureRect.Height, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
                     }
                     break;
                 case State.hovered:
                     {
-                        text.Color = textHover;
-                        buttonSprite.TextureRect = new IntRect(0, 1 * buttonSprite.TextureRect.Height +1 , buttonSprite.TextureRect.Width, buttonSprite.TextureRect.Height);
+                        Text.Color = TextHover;
+                        componentSprite.TextureRect = new IntRect(0, 1 * componentSprite.TextureRect.Height +1 , componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
                     }
                     break;
                 case State.clicked:
                     {
-                        text.Color = textClicked;
-                        buttonSprite.TextureRect = new IntRect(0, 2 * buttonSprite.TextureRect.Height +2, buttonSprite.TextureRect.Width, buttonSprite.TextureRect.Height);
+                        Text.Color = TextClicked;
+                        componentSprite.TextureRect = new IntRect(0, 2 * componentSprite.TextureRect.Height +2, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
                     }
                     break;
                 default:
@@ -129,12 +132,27 @@ namespace SpaceInvaders.Classes.GUI
             else
                 currentState = State.normal;
         }
+        
 
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(buttonSprite, states);
-            target.Draw(text, states);
+            if (Visible)
+            {
+                target.Draw(componentSprite, states);
+                target.Draw(Text, states); 
+            }
 
+        }
+        public override void setPosition(Vector2f _position)
+        {
+            if (Text != null)
+            {
+                componentSprite.Position = _position;
+                Position = _position;
+                collider = new IntRect((int)Position.X, (int)Position.Y, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
+                componentSprite.TextureRect = new IntRect((int)Position.X, (int)Position.Y, componentSprite.TextureRect.Width,componentSprite.TextureRect.Height);
+                Text.Position = new Vector2f(Position.X + Size.X / 2 - Text.GetLocalBounds().Width / 2 - Text.GetLocalBounds().Left, Position.Y + Size.Y / 2 - Text.GetLocalBounds().Height / 2 - Text.GetLocalBounds().Top);
+            }
         }
     }
 }

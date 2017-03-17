@@ -11,7 +11,6 @@ namespace SpaceInvaders.Classes.GUI
 {
     class Cursor:UIComponent, Drawable
     {
-        private Sprite cursorSprite;
         public Vector2f scale { get; set; }
 
         #region Singleton constructor
@@ -25,12 +24,11 @@ namespace SpaceInvaders.Classes.GUI
             return instance;
         }
 
-        private Cursor(Texture _texture, Vector2f _scale)
+        private Cursor(Texture _texture, Vector2f _scale):base(_texture)
         {
-            cursorSprite = new Sprite(_texture);
-            cursorSprite.Scale = _scale;
-            cursorSprite.Origin = new Vector2f(0,0);
-            cursorSprite.Position = new Vector2f((float)Mouse.GetPosition().X, (float)Mouse.GetPosition().Y);
+            componentSprite.Scale = _scale;
+            componentSprite.Origin = new Vector2f(0,0);
+            componentSprite.Position = new Vector2f((float)Mouse.GetPosition().X, (float)Mouse.GetPosition().Y);
         }
         #endregion
 
@@ -41,12 +39,16 @@ namespace SpaceInvaders.Classes.GUI
 
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(cursorSprite,states);
+            target.Draw(componentSprite, states);
         }
 
         public void moveCursor(Vector2f mousePosition)
         {
-            cursorSprite.Position = mousePosition;
+            componentSprite.Position = mousePosition;
+        }
+
+        public override void setPosition(Vector2f _position)
+        {
         }
     }
 }

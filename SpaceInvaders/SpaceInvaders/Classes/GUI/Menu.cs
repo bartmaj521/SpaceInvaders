@@ -9,9 +9,10 @@ using SFML.Graphics;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    abstract class Menu: Scene
+    abstract class Menu : Scene
     {
         protected List<UIComponent> componentList = new List<UIComponent>();
+        protected Cursor cursor;
         protected bool initialized;
         Sprite background;
 
@@ -23,12 +24,12 @@ namespace SpaceInvaders.Classes.GUI
 
         public override void callOnKeyPressed(object sender, KeyEventArgs e, SceneManager sceneManager)
         {
-            foreach(OurTextbox txb in componentList.OfType<OurTextbox>())
+            foreach (OurTextbox txb in componentList.OfType<OurTextbox>())
             {
                 txb.checkKey(e);
             }
         }
-        public override void callOnMouseButtonPressed(object sender,MouseButtonEventArgs e,SceneManager sceneManager)
+        public override void callOnMouseButtonPressed(object sender, MouseButtonEventArgs e, SceneManager sceneManager)
         {
             foreach (OurButton button in componentList.OfType<OurButton>())
             {
@@ -40,12 +41,11 @@ namespace SpaceInvaders.Classes.GUI
             foreach (OurButton button in componentList.OfType<OurButton>())
                 button.checkUnclick(new Vector2f(e.X, e.Y), e.Button, sender);
         }
-        public override void callOnMoved(object sender,MouseMoveEventArgs e, SceneManager sceneManager)
+        public override void callOnMoved(object sender, MouseMoveEventArgs e, SceneManager sceneManager)
         {
             foreach (OurButton button in componentList.OfType<OurButton>())
                 button.checkHover(new Vector2f(e.X, e.Y));
-            foreach (Cursor cursor in componentList.OfType<Cursor>())
-                cursor.moveCursor(new Vector2f(e.X, e.Y));
+            cursor.moveCursor(new Vector2f(e.X, e.Y));
         }
 
         public override void drawComponents(SceneManager sceneManager)
@@ -53,6 +53,7 @@ namespace SpaceInvaders.Classes.GUI
             sceneManager.window.Draw(background);
             foreach (var component in componentList)
                 sceneManager.window.Draw(component);
+            sceneManager.window.Draw(cursor);
         }
         public override void updateComponents(SceneManager sceneManager)
         {
@@ -60,7 +61,7 @@ namespace SpaceInvaders.Classes.GUI
             {
                 component.update();
             }
-
+            cursor.update();
         }
     }
 }

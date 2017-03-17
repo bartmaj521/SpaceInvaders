@@ -9,76 +9,109 @@ using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
+    public class TextboxEventArgs : EventArgs
+    {
+        public string Text { get; set; }
+    }
     class OurTextbox : UIComponent, Drawable
     {
-        private Text displayedText;
-        private Sprite txbSprite;
-        private Font font;
+        private Text DisplayedText;
+        private Font Font;
 
-        public string text { get; set; }
+        public string Text { get; set; }
         private bool isEmpty;
-        public bool isSelected;
-        public bool isVisible;
+        private int maxTextLength;
+        public delegate void TextconfirmedEventHandler(object sender, TextboxEventArgs e);
+        public event TextconfirmedEventHandler TextConfirmed;
 
-        public OurTextbox(Texture _texture, Vector2i _texturesize,Vector2f _position, uint _fontSize)
+        protected virtual void onTextureconfirmed()
+        {
+            if (TextConfirmed != null)
+            {
+                TextConfirmed(this, new TextboxEventArgs() { Text = Text });
+            }
+        }
+
+        public OurTextbox(Texture _texture, Vector2f _boxsize, uint _fontSize) : base(_texture)
         {
             isEmpty = true;
-            isSelected = false;
-            isVisible = false;
-            text = "";
-            displayedText = new Text(text, new Font("font.ttf"));
-            txbSprite = new Sprite(_texture);
-            txbSprite.TextureRect = new IntRect(0, 0, _texturesize.X, _texturesize.Y);
-            txbSprite.Origin = new Vector2f(_texturesize.X / 2, _texturesize.Y / 2);
-            txbSprite.Position = _position;
+            maxTextLength = (int)(_boxsize.X / _fontSize) + 1;
+            Text = "";
+            if (_boxsize.X == 0 && _boxsize.Y == 0)
+            {
+                componentSprite.Scale = new Vector2f(1, 1);
+            }
+            else if (_boxsize.X != 0 && _boxsize.Y == 0)
+            {
+                componentSprite.Scale = new Vector2f(_boxsize.X / _texture.Size.X, 1);
+            }
+            else if (_boxsize.X == 0 && _boxsize.Y != 0)
+            {
+                componentSprite.Scale = new Vector2f(1, _boxsize.Y / _texture.Size.Y);
+            }
+            else
+                componentSprite.Scale = new Vector2f(_boxsize.X / _texture.Size.X, _boxsize.Y / _texture.Size.Y);
 
-            font = new Font("font.ttf");
-            displayedText = new Text(text, font);
-            displayedText.CharacterSize = _fontSize;
-            displayedText.Origin = new Vector2f(displayedText.GetGlobalBounds().Left + displayedText.GetLocalBounds().Width / 2, displayedText.GetGlobalBounds().Top + displayedText.GetLocalBounds().Height / 2);
-            displayedText.Position = new Vector2f(_position.X - displayedText.GetGlobalBounds().Width, _position.Y-displayedText.GetGlobalBounds().Height);
 
+            DisplayedText = new Text(Text, new Font("font.ttf"));
+            DisplayedText.CharacterSize = _fontSize;
+            Position = componentSprite.Position;
+            Size = new Vector2f(componentSprite.GetGlobalBounds().Width, componentSprite.GetGlobalBounds().Height);
 
         }
 
 
         public void checkKey(KeyEventArgs e)
         {
-            if(isSelected)
+            if (Selected)
             {
-                if(e.Code.ToString().Length==1)
+                if (e.Code.ToString().Length == 1)
                 {
-                    if (text.Length < 15) 
-                    text += e.Code.ToString().ToLower();
+                    if (Text.Length < maxTextLength)
+                        Text += e.Code.ToString().ToLower();
                 }
-                else if(e.Code == Keyboard.Key.Space)
+                else if (e.Code == Keyboard.Key.Space)
                 {
-                    text += " ";
+                    Text += " ";
                 }
-                else if(e.Code == Keyboard.Key.BackSpace)
+                else if (e.Code == Keyboard.Key.BackSpace)
                 {
                     if (!isEmpty)
                     {
-                        text = text.Remove(text.Length - 1, 1);
+                        Text = Text.Remove(Text.Length - 1, 1);
                     }
+                }
+                else if (e.Code == Keyboard.Key.Return)
+                {
+                    onTextureconfirmed();
                 }
             }
         }
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            if (isVisible)
+            if (Visible)
             {
-                target.Draw(txbSprite);
-                target.Draw(displayedText); 
+                target.Draw(componentSprite);
+                target.Draw(DisplayedText);
             }
         }
 
         public override void update()
         {
-            displayedText.Position = new Vector2f(txbSprite.Position.X - displayedText.GetGlobalBounds().Width/2, txbSprite.Position.Y - displayedText.GetGlobalBounds().Height);
-            isEmpty = text.Length == 0;
+            DisplayedText.Position = new Vector2f(Position.X + Size.X / 2 - DisplayedText.GetLocalBounds().Width / 2 - DisplayedText.GetLocalBounds().Left, Position.Y + Size.Y / 2 - DisplayedText.GetLocalBounds().Height / 2 - DisplayedText.GetLocalBounds().Top);
+            isEmpty = Text.Length == 0;
 
-            displayedText.DisplayedString = text;
+            DisplayedText.DisplayedString = Text;
+        }
+
+        public override void setPosition(Vector2f _position)
+        {
+            if (DisplayedText != null)
+            {
+                componentSprite.Position = _position;
+                Position = _position;
+                DisplayedText.Position = new Vector2f(Position.X + Size.X / 2 - DisplayedText.GetLocalBounds().Width / 2 - DisplayedText.GetLocalBounds().Left, Position.Y + Size.Y / 2 - DisplayedText.GetLocalBounds().Height / 2 - DisplayedText.GetLocalBounds().Top);
+            }
         }
     }
 }

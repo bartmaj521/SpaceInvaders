@@ -16,7 +16,7 @@ namespace SpaceInvaders
     {
         static void Main()
         {
-            SceneManager.Instance(new VideoMode(400, 600), "Space Invaders");
+            SceneManager.Instance(new VideoMode(1600, 900), "Space Invaders");
             SceneManager.Instance().changeScene(MainMenu.Instance());
             SceneManager.Instance().run();
 

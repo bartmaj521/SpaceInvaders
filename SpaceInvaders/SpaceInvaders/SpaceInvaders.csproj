@@ -69,12 +69,16 @@
     <Compile Include="Classes\Animation.cs" />
     <Compile Include="Classes\Enemy.cs" />
     <Compile Include="Classes\GameObject.cs" />
+    <Compile Include="Classes\GUI\EscapeMenu.cs" />
+    <Compile Include="Classes\GUI\OurImage.cs" />
+    <Compile Include="Classes\GUI\OurLabel.cs" />
     <Compile Include="Classes\GUI\OurTextbox.cs" />
     <Compile Include="Classes\GUI\Cursor.cs" />
     <Compile Include="Classes\GUI\MainMenu.cs" />
     <Compile Include="Classes\GUI\Menu.cs" />
     <Compile Include="Classes\GUI\OurButton.cs" />
-    <Compile Include="Classes\GUI\PlayMenu.cs" />
+    <Compile Include="Classes\GUI\PlayerHud.cs" />
+    <Compile Include="Classes\GUI\PlayerMenu.cs" />
     <Compile Include="Classes\GUI\Scene.cs" />
     <Compile Include="Classes\GUI\SceneManager.cs" />
     <Compile Include="Classes\GUI\UIComponent.cs" />

@@ -60,7 +60,7 @@ namespace SpaceInvaders.Classes.GUI
         #region Event handlers
         private void onClosed(object sender, EventArgs e)
         {
-            (sender as RenderWindow).Close();
+            quit();
         }
 
         private void onMouseButtonReleased(object sender, MouseButtonEventArgs e)
@@ -134,6 +134,7 @@ namespace SpaceInvaders.Classes.GUI
                 setManager();
                 update();
                 draw();
+
                 window.Display();
             }
             cleanup();
