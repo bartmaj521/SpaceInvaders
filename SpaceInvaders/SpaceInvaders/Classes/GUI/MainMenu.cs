@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using System.IO;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    class MainMenu : Menu
+    public class MainMenu : Menu
     {
         #region Singleton constructor
         private static MainMenu instance;
@@ -45,7 +46,7 @@ namespace SpaceInvaders.Classes.GUI
             {                
                 //labels
                 string lblWelcomeText = "Witaj na pokladzie Kapitanie!\nNie bylo cie przez dlugi czas\nZanim wyruszymy w podroz\nPrzypomnij nam swoje imie".ToLower();
-                OurLabel lblWelcome = new OurLabel(new Texture("labelBg2.png"), lblWelcomeText, 30);
+                OurLabel lblWelcome = new OurLabel(new Texture(RESNAME+"labelBg2.png"), lblWelcomeText, 30);
                 lblWelcome.setPosition(new Vector2f(window.Size.X*0.45f-lblWelcome.Size.X/2, window.Size.Y*0.4f-lblWelcome.Size.Y/2));
                 lblWelcome.Visible = false;
                 lblWelcome.componentID = "label";
@@ -53,7 +54,7 @@ namespace SpaceInvaders.Classes.GUI
 
 
                 //texboxes
-                OurTextbox txbUsername = new OurTextbox(new Texture("txbSprite.png"), new Vector2f(lblWelcome.Size.X, 0), 30);
+                OurTextbox txbUsername = new OurTextbox(new Texture(RESNAME+"txbSprite.png"), new Vector2f(lblWelcome.Size.X, 0), 30);
                 txbUsername.setPosition(new Vector2f(lblWelcome.Position.X, lblWelcome.Position.Y+lblWelcome.Size.Y+10));
                 txbUsername.componentID = "textbox";
                 txbUsername.Visible = false;
@@ -61,13 +62,12 @@ namespace SpaceInvaders.Classes.GUI
 
 
                 //obrazek
-                OurImage imgCapral = new OurImage(new Texture("capral.png"), new Vector2f(230, 230));
+                OurImage imgCapral = new OurImage(new Texture(RESNAME+"capral.png"), new Vector2f(230, 230));
                 imgCapral.setPosition(new Vector2f(lblWelcome.Position.X + lblWelcome.Size.X +5, lblWelcome.Position.Y-20));
                 imgCapral.componentID = "capral";
                 imgCapral.Visible = false;
                 componentList.Add(imgCapral);
                 
-
                 
                 
 
@@ -75,37 +75,44 @@ namespace SpaceInvaders.Classes.GUI
                 Vector2i buttonSize = new Vector2i(300, 99);
                 uint fontSize = 40;
 
-                OurButton btnNewGame = new OurButton(new Texture("buttonSprite.png"),buttonSize,"nowa gra",fontSize);
+                OurButton btnNewGame = new OurButton(new Texture(RESNAME + "buttonSprite.png"),buttonSize,"nowa gra",fontSize);
                 btnNewGame.setPosition(new Vector2f(window.Size.X * 0.67f+btnNewGame.Size.X/2, window.Size.Y * 0.30f+btnNewGame.Size.Y/2));
                 componentList.Add(btnNewGame);
 
-                OurButton btnLoadGame = new OurButton(new Texture("buttonSprite.png"),buttonSize,"wczytaj gre", 35);
+                OurButton btnLoadGame = new OurButton(new Texture(RESNAME + "buttonSprite.png"),buttonSize,"wczytaj gre", 35);
                 btnLoadGame.setPosition(new Vector2f(window.Size.X * 0.67f + btnNewGame.Size.X / 2, window.Size.Y * 0.45f + btnNewGame.Size.Y / 2));
                 componentList.Add(btnLoadGame);
 
-                OurButton btnOptions = new OurButton(new Texture("buttonSprite.png"),buttonSize,"opcje", fontSize);
+                OurButton btnOptions = new OurButton(new Texture(RESNAME + "buttonSprite.png"),buttonSize,"opcje", fontSize);
                 btnOptions.setPosition(new Vector2f(window.Size.X * 0.67f + btnNewGame.Size.X / 2, window.Size.Y * 0.6f + btnNewGame.Size.Y / 2));
                 componentList.Add(btnOptions);
 
-                OurButton btnExit = new OurButton(new Texture("buttonSprite.png"),buttonSize,"wyjdz", fontSize);
+                OurButton btnExit = new OurButton(new Texture(RESNAME + "buttonSprite.png"),buttonSize,"wyjdz", fontSize);
                 btnExit.setPosition(new Vector2f(window.Size.X * 0.67f + btnNewGame.Size.X / 2, window.Size.Y * 0.75f + btnNewGame.Size.Y / 2));
                 componentList.Add(btnExit);
 
 
                 //cursor
-                cursor = Cursor.Instance(new Texture("cursor.png"), new Vector2f(1f, 1f));
+                cursor = Cursor.Instance(new Texture(RESNAME + "cursor.png"), new Vector2f(1f, 1f));
 
 
 
                 //events
                 txbUsername.TextConfirmed += onTxbUserNameTextConfirmed;
                 btnNewGame.MousePressed += OnNewGameButtonPressed;
+                btnLoadGame.MouseReleased += OnBtnLoadMouseReleased;
                 btnExit.MouseReleased += OnExitButtonReleased;
 
 
                 initialized = true;
             }
 
+        }
+
+        private void OnBtnLoadMouseReleased(object sender, btnReleasedEventArgs e)
+        {
+            PlayerMenu.Instance().ReadDataFromFile(sender, e);
+            sceneManager.changeScene(PlayerMenu.Instance());
         }
 
         private void onTxbUserNameTextConfirmed(object sender, TextboxEventArgs e)

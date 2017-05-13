@@ -10,7 +10,7 @@ using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    abstract class Scene
+    public abstract class Scene
     { 
         public Scene()
         {

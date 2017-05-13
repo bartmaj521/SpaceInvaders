@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SpaceInvaders.Classes.GUI.Cursor" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAACAABAgAAAQAAAAAAEAAA=</HashCode>
+      <FileName>Classes\GUI\Cursor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.EscapeMenu" Collapsed="true">
+    <Position X="2.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Classes\GUI\EscapeMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.MainMenu" Collapsed="true">
+    <Position X="5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAEAAAAAAAAQAAAEAAAAEAABAAAAAQAAAAACAIAA=</HashCode>
+      <FileName>Classes\GUI\MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.Menu" Collapsed="true">
+    <Position X="5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAEAAEAAAAAQAAEAAACAAAAAAACCAAIIAA=</HashCode>
+      <FileName>Classes\GUI\Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.OurButton" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAEIAAEAAgAAICAAIAACACAAAAAAIAEAGAAGQAg=</HashCode>
+      <FileName>Classes\GUI\OurButton.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.OurImage" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Classes\GUI\OurImage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.OurLabel" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAgAAAAAAAAACAAAAAAAIAAAACAAGAAA=</HashCode>
+      <FileName>Classes\GUI\OurLabel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.OurProgressbar" Collapsed="true">
+    <Position X="12" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAgAAAAAAAAACAAAAAAAAAIAAAACEAAA=</HashCode>
+      <FileName>Classes\GUI\OurProgressbar.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.OurTextbox" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAACAAAAEAAgAAAAAAAAACAAABAAAAIAAACAAGQAA=</HashCode>
+      <FileName>Classes\GUI\OurTextbox.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.PlayerHud" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMgDAAAAAAAAkABAAEgABAAABhQgAAAQAAAAIAEAIA=</HashCode>
+      <FileName>Classes\GUI\PlayerHud.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.PlayerManager" Collapsed="true">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMAhAAAAAAAAAAAQAEABAAAAAAQAAAAkAAAAAAAAAA=</HashCode>
+      <FileName>Classes\GUI\PlayerManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.PlayerMenu" Collapsed="true">
+    <Position X="7.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAIAAAAAAAAQAAAEAAAIMAABCAAAA0AAALCAAYAA=</HashCode>
+      <FileName>Classes\GUI\PlayerMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.Scene" Collapsed="true">
+    <Position X="5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAEAAAAQAEAQAAEAAACAAAAAAACDAAAIAA=</HashCode>
+      <FileName>Classes\GUI\Scene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.SceneManager" Collapsed="true">
+    <Position X="7" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAwCAAAgAAAAQSAIAEgAAAAhAAAAIQAADAIAEAAA=</HashCode>
+      <FileName>Classes\GUI\SceneManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.Ship" Collapsed="true">
+    <Position X="10.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAQCAAAEAgAAEABAAAAAJAAIAAQAgEAAAABAAAAAAA=</HashCode>
+      <FileName>Classes\GUI\Ship.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SpaceInvaders.Classes.GUI.UIComponent" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAggAgAAAAIAACAAAAAAEoAAAQACAEAAI=</HashCode>
+      <FileName>Classes\GUI\UIComponent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

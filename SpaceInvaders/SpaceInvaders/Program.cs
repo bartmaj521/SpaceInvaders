@@ -14,6 +14,7 @@ namespace SpaceInvaders
 {
     static class Program
     {
+        
         static void Main()
         {
             SceneManager.Instance(new VideoMode(1600, 900), "Space Invaders");

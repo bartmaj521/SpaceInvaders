@@ -9,7 +9,7 @@ using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    class OurLabel : UIComponent
+    public class OurLabel : UIComponent, Drawable
     {
         private string text;
         private Text DisplayedText;

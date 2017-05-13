@@ -9,7 +9,7 @@ using SFML.Graphics;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    class SceneManager
+    public class SceneManager
     {
         //stos scen
         private Stack<Scene> sceneStack;
@@ -40,7 +40,7 @@ namespace SpaceInvaders.Classes.GUI
         private SceneManager(VideoMode vidmode, string windowTitle)
         {
             sceneStack = new Stack<Scene>();
-            window = new RenderWindow(vidmode, windowTitle,Styles.Fullscreen);
+            window = new RenderWindow(vidmode, windowTitle); //tu dac fullscreen
             window.MouseMoved += onMouseMoved;
             window.MouseButtonPressed += onMouseButtonPressed;
             window.MouseButtonReleased += onMouseButtonReleased;

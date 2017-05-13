@@ -7,7 +7,7 @@ using SFML.Graphics;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    class EscapeMenu : Menu
+    public class EscapeMenu : Menu
     {
         public override void cleanup()
         {

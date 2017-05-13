@@ -7,34 +7,42 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
+
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+
 namespace SpaceInvaders.Classes.GUI
 {
-    class PlayerMenu:Menu
+    public class PlayerMenu : Menu
     {
-        private PlayerHud playerHud;
         private List<OurButton> workbenchBtnList = new List<OurButton>();
+        private List<OurLabel> workbenchLblList = new List<OurLabel>();
         private int firstElemIndex = 0;
-        public string playerName { get; set; }
 
         #region Singleton constructor
         private static PlayerMenu instance;
 
         public static PlayerMenu Instance()
         {
+            if (instance == null)
+            {
+                instance = new PlayerMenu("");
+            }
             return instance;
         }
 
         public static PlayerMenu Instance(string _playerName)
         {
-            if(instance==null)
+            if (instance == null)
             {
                 instance = new PlayerMenu(_playerName);
             }
             return instance;
         }
-        private PlayerMenu(string _playerName):base()
+        private PlayerMenu(string _playerName) : base()
         {
-            playerName = _playerName;
+            PlayerManager.Instance.PlayerName = _playerName;
 
         }
         #endregion
@@ -56,31 +64,27 @@ namespace SpaceInvaders.Classes.GUI
         {
             if (!initialized)
             {
-                playerHud = PlayerHud.Instance();
-                playerHud.ShipName = "Audi Yeah";
-                playerHud.ShipValue = 55400;
-                playerHud.MaxShipSpeed = 1;
-                playerHud.ShipSpeed = 0;
-                playerHud.MaxFireSpeed = 2;
-                playerHud.FireSpeed = 2;
-                playerHud.MaxAccuracy = 5;
-                playerHud.Accuracy = 1;
-                playerHud.MaxArmor = 4;
-                playerHud.Armor = 2;
-                playerHud.update();
+                PlayerHud.Instance().PlayerInfo = PlayerManager.Instance;
+                PlayerHud.Instance().update();
 
+                
+                string[] s = { "btnRepairSprite.png", "btnSpeedSprite.png", "btnArmorSprite.png", "btnAccuracySprite.png", "btnFireRateSprite.png", "btnFireDmgSprite.png" };
+                int[] arg = { -1, 0, 1, 2, 3, 4 };
 
-                workbenchBtnList.Add(new OurButton(new Texture("btnRepairSprite.png"), new Vector2i(200, 199), "", 0));
-                workbenchBtnList.Add(new OurButton(new Texture("btnSpeedSprite.png"), new Vector2i(200, 199), "", 0));
-                workbenchBtnList.Add(new OurButton(new Texture("btnArmorSprite.png"), new Vector2i(200, 199), "", 0));
-                workbenchBtnList.Add(new OurButton(new Texture("btnFireDmgSprite.png"), new Vector2i(200, 199), "", 0));
-                workbenchBtnList.Add(new OurButton(new Texture("btnAccuracySprite.png"), new Vector2i(200, 199), "", 0));
-                workbenchBtnList.Add(new OurButton(new Texture("btnFireRateSprite.png"), new Vector2i(200, 199), "", 0));
+                //buttony statystyk
+                for (int i = 0; i < s.Length; i++)
+                {
+                    OurButton button = new OurButton(new Texture(RESNAME+ s[i]), new Vector2i(200, 199), "", 0);
+                    button.componentID = "btnStat" + i;
+                    button.ArgToPass = arg[i];
+                    workbenchBtnList.Add(button);
+                }
 
-                foreach(OurButton button in workbenchBtnList)
+                foreach (OurButton button in workbenchBtnList)
                 {
                     button.Visible = false;
                     button.Active = false;
+                    button.MouseReleased += OnStatBtnMouseReleased;
                     componentList.Add(button);
                 }
                 for (int i = 0; i < 5; i++)
@@ -89,15 +93,28 @@ namespace SpaceInvaders.Classes.GUI
                     workbenchBtnList[i].Active = true;
                     workbenchBtnList[i].setPosition(new Vector2f(80 + 230 * i, 647));
                 }
+                for (int i = 0; i < 6; i++)
+                {
+                    workbenchLblList.Add(new OurLabel(new Texture(RESNAME + "blank.png"), PlayerManager.Instance.upgradeCost((stats)(i-1)).ToString()+ " $", 32));
+                    workbenchLblList[i].setPosition(new Vector2f(workbenchBtnList[i].Position.X + 47, workbenchBtnList[i].Position.Y + 165));
+                    workbenchLblList[i].Visible = false;
+                    componentList.Add(workbenchLblList[i]);
+                }
+                for (int i = 0; i < 5; i++)
+                {
+                    workbenchLblList[i].Visible = true;
+                }
+
+                
 
 
-                OurButton btnLeftScroll = new OurButton(new Texture("btnLeftSprite.png"), new Vector2i(40, 199), "", 0);
+                OurButton btnLeftScroll = new OurButton(new Texture(RESNAME + "btnLeftSprite.png"), new Vector2i(40, 199), "", 0);
                 btnLeftScroll.setPosition(new Vector2f(28, 647));
                 btnLeftScroll.componentID = "left";
                 btnLeftScroll.MouseReleased += OnBtnLeftScrollMouseReleased;
                 componentList.Add(btnLeftScroll);
 
-                OurButton btnRightScroll = new OurButton(new Texture("btnRightSprite.png"),new Vector2i(40, 199), "", 0);
+                OurButton btnRightScroll = new OurButton(new Texture(RESNAME + "btnRightSprite.png"), new Vector2i(40, 199), "", 0);
                 btnRightScroll.componentID = "right";
                 btnRightScroll.setPosition(new Vector2f(1212, 647));
                 btnRightScroll.MouseReleased += OnBtnRightScrollMouseReleased;
@@ -106,18 +123,68 @@ namespace SpaceInvaders.Classes.GUI
 
                 Vector2i buttonSize = new Vector2i(300, 99);
                 uint fontSize = 40;
-                OurButton btnExit = new OurButton(new Texture("buttonSprite.png"), buttonSize, "wyjdz", fontSize);
-                btnExit.setPosition(new Vector2f(100,100));
+
+                OurButton btnExit = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "wyjdz", fontSize);
+                btnExit.setPosition(new Vector2f(100, 100));
                 btnExit.MouseReleased += OnBtnExitMouseReleased;
                 componentList.Add(btnExit);
 
+                OurButton btnSaveShipInfo = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "Zapisz",fontSize);
+                btnSaveShipInfo.setPosition(new Vector2f(100, 200));
+                btnSaveShipInfo.MouseReleased += OnBtnSaveMouseReleased;
+                componentList.Add(btnSaveShipInfo);
+
+                OurButton btnAdd100 = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "Dodaj 100$", fontSize);
+                btnAdd100.setPosition(new Vector2f(400, 200));
+                btnAdd100.MouseReleased += OnBtnAdd100MouseReleased;
+                componentList.Add(btnAdd100);
+
                 //cursor
-                cursor = Cursor.Instance(new Texture("cursor.png"), new Vector2f(1f, 1f));
+                cursor = Cursor.Instance(new Texture(RESNAME + "cursor.png"), new Vector2f(1f, 1f));
 
             }
 
         }
-        //eventy
+
+        private void OnBtnAdd100MouseReleased(object sender, btnReleasedEventArgs e)
+        {
+            PlayerManager.Instance.donatePlayer(100);
+        }
+
+
+        //wczytanie stanu gry z pliku
+        public void ReadDataFromFile(object sender, btnReleasedEventArgs e)
+        {
+            using (Stream stream = File.Open("ship.txt", FileMode.Open))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                PlayerManager.Instance = (PlayerManager)bf.Deserialize(stream);
+                PlayerHud.Instance().PlayerInfo = PlayerManager.Instance;
+            }
+        }
+        
+        //zapis stanu gry do pliku
+        private void OnBtnSaveMouseReleased(object sender, btnReleasedEventArgs e)
+        {
+            using (Stream stream = File.Open("ship.txt", FileMode.Create))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(stream, PlayerManager.Instance);
+            }
+        }
+        
+        //ulepszanie statów
+        private void OnStatBtnMouseReleased(object sender, btnReleasedEventArgs e)
+        {
+            stats stat;
+            if (e.arg >= 0)
+            {
+                stat = (stats)e.arg;
+                PlayerManager.Instance.upgradeShip(stat);
+            }
+            if (e.arg == -1)
+                PlayerManager.Instance.repairShip(0.1f);
+        }
 
         //przesuwanie listy
         private void OnBtnRightScrollMouseReleased(object sender, EventArgs e)
@@ -128,11 +195,18 @@ namespace SpaceInvaders.Classes.GUI
                 button.Visible = false;
                 button.Active = false;
             }
+            foreach (OurLabel label in workbenchLblList)
+            {
+                label.Visible = false;
+            }
             for (int i = 0; i < 5; i++)
             {
-                workbenchBtnList[i+firstElemIndex].Visible = true;
+                workbenchBtnList[i + firstElemIndex].Visible = true;
                 workbenchBtnList[i + firstElemIndex].Active = true;
-                workbenchBtnList[i+firstElemIndex].setPosition(new Vector2f(80 + 230 * i, 647));
+                workbenchBtnList[i + firstElemIndex].setPosition(new Vector2f(80 + 230 * i, 647));
+
+                workbenchLblList[i + firstElemIndex].Visible = true;
+                workbenchLblList[i + firstElemIndex].setPosition(new Vector2f(workbenchBtnList[i + firstElemIndex].Position.X + 47, workbenchBtnList[i + firstElemIndex].Position.Y + 165));
             }
         }
 
@@ -144,11 +218,18 @@ namespace SpaceInvaders.Classes.GUI
                 button.Visible = false;
                 button.Active = false;
             }
+            foreach (OurLabel label in workbenchLblList)
+            {
+                label.Visible = false;
+            }
             for (int i = 0; i < 5; i++)
             {
-                workbenchBtnList[i+firstElemIndex].Visible = true;
+                workbenchBtnList[i + firstElemIndex].Visible = true;
                 workbenchBtnList[i + firstElemIndex].Active = true;
-                workbenchBtnList[i+firstElemIndex].setPosition(new Vector2f(80 + 230 * i, 647));
+                workbenchBtnList[i + firstElemIndex].setPosition(new Vector2f(80 + 230 * i, 647));
+
+                workbenchLblList[i + firstElemIndex].Visible = true;
+                workbenchLblList[i + firstElemIndex].setPosition(new Vector2f(workbenchBtnList[i + firstElemIndex].Position.X + 47, workbenchBtnList[i + firstElemIndex].Position.Y + 165));
             }
         }
 
@@ -157,14 +238,7 @@ namespace SpaceInvaders.Classes.GUI
         {
             sceneManager.quit();
         }
-
-        //obsluga zwolnienia przycisku exit
-        private void OnExitButtonReleased(object sender, EventArgs e)
-        {
-            sceneManager.quit();
-        }
-
-
+        
 
         public override void cleanup()
         {
@@ -173,13 +247,13 @@ namespace SpaceInvaders.Classes.GUI
         public override void drawComponents(SceneManager sceneManager)
         {
             base.drawComponents(sceneManager);
-            sceneManager.window.Draw(playerHud);
+            sceneManager.window.Draw(PlayerHud.Instance());
             sceneManager.window.Draw(cursor);
         }
         public override void updateComponents(SceneManager sceneManager)
         {
             base.updateComponents(sceneManager);
-            if(firstElemIndex == 0)
+            if (firstElemIndex == 0)
             {
                 componentList.Find(x => x.componentID == "left").Visible = false;
                 componentList.Find(x => x.componentID == "left").Active = false;
@@ -189,7 +263,7 @@ namespace SpaceInvaders.Classes.GUI
                 componentList.Find(x => x.componentID == "left").Visible = true;
                 componentList.Find(x => x.componentID == "left").Active = true;
             }
-            if(firstElemIndex ==workbenchBtnList.Count - 5)
+            if (firstElemIndex == workbenchBtnList.Count - 5)
             {
                 componentList.Find(x => x.componentID == "right").Visible = false;
                 componentList.Find(x => x.componentID == "right").Active = false;
@@ -199,7 +273,12 @@ namespace SpaceInvaders.Classes.GUI
                 componentList.Find(x => x.componentID == "right").Visible = true;
                 componentList.Find(x => x.componentID == "right").Active = true;
             }
-            playerHud.update();
+
+            for (int i = 0; i < workbenchLblList.Count; i++)
+            {
+                workbenchLblList[i].Text = PlayerManager.Instance.upgradeCost((stats)(i-1)).ToString() + " $";
+            }
+            PlayerHud.Instance().update();
             cursor.update();
         }
     }

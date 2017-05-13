@@ -9,13 +9,17 @@ using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    enum State
+    public enum State
     {
         normal = 0,
         hovered = 1,
         clicked = 2,
     }
-    class OurButton : UIComponent, Drawable
+    public class btnReleasedEventArgs: EventArgs
+    {
+        public int arg;
+    }
+    public class OurButton : UIComponent, Drawable
     {
         protected IntRect collider;
         protected State currentState;
@@ -28,10 +32,13 @@ namespace SpaceInvaders.Classes.GUI
 
         public Text Text { get; set; }
 
+        public int ArgToPass;
+
         //event gdy nacisnieto przycisk myszy
         public event EventHandler MousePressed;
         //event gdy puszczono przycisk myszy
-        public event EventHandler MouseReleased;
+        public delegate void MouseReleasedEventHandler(object sender, btnReleasedEventArgs e);
+        public event MouseReleasedEventHandler MouseReleased;
 
         //wywolanie eventu gdy ktos o niego prosi
         protected virtual void OnMousePressed()
@@ -51,7 +58,7 @@ namespace SpaceInvaders.Classes.GUI
             {
                 if (MouseReleased != null)
                 {
-                    MouseReleased(this, EventArgs.Empty);
+                    MouseReleased(this, new btnReleasedEventArgs() { arg = ArgToPass });
                 } 
             }
         }

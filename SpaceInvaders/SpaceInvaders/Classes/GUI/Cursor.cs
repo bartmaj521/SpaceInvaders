@@ -9,7 +9,7 @@ using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    class Cursor:UIComponent, Drawable
+    public class Cursor:UIComponent, Drawable
     {
         public Vector2f scale { get; set; }
 

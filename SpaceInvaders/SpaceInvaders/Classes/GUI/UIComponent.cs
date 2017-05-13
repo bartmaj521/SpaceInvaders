@@ -14,7 +14,7 @@ namespace SpaceInvaders.Classes.GUI
         center,
         leftTop,
     }
-    abstract class UIComponent:Drawable
+    public abstract class UIComponent:Drawable
     {
         private static int counter = 0;
         public bool Visible { get; set; }

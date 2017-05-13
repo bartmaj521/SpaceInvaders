@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using SFML.Window;
 using SFML.System;
 using SFML.Graphics;
+using System.IO;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    abstract class Menu : Scene
+    public abstract class Menu : Scene
     {
+        protected string RESNAME = string.Format("{0}\\Resources\\", Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName);
+
         protected List<UIComponent> componentList = new List<UIComponent>();
         protected Cursor cursor;
         protected bool initialized;
@@ -18,7 +21,7 @@ namespace SpaceInvaders.Classes.GUI
 
         public Menu()
         {
-            background = new Sprite(new Texture("bg.png"));
+            background = new Sprite(new Texture(RESNAME + "bg.png"));
             initialized = false;
         }
 

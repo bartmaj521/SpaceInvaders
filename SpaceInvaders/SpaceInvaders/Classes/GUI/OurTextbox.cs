@@ -13,7 +13,7 @@ namespace SpaceInvaders.Classes.GUI
     {
         public string Text { get; set; }
     }
-    class OurTextbox : UIComponent, Drawable
+    public class OurTextbox : UIComponent, Drawable
     {
         private Text DisplayedText;
         private Font Font;

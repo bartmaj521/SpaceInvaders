@@ -8,7 +8,7 @@ using SFML.System;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    class OurImage : UIComponent
+    public class OurImage : UIComponent, Drawable
     {
         public OurImage(Texture _texture) : base(_texture)
         {
