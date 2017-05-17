@@ -29,10 +29,12 @@ namespace SpaceInvaders.Classes.GUI
             set
             {
                 shipHealth = value;
-                if (shipHealth < 0)
+                if (shipHealth <= 0)
                     shipHealth = 0;
-                if (shipHealth > 1)
+                if (shipHealth >= 1)
                     shipHealth = 1;
+
+                shipHealth = (float)Math.Round(shipHealth, 2);
             }
         } //0 - sprawny 1 - zniszczony
         public int ShipPrice { get; set; }

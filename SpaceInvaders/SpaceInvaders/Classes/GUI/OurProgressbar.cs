@@ -28,9 +28,9 @@ namespace SpaceInvaders.Classes.GUI
             set
             {
                 progress = value;
-                if (progress > 1)
+                if (progress >= 1)
                     progress = 1;
-                else if (progress < 0)
+                else if (progress <= 0)
                     progress = 0;
             }
         }

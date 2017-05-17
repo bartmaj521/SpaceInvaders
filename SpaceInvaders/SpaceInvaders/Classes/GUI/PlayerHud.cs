@@ -58,7 +58,7 @@ namespace SpaceInvaders.Classes.GUI
             DmgProgressbar.update();
             PlayerNameLabel.Text = PlayerInfo.PlayerName;
             PlayerMoneyLabel.Text = PlayerInfo.PlayerMoney.ToString() + " $";
-            HealthLabel.Text = ((int)(PlayerInfo.ShipInfo.ShipHealth * 100)).ToString() + "%";
+            HealthLabel.Text = ((PlayerInfo.ShipInfo.ShipHealth * 100)).ToString() + "%";
         }
 
         public void Draw(RenderTarget target, RenderStates states)

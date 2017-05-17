@@ -16,9 +16,14 @@ namespace SpaceInvaders.Classes.GUI
 {
     public class PlayerMenu : Menu
     {
-        private List<OurButton> workbenchBtnList = new List<OurButton>();
-        private List<OurLabel> workbenchLblList = new List<OurLabel>();
+        //private List<OurButton> workbenchBtnList = new List<OurButton>();
+        //private List<OurLabel> workbenchLblList = new List<OurLabel>();
         private int firstElemIndex = 0;
+        private List<Panel> panelList;
+        private Panel workbenchPanel;
+        private Panel shipshopPanel;
+        private Panel powerupsPanel;
+        private Panel activePanel;
 
         #region Singleton constructor
         private static PlayerMenu instance;
@@ -64,23 +69,35 @@ namespace SpaceInvaders.Classes.GUI
         {
             if (!initialized)
             {
+                panelList = new List<Panel>();
                 PlayerHud.Instance().PlayerInfo = PlayerManager.Instance;
                 PlayerHud.Instance().update();
 
-                
-                string[] s = { "btnRepairSprite.png", "btnSpeedSprite.png", "btnArmorSprite.png", "btnAccuracySprite.png", "btnFireRateSprite.png", "btnFireDmgSprite.png" };
-                int[] arg = { -1, 0, 1, 2, 3, 4 };
 
-                //buttony statystyk
-                for (int i = 0; i < s.Length; i++)
+
+
+                #region workbenchPanel
+                workbenchPanel = new Panel();
+                string[] statsPaths =
                 {
-                    OurButton button = new OurButton(new Texture(RESNAME+ s[i]), new Vector2i(200, 199), "", 0);
+                    "btnRepairSprite.png",
+                    "btnSpeedSprite.png",
+                    "btnArmorSprite.png",
+                    "btnAccuracySprite.png",
+                    "btnFireRateSprite.png",
+                    "btnFireDmgSprite.png"
+                };
+                int[] statsArgs = { -1, 0, 1, 2, 3, 4 };
+
+                for (int i = 0; i < statsPaths.Length; i++)
+                {
+                    OurButton button = new OurButton(new Texture(RESNAME + statsPaths[i]), new Vector2i(200, 199), "", 0);
                     button.componentID = "btnStat" + i;
-                    button.ArgToPass = arg[i];
-                    workbenchBtnList.Add(button);
+                    button.ArgToPass = statsArgs[i];
+                    workbenchPanel.panelBtnList.Add(button);
                 }
 
-                foreach (OurButton button in workbenchBtnList)
+                foreach (OurButton button in workbenchPanel.panelBtnList)
                 {
                     button.Visible = false;
                     button.Active = false;
@@ -89,23 +106,100 @@ namespace SpaceInvaders.Classes.GUI
                 }
                 for (int i = 0; i < 5; i++)
                 {
-                    workbenchBtnList[i].Visible = true;
-                    workbenchBtnList[i].Active = true;
-                    workbenchBtnList[i].setPosition(new Vector2f(80 + 230 * i, 647));
+                    workbenchPanel.panelBtnList[i].Visible = true;
+                    workbenchPanel.panelBtnList[i].Active = true;
+                    workbenchPanel.panelBtnList[i].setPosition(new Vector2f(80 + 230 * i, 647));
                 }
                 for (int i = 0; i < 6; i++)
                 {
-                    workbenchLblList.Add(new OurLabel(new Texture(RESNAME + "blank.png"), PlayerManager.Instance.upgradeCost((stats)(i-1)).ToString()+ " $", 32));
-                    workbenchLblList[i].setPosition(new Vector2f(workbenchBtnList[i].Position.X + 47, workbenchBtnList[i].Position.Y + 165));
-                    workbenchLblList[i].Visible = false;
-                    componentList.Add(workbenchLblList[i]);
+                    workbenchPanel.panelLblList.Add(new OurLabel(new Texture(RESNAME + "blank.png"), PlayerManager.Instance.upgradeCost((stats)(i - 1)).ToString() + " $", 32));
+                    workbenchPanel.panelLblList[i].setPosition(new Vector2f(workbenchPanel.panelBtnList[i].Position.X + 47, workbenchPanel.panelBtnList[i].Position.Y + 165));
+                    workbenchPanel.panelLblList[i].Visible = false;
+                    componentList.Add(workbenchPanel.panelLblList[i]);
                 }
                 for (int i = 0; i < 5; i++)
                 {
-                    workbenchLblList[i].Visible = true;
+                    workbenchPanel.panelLblList[i].Visible = true;
+                }
+                panelList.Add(workbenchPanel);
+                #endregion
+
+                #region shipshopPanel
+                shipshopPanel = new Panel();
+                string[] shipsPaths =
+                {
+                    "ship1BtnSprite.png",
+                    "ship2BtnSprite.png",
+                    "ship3BtnSprite.png",
+                    "ship4BtnSprite.png",
+                    "ship5BtnSprite.png"
+                };
+
+                for (int i = 0; i < shipsPaths.Length; i++)
+                {
+                    OurButton button = new OurButton(new Texture(RESNAME + shipsPaths[i]), new Vector2i(200, 199), "", 0);
+                    button.componentID = "btnShip" + i;
+                    button.ArgToPass = i;
+                    shipshopPanel.panelBtnList.Add(button);
+                }
+                foreach (OurButton button in shipshopPanel.panelBtnList)
+                {
+                    button.Visible = false;
+                    button.Active = false;
+                    button.MouseReleased += OnShipBtnMouseReleased;
+                    componentList.Add(button);
+                }
+                for (int i = 0; i < 5; i++)
+                {
+                    shipshopPanel.panelBtnList[i].Visible = true;
+                    shipshopPanel.panelBtnList[i].Active = true;
+                    shipshopPanel.panelBtnList[i].setPosition(new Vector2f(80 + 230 * i, 647));
+                }
+                panelList.Add(shipshopPanel);
+                #endregion
+
+                #region powerupsPanel
+                powerupsPanel = new Panel();
+                string[] pupsPaths =
+                {
+                    "btnRocketSprite.png",
+                    "btnLaserSprite.png",
+                    "btnBombSprite.png",
+                    "btnWaveSprite.png",
+                    "btnShieldSprite.png"
+                };
+                for (int i = 0; i < pupsPaths.Length; i++)
+                {
+                    OurButton button = new OurButton(new Texture(RESNAME + pupsPaths[i]), new Vector2i(200, 199), "", 0);
+                    button.componentID = "btnPUp" + i;
+                    button.ArgToPass = i;
+                    powerupsPanel.panelBtnList.Add(button);
                 }
 
-                
+                foreach (OurButton button in powerupsPanel.panelBtnList)
+                {
+                    button.Visible = false;
+                    button.Active = false;
+                    button.MouseReleased += OnShipBtnMouseReleased;
+                    componentList.Add(button);
+                }
+                for (int i = 0; i < 5; i++)
+                {
+                    powerupsPanel.panelBtnList[i].Visible = true;
+                    powerupsPanel.panelBtnList[i].Active = true;
+                    powerupsPanel.panelBtnList[i].setPosition(new Vector2f(80 + 230 * i, 647));
+                }
+                panelList.Add(powerupsPanel);
+                #endregion
+
+                ChangePanel(workbenchPanel);
+
+
+                OurButton btnMission = new OurButton(new Texture(RESNAME + "btnMission.png"), new Vector2i(300, 99), "", 0);
+                btnMission.setPosition(new Vector2f(633, 21));
+                btnMission.componentID = "mission";
+                componentList.Add(btnMission);
+
 
 
                 OurButton btnLeftScroll = new OurButton(new Texture(RESNAME + "btnLeftSprite.png"), new Vector2i(40, 199), "", 0);
@@ -129,7 +223,7 @@ namespace SpaceInvaders.Classes.GUI
                 btnExit.MouseReleased += OnBtnExitMouseReleased;
                 componentList.Add(btnExit);
 
-                OurButton btnSaveShipInfo = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "Zapisz",fontSize);
+                OurButton btnSaveShipInfo = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "Zapisz", fontSize);
                 btnSaveShipInfo.setPosition(new Vector2f(100, 200));
                 btnSaveShipInfo.MouseReleased += OnBtnSaveMouseReleased;
                 componentList.Add(btnSaveShipInfo);
@@ -139,6 +233,12 @@ namespace SpaceInvaders.Classes.GUI
                 btnAdd100.MouseReleased += OnBtnAdd100MouseReleased;
                 componentList.Add(btnAdd100);
 
+                OurButton btnGiveDmg = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "Jebnij", fontSize);
+                btnGiveDmg.setPosition(new Vector2f(400, 100));
+                btnGiveDmg.MouseReleased += OnBtnGiveDmgMouseReleased;
+                componentList.Add(btnGiveDmg);
+
+
                 //cursor
                 cursor = Cursor.Instance(new Texture(RESNAME + "cursor.png"), new Vector2f(1f, 1f));
 
@@ -146,9 +246,47 @@ namespace SpaceInvaders.Classes.GUI
 
         }
 
+        private void OnShipBtnMouseReleased(object sender, btnReleasedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnBtnGiveDmgMouseReleased(object sender, btnReleasedEventArgs e)
+        {
+            int index = panelList.IndexOf(activePanel);
+            if(++index>=panelList.Count)
+            {
+                activePanel = panelList[0];
+            }
+            else
+            {
+                activePanel = panelList[index];
+            }
+            ChangePanel(activePanel);
+        }
+
+        private void ChangePanel(Panel panel)
+        {
+            foreach (var pnl in panelList)
+            {
+                pnl.Disable();
+            }
+            activePanel = panel;
+            activePanel.Enable();
+        }
+
         private void OnBtnAdd100MouseReleased(object sender, btnReleasedEventArgs e)
         {
-            PlayerManager.Instance.donatePlayer(100);
+            int index = panelList.IndexOf(activePanel);
+            if(--index<0)
+            {
+                activePanel = panelList[panelList.Count - 1];
+            }
+            else
+            {
+                activePanel = panelList[index];
+            }
+            ChangePanel(activePanel);
         }
 
 
@@ -162,7 +300,7 @@ namespace SpaceInvaders.Classes.GUI
                 PlayerHud.Instance().PlayerInfo = PlayerManager.Instance;
             }
         }
-        
+
         //zapis stanu gry do pliku
         private void OnBtnSaveMouseReleased(object sender, btnReleasedEventArgs e)
         {
@@ -172,7 +310,7 @@ namespace SpaceInvaders.Classes.GUI
                 bf.Serialize(stream, PlayerManager.Instance);
             }
         }
-        
+
         //ulepszanie statów
         private void OnStatBtnMouseReleased(object sender, btnReleasedEventArgs e)
         {
@@ -189,47 +327,48 @@ namespace SpaceInvaders.Classes.GUI
         //przesuwanie listy
         private void OnBtnRightScrollMouseReleased(object sender, EventArgs e)
         {
+
             firstElemIndex++;
-            foreach (OurButton button in workbenchBtnList)
+            foreach (OurButton button in activePanel.panelBtnList)
             {
                 button.Visible = false;
                 button.Active = false;
             }
-            foreach (OurLabel label in workbenchLblList)
+            foreach (OurLabel label in activePanel.panelLblList)
             {
                 label.Visible = false;
             }
             for (int i = 0; i < 5; i++)
             {
-                workbenchBtnList[i + firstElemIndex].Visible = true;
-                workbenchBtnList[i + firstElemIndex].Active = true;
-                workbenchBtnList[i + firstElemIndex].setPosition(new Vector2f(80 + 230 * i, 647));
+                activePanel.panelBtnList[i + firstElemIndex].Visible = true;
+                activePanel.panelBtnList[i + firstElemIndex].Active = true;
+                activePanel.panelBtnList[i + firstElemIndex].setPosition(new Vector2f(80 + 230 * i, 647));
 
-                workbenchLblList[i + firstElemIndex].Visible = true;
-                workbenchLblList[i + firstElemIndex].setPosition(new Vector2f(workbenchBtnList[i + firstElemIndex].Position.X + 47, workbenchBtnList[i + firstElemIndex].Position.Y + 165));
+                activePanel.panelLblList[i + firstElemIndex].Visible = true;
+                activePanel.panelLblList[i + firstElemIndex].setPosition(new Vector2f(activePanel.panelBtnList[i + firstElemIndex].Position.X + 47, activePanel.panelBtnList[i + firstElemIndex].Position.Y + 165));
             }
         }
 
         private void OnBtnLeftScrollMouseReleased(object sender, EventArgs e)
         {
             firstElemIndex--;
-            foreach (OurButton button in workbenchBtnList)
+            foreach (OurButton button in activePanel.panelBtnList)
             {
                 button.Visible = false;
                 button.Active = false;
             }
-            foreach (OurLabel label in workbenchLblList)
+            foreach (OurLabel label in activePanel.panelLblList)
             {
                 label.Visible = false;
             }
             for (int i = 0; i < 5; i++)
             {
-                workbenchBtnList[i + firstElemIndex].Visible = true;
-                workbenchBtnList[i + firstElemIndex].Active = true;
-                workbenchBtnList[i + firstElemIndex].setPosition(new Vector2f(80 + 230 * i, 647));
+                activePanel.panelBtnList[i + firstElemIndex].Visible = true;
+                activePanel.panelBtnList[i + firstElemIndex].Active = true;
+                activePanel.panelBtnList[i + firstElemIndex].setPosition(new Vector2f(80 + 230 * i, 647));
 
-                workbenchLblList[i + firstElemIndex].Visible = true;
-                workbenchLblList[i + firstElemIndex].setPosition(new Vector2f(workbenchBtnList[i + firstElemIndex].Position.X + 47, workbenchBtnList[i + firstElemIndex].Position.Y + 165));
+                activePanel.panelLblList[i + firstElemIndex].Visible = true;
+                activePanel.panelLblList[i + firstElemIndex].setPosition(new Vector2f(activePanel.panelBtnList[i + firstElemIndex].Position.X + 47, activePanel.panelBtnList[i + firstElemIndex].Position.Y + 165));
             }
         }
 
@@ -238,7 +377,7 @@ namespace SpaceInvaders.Classes.GUI
         {
             sceneManager.quit();
         }
-        
+
 
         public override void cleanup()
         {
@@ -263,7 +402,7 @@ namespace SpaceInvaders.Classes.GUI
                 componentList.Find(x => x.componentID == "left").Visible = true;
                 componentList.Find(x => x.componentID == "left").Active = true;
             }
-            if (firstElemIndex == workbenchBtnList.Count - 5)
+            if (firstElemIndex == workbenchPanel.panelBtnList.Count - 5)
             {
                 componentList.Find(x => x.componentID == "right").Visible = false;
                 componentList.Find(x => x.componentID == "right").Active = false;
@@ -274,12 +413,52 @@ namespace SpaceInvaders.Classes.GUI
                 componentList.Find(x => x.componentID == "right").Active = true;
             }
 
-            for (int i = 0; i < workbenchLblList.Count; i++)
+            for (int i = 0; i < workbenchPanel.panelLblList.Count; i++)
             {
-                workbenchLblList[i].Text = PlayerManager.Instance.upgradeCost((stats)(i-1)).ToString() + " $";
+                workbenchPanel.panelLblList[i].Text = PlayerManager.Instance.upgradeCost((stats)(i - 1)).ToString() + " $";
             }
             PlayerHud.Instance().update();
             cursor.update();
+        }
+
+        class Panel
+        {
+            public List<OurButton> panelBtnList = new List<OurButton>();
+            public List<OurLabel> panelLblList = new List<OurLabel>();
+            public int firstelemIndex;
+            public Panel()
+            {
+                
+            }
+            public void Disable()
+            {
+                foreach (var btn in panelBtnList)
+                {
+                    btn.Active = false;
+                    btn.Visible = false;
+                }
+                foreach (var lbl in panelLblList)
+                {
+                    lbl.Visible = false;
+                    lbl.Active = false;
+                }
+            }
+            public void Enable()
+            {
+                int rangeBtn = Math.Min(panelBtnList.Count, 5);
+                int rangeLbl = Math.Min(panelLblList.Count, 5);
+                for (int i = 0; i < rangeBtn; i++)
+                {
+                    panelBtnList[i].Active = true;
+                    panelBtnList[i].Visible = true;
+                }
+                for (int i = 0; i < rangeLbl; i++)
+                {
+                    panelLblList[i].Active = true;
+                    panelLblList[i].Visible = true;
+                }
+            }
+
         }
     }
 }
