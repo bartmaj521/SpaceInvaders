@@ -8,14 +8,19 @@ using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
 
+// Majewski
 using SpaceInvaders.Classes;
 using SpaceInvaders.Classes.Enemies;
 
 using SpaceInvaders.Interfaces;
+//=======
+using SpaceInvaders.Classes.GUI;
+//master
 
 namespace SpaceInvaders
 {
     static class Program
+
     {
         static List<Projectile> bulletList = new List<Projectile>();
         static Player player;
@@ -30,7 +35,16 @@ namespace SpaceInvaders
 
         static void Main()
         {
-            RenderWindow lol = new RenderWindow(new VideoMode(1600, 900), "lol");
+            SceneManager.Instance(new VideoMode(1600, 900), "Space Invaders");
+            SceneManager.Instance().changeScene(MainMenu.Instance());
+            SceneManager.Instance().run();
+          
+            //RenderWindow lol = new RenderWindow(new VideoMode(1600, 900), "lol");
+
+           
+
+            /*RenderWindow lol = new RenderWindow(new VideoMode(1000, 800), "lol");
+
             Texture txt = new Texture("Player.png");
             shot = new Texture("Shot.png");
 
@@ -88,6 +102,9 @@ namespace SpaceInvaders
                 bulletList.RemoveAll(proj => proj == null);
                 enemyList.RemoveAll(proj => proj == null);
             }
+
+            }*/
+
         }
     }
 }

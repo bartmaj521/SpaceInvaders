@@ -1,144 +1,165 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
-using SFML.Window;
 using SFML.System;
+using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    enum State
+    public enum State
     {
         normal = 0,
         hovered = 1,
-        clicked = 2
+        clicked = 2,
     }
-    class OurButton: Drawable
+    public class btnReleasedEventArgs: EventArgs
     {
+        public int arg;
+    }
+    public class OurButton : UIComponent, Drawable
+    {
+        protected IntRect collider;
+        protected State currentState;
 
-        public Vector2f size { get; set; }
-        public Vector2f position { get; set; }
-        public Text text { get; set; }
+        public Color TextNormal { get; set; }
+        public Color TextHover { get; set; }
+        public Color TextClicked { get; set; }
 
-        private ButtonStyle buttonStyle;
-        private Shape buttonShape;
-        private State btnstate;
+        public Font Font { get; set; }
 
+        public Text Text { get; set; }
 
-        public OurButton(string _text, Vector2f _position, btnStyle style, RenderWindow window)
+        public int ArgToPass;
+
+        //event gdy nacisnieto przycisk myszy
+        public event EventHandler MousePressed;
+        //event gdy puszczono przycisk myszy
+        public delegate void MouseReleasedEventHandler(object sender, btnReleasedEventArgs e);
+        public event MouseReleasedEventHandler MouseReleased;
+
+        //wywolanie eventu gdy ktos o niego prosi
+        protected virtual void OnMousePressed()
         {
-            position = _position;
-            btnstate = State.normal;
-            buttonStyle = new ButtonStyle(style);       
-            
-
-             
-            text = new Text();
-            text.DisplayedString = _text;
-            text.Font = buttonStyle.font;
-            text.Origin = new Vector2f(text.GetGlobalBounds().Width / 2, text.GetGlobalBounds().Height / 2);
-            text.Color = buttonStyle.textNormal;
-            text.Position = position;
-
-
-            size = new Vector2f(text.GetGlobalBounds().Width*1.5f, text.GetGlobalBounds().Height*1.5f);
-            buttonShape = new RectangleShape(size);
-            buttonShape.Origin = new Vector2f(buttonShape.GetGlobalBounds().Width / 2, buttonShape.GetGlobalBounds().Height / 2);
-            buttonShape.Position = position;
-
-            window.MouseMoved += onMouseMoved;
-            window.MouseButtonPressed += onMousePressed;
-            window.MouseButtonReleased += onMouseReleased;
-        }
-
-        private void onMouseReleased(object sender, MouseButtonEventArgs e)
-        {
-            Vector2f mousePosition = new Vector2f(Mouse.GetPosition(window).X, Mouse.GetPosition().Y);
-            bool mouseInButton = mousePosition.X >= buttonShape.Position.X - buttonShape.GetGlobalBounds().Width / 2
-                            && mousePosition.X <= buttonShape.Position.X + buttonShape.GetGlobalBounds().Width / 2
-                            && mousePosition.Y >= buttonShape.Position.Y - buttonShape.GetGlobalBounds().Height / 2
-                            && mousePosition.Y <= buttonShape.Position.Y + buttonShape.GetGlobalBounds().Height / 2;
-
-            if (e.Type == EventType.MouseMoved)
+            if (Active)
             {
-                if (mouseInButton)
+                if (MousePressed != null)
                 {
-                    btnstate = State.hovered;
-                }
-                else
-                {
-                    btnstate = State.normal;
-                }
-            }
-            else if (e.Type == EventType.MouseButtonPressed)
-            {
-                if (mouseInButton)
-                {
-                    btnstate = State.clicked;
-                }
-                else
-                {
-                    btnstate = State.normal;
-                }
+                    MousePressed(this, EventArgs.Empty);
+                } 
             }
         }
-
-        private void onMousePressed(object sender, MouseButtonEventArgs e)
+        //wywolanie eventu gdy ktos o niego prosi
+        protected virtual void OnMouseReleased()
         {
-            throw new NotImplementedException();
+            if (Active)
+            {
+                if (MouseReleased != null)
+                {
+                    MouseReleased(this, new btnReleasedEventArgs() { arg = ArgToPass });
+                } 
+            }
         }
-
-        private void onMouseMoved(object sender, MouseMoveEventArgs e)
+        public OurButton(Texture _texture, Vector2i frameSize,string _text,uint fontSize):base(_texture)
         {
-            throw new NotImplementedException();
+            currentState = 0;
+            TextNormal = new Color(91, 209, 255);
+            TextHover = new Color(210, 245, 255);
+            TextClicked = new Color(99, 200, 255);
+            componentSprite.TextureRect = new IntRect(0,0, frameSize.X, frameSize.Y);
+            Position = new Vector2f(0, 0);
+            Size = new Vector2f(componentSprite.GetGlobalBounds().Width, componentSprite.GetGlobalBounds().Height);
+
+            collider = new IntRect(0,0, frameSize.X, frameSize.Y);
+            Font = new Font("font.ttf");
+            Text = new Text(_text, Font);
+            Text.CharacterSize = fontSize;
+            Text.Position = new Vector2f(Position.X+Size.X/2-Text.GetGlobalBounds().Width/2-Text.GetGlobalBounds().Left,Position.Y+Size.Y/2-Text.GetGlobalBounds().Height/2-Text.GetGlobalBounds().Top);
+
         }
-
-        public void setSize(uint _size)
+        //zmiana wygladu przycisku w zaleznosci od stanu
+        public override void update()
         {
-            buttonStyle.fontSize = _size;
-            text.CharacterSize = buttonStyle.fontSize;
-            text.Origin = new Vector2f(text.GetGlobalBounds().Width / 2, text.GetGlobalBounds().Height / 2);
-
-            size = new Vector2f(text.GetGlobalBounds().Width * 1.5f, text.GetGlobalBounds().Height * 1.5f);
-            buttonShape = new RectangleShape(size);
-
-
-        }
-
-        public void update(Event e, RenderWindow window)
-        {
-            switch (btnstate)
+           
+            switch (currentState)
             {
                 case State.normal:
                     {
-                        text.Color = buttonStyle.textNormal;
-                        buttonShape.FillColor = buttonStyle.bgNormal;
+                        Text.Color = TextNormal;
+                        componentSprite.TextureRect = new IntRect(0, 0 * componentSprite.TextureRect.Height, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
                     }
                     break;
                 case State.hovered:
                     {
-                        text.Color = buttonStyle.textHover;
-                        buttonShape.FillColor = buttonStyle.bgHover;
+                        Text.Color = TextHover;
+                        componentSprite.TextureRect = new IntRect(0, 1 * componentSprite.TextureRect.Height +1 , componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
                     }
                     break;
                 case State.clicked:
                     {
-                        text.Color = buttonStyle.textClicked;
-                        buttonShape.FillColor = buttonStyle.bgClicked;
+                        Text.Color = TextClicked;
+                        componentSprite.TextureRect = new IntRect(0, 2 * componentSprite.TextureRect.Height +2, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
                     }
                     break;
                 default:
                     break;
             }
-            
+        }
+
+        public void checkHover(Vector2f position)
+        {
+            if (collider.Contains((int)position.X, (int)position.Y))
+                currentState = State.hovered;
+            else
+                currentState = State.normal;
+        }
+        public void checkClick(Vector2f position, Mouse.Button button, object sender)
+        {
+            if (collider.Contains((int)position.X, (int)position.Y) && button == Mouse.Button.Left)
+            {
+                currentState = State.clicked;
+
+                OnMousePressed();
+            }
+            else if (collider.Contains((int)position.X, (int)position.Y))
+                currentState = State.hovered;
+            else
+                currentState = State.normal;
+        }
+        public void checkUnclick(Vector2f position, Mouse.Button button, object sender)
+        {
+            if (collider.Contains((int)position.X, (int)position.Y) && button == Mouse.Button.Left)
+            {
+                currentState = State.hovered;
+                OnMouseReleased();
+            }
+
+            else
+                currentState = State.normal;
+        }
+        
+
+        public override void Draw(RenderTarget target, RenderStates states)
+        {
+            if (Visible)
+            {
+                target.Draw(componentSprite, states);
+                target.Draw(Text, states); 
+            }
 
         }
-        public void Draw(RenderTarget target, RenderStates states)
+        public override void setPosition(Vector2f _position)
         {
-            target.Draw(buttonShape, states);
-            target.Draw(text, states);
+            if (Text != null)
+            {
+                componentSprite.Position = _position;
+                Position = _position;
+                collider = new IntRect((int)Position.X, (int)Position.Y, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
+                componentSprite.TextureRect = new IntRect((int)Position.X, (int)Position.Y, componentSprite.TextureRect.Width,componentSprite.TextureRect.Height);
+                Text.Position = new Vector2f(Position.X + Size.X / 2 - Text.GetLocalBounds().Width / 2 - Text.GetLocalBounds().Left, Position.Y + Size.Y / 2 - Text.GetLocalBounds().Height / 2 - Text.GetLocalBounds().Top);
+            }
         }
     }
 }
