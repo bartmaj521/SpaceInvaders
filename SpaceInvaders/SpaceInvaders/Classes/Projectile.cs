@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
+
+using SpaceInvaders.Interfaces;
 
 namespace SpaceInvaders.Classes
 {
-    abstract class Projectile : GameObject
+    abstract class Projectile : GameObject, ICloneable
     {
         public static float topBoundary { get; set; }
         public static float botBoundary { get; set; }
@@ -26,7 +29,7 @@ namespace SpaceInvaders.Classes
         {
             foreach (var c in colliderList)
             {
-                if (collider.Intersects(c.getCollider()))
+                if (c != null && collider.Intersects(c.getCollider()))
                 {
                     c.getDamaged(damage);
                     return null;

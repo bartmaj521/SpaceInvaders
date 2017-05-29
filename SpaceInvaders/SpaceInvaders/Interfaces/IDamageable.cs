@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using SFML.Graphics;
 
-namespace SpaceInvaders.Classes
+namespace SpaceInvaders.Interfaces
 {
     interface IDamageable
     {

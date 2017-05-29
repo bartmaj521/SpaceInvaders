@@ -39,7 +39,7 @@ namespace SpaceInvaders.Classes
             animation = new Animation(ref txt, _frames, _frameTime, startingPosition, Scale);
             animation.updateAnimation(0, new Vector2f(0,0));
 
-            collider = new FloatRect(startingPosition.X, startingPosition.Y, animation.animationSprite.Texture.Size.X * Scale.X, animation.animationSprite.Texture.Size.Y * Scale.Y);
+            collider = new FloatRect(startingPosition.X, startingPosition.Y, animation.animationSprite.GetGlobalBounds().Width, animation.animationSprite.GetGlobalBounds().Height);
         }
     }
 }

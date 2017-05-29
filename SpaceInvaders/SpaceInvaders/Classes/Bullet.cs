@@ -10,7 +10,7 @@ using SFML.Graphics;
 
 namespace SpaceInvaders.Classes
 {
-    class Bullet: Projectile, ICloneable
+    class Bullet: Projectile
     {       
         public Bullet(ref Texture txt, float _damage , Vector2f scale)
         {

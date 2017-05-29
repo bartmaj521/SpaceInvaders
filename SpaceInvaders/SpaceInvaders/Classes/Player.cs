@@ -8,9 +8,11 @@ using SFML.Window;
 using SFML.Graphics;
 using SFML.System;
 
+using SpaceInvaders.Interfaces;
+
 namespace SpaceInvaders.Classes
 {
-    class Player : GameObject
+    class Player : GameObject, IDamageable
     {
         // Lewa i prawa granica ruchu gracza
         public static float rightBoundary { get; set; } 
@@ -30,9 +32,9 @@ namespace SpaceInvaders.Classes
         int currGun = 0;
 
         // Konstruktor txt - Tekstura gracza, _frames - kolejność klatek animacji, _frameTime - czas trawania klatki, startingPosition - pozycja startowa, Scale -skala
-        public Player(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale): base(ref txt, _frames, _frameTime, startingPosition, Scale)
+        public Player(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale, float _playerSpeed): base(ref txt, _frames, _frameTime, startingPosition, Scale)
         {
-            playerSpeed = 100f;   
+            playerSpeed = _playerSpeed;  
         }
 
         //aktualizowanie pozycji gracza
@@ -87,6 +89,11 @@ namespace SpaceInvaders.Classes
         {
             currGun += x;
             currGun %= guns.Count;
+        }
+
+        public void getDamaged(float damage)
+        {
+            health -= damage;
         }
     }
 }
