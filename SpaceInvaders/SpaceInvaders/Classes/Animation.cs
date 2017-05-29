@@ -19,6 +19,10 @@ namespace SpaceInvaders.Classes
         protected float frameTime;
         protected float currFrameTime;
 
+        public Animation()
+        {
+            animationSprite = new Sprite();
+        }
         public Animation(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale)
         {
             animationSprite = new Sprite();

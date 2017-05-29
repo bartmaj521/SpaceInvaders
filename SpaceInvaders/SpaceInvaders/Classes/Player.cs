@@ -45,5 +45,10 @@ namespace SpaceInvaders.Classes
             }
             animation.updateAnimation(deltaTime, new Vector2f(collider.Left, collider.Top));
         }
+
+        public Bullet fire(ref Texture txt)
+        {
+            return new Bullet(new Vector2f(collider.Left + collider.Width / 2, collider.Top), new Vector2f(0, 300), ref txt);
+        }
     }
 }
