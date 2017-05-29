@@ -3,25 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 using SFML.Window;
+using SFML.System;
+using SFML.Graphics;
+using System.IO;
 
 namespace SpaceInvaders.Classes.GUI
 {
-    class Menu
+    public abstract class Menu : Scene
     {
+        protected string RESNAME = string.Format("{0}\\Resources\\", Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName);
 
+        protected List<UIComponent> componentList = new List<UIComponent>();
+        protected Cursor cursor;
+        protected bool initialized;
+        Sprite background;
 
         public Menu()
         {
-            RenderWindow window = new RenderWindow(new VideoMode(400, 600), "Menu");
-            OurButton button1 = new OurButton("Hello", new Vector2f(100, 100), btnStyle.blueish);
-            while (window.IsOpen)
-            {
-                
-            }
+            background = new Sprite(new Texture(RESNAME + "bg.png"));
+            initialized = false;
+        }
 
+        public override void callOnKeyPressed(object sender, KeyEventArgs e, SceneManager sceneManager)
+        {
+            foreach (OurTextbox txb in componentList.OfType<OurTextbox>())
+            {
+                txb.checkKey(e);
+            }
+        }
+        public override void callOnMouseButtonPressed(object sender, MouseButtonEventArgs e, SceneManager sceneManager)
+        {
+            foreach (OurButton button in componentList.OfType<OurButton>())
+            {
+                button.checkClick(new Vector2f(e.X, e.Y), e.Button, sender);
+            }
+        }
+        public override void callOnMouseButtonReleased(object sender, MouseButtonEventArgs e, SceneManager sceneManager)
+        {
+            foreach (OurButton button in componentList.OfType<OurButton>())
+                button.checkUnclick(new Vector2f(e.X, e.Y), e.Button, sender);
+        }
+        public override void callOnMoved(object sender, MouseMoveEventArgs e, SceneManager sceneManager)
+        {
+            foreach (OurButton button in componentList.OfType<OurButton>())
+                button.checkHover(new Vector2f(e.X, e.Y));
+            cursor.moveCursor(new Vector2f(e.X, e.Y));
+        }
+
+        public override void drawComponents(SceneManager sceneManager)
+        {
+            sceneManager.window.Draw(background);
+            foreach (var component in componentList)
+                sceneManager.window.Draw(component);
+            sceneManager.window.Draw(cursor);
+        }
+        public override void updateComponents(SceneManager sceneManager)
+        {
+            foreach (var component in componentList)
+            {
+                component.update();
+            }
+            cursor.update();
         }
     }
 }

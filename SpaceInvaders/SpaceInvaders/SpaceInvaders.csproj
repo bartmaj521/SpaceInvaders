@@ -70,9 +70,22 @@
     <Compile Include="Classes\Bullet.cs" />
     <Compile Include="Classes\Enemy.cs" />
     <Compile Include="Classes\GameObject.cs" />
-    <Compile Include="Classes\GUI\ButtonStyle.cs" />
+    <Compile Include="Classes\GUI\PlayerManager.cs" />
+    <Compile Include="Classes\GUI\Ship.cs" />
+    <Compile Include="Classes\GUI\OurProgressbar.cs" />
+    <Compile Include="Classes\GUI\EscapeMenu.cs" />
+    <Compile Include="Classes\GUI\OurImage.cs" />
+    <Compile Include="Classes\GUI\OurLabel.cs" />
+    <Compile Include="Classes\GUI\OurTextbox.cs" />
+    <Compile Include="Classes\GUI\Cursor.cs" />
+    <Compile Include="Classes\GUI\MainMenu.cs" />
     <Compile Include="Classes\GUI\Menu.cs" />
     <Compile Include="Classes\GUI\OurButton.cs" />
+    <Compile Include="Classes\GUI\PlayerHud.cs" />
+    <Compile Include="Classes\GUI\PlayerMenu.cs" />
+    <Compile Include="Classes\GUI\Scene.cs" />
+    <Compile Include="Classes\GUI\SceneManager.cs" />
+    <Compile Include="Classes\GUI\UIComponent.cs" />
     <Compile Include="Classes\Particle.cs" />
     <Compile Include="Classes\ParticleEmitter.cs" />
     <Compile Include="Classes\Player.cs" />
@@ -87,7 +100,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -130,11 +145,11 @@
     <Content Include="OpenTK.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\capral.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Audio\" />
     <Folder Include="Fonts\" />
-    <Folder Include="Textures\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Baseclass.Contrib.Nuget.Output.1.0.0\build\net40\Baseclass.Contrib.Nuget.Output.targets" Condition="Exists('..\packages\Baseclass.Contrib.Nuget.Output.1.0.0\build\net40\Baseclass.Contrib.Nuget.Output.targets')" />

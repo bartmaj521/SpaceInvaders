@@ -8,15 +8,19 @@ using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
 
-using SpaceInvaders.Classes;
+using SpaceInvaders.Classes.GUI;
 
 namespace SpaceInvaders
 {
     static class Program
-    {
+    {      
         static void Main()
         {
-            RenderWindow lol = new RenderWindow(new VideoMode(1000, 800), "lol");
+            SceneManager.Instance(new VideoMode(1600, 900), "Space Invaders");
+            SceneManager.Instance().changeScene(MainMenu.Instance());
+            SceneManager.Instance().run();
+
+            /*RenderWindow lol = new RenderWindow(new VideoMode(1000, 800), "lol");
             Texture txt = new Texture("Player.png");
             Texture shot = new Texture("Shot.png");
 
@@ -44,7 +48,7 @@ namespace SpaceInvaders
                     lol.Draw(bul.animation.animationSprite);
                 }
                 lol.Display();
-            }
+            }*/
         }
     }
 }
