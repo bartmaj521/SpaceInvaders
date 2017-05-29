@@ -20,8 +20,6 @@ namespace SpaceInvaders.Classes.GUI
         //private List<OurLabel> workbenchLblList = new List<OurLabel>();
         private int firstElemIndex = 0;
         private List<Panel> panelList;
-        private Panel workbenchPanel;
-        private Panel shipshopPanel;
         private Panel powerupsPanel;
         private Panel activePanel;
 
@@ -77,7 +75,7 @@ namespace SpaceInvaders.Classes.GUI
 
 
                 #region workbenchPanel
-                workbenchPanel = new Panel();
+                Panel workbenchPanel = new Panel();
                 string[] statsPaths =
                 {
                     "btnRepairSprite.png",
@@ -125,7 +123,7 @@ namespace SpaceInvaders.Classes.GUI
                 #endregion
 
                 #region shipshopPanel
-                shipshopPanel = new Panel();
+                Panel shipshopPanel = new Panel();
                 string[] shipsPaths =
                 {
                     "ship1BtnSprite.png",
@@ -193,51 +191,46 @@ namespace SpaceInvaders.Classes.GUI
                 #endregion
 
                 ChangePanel(workbenchPanel);
-
-
+                
                 OurButton btnMission = new OurButton(new Texture(RESNAME + "btnMission.png"), new Vector2i(300, 99), "", 0);
                 btnMission.setPosition(new Vector2f(633, 21));
                 btnMission.componentID = "mission";
                 componentList.Add(btnMission);
-
-
-
+                
                 OurButton btnLeftScroll = new OurButton(new Texture(RESNAME + "btnLeftSprite.png"), new Vector2i(40, 199), "", 0);
                 btnLeftScroll.setPosition(new Vector2f(28, 647));
                 btnLeftScroll.componentID = "left";
                 btnLeftScroll.MouseReleased += OnBtnLeftScrollMouseReleased;
                 componentList.Add(btnLeftScroll);
-
+                
                 OurButton btnRightScroll = new OurButton(new Texture(RESNAME + "btnRightSprite.png"), new Vector2i(40, 199), "", 0);
                 btnRightScroll.componentID = "right";
                 btnRightScroll.setPosition(new Vector2f(1212, 647));
                 btnRightScroll.MouseReleased += OnBtnRightScrollMouseReleased;
                 componentList.Add(btnRightScroll);
 
+                OurButton btnScrollPanelLeft = new OurButton(new Texture(RESNAME + "btnLeftPanelSprite.png"), new Vector2i(40, 449), "", 0);
+                btnScrollPanelLeft.setPosition(new Vector2f(28, 171));
+                btnScrollPanelLeft.MouseReleased += OnScrollPanelLeftMouseReleased;
+                componentList.Add(btnScrollPanelLeft);
+
+                OurButton btnScrollPanelRight = new OurButton(new Texture(RESNAME + "btnRightPanelSprite.png"), new Vector2i(40, 449), "", 0);
+                btnScrollPanelRight.setPosition(new Vector2f(1212, 171));
+                btnScrollPanelRight.MouseReleased += OnScrollPanelRightMouseReleased;
+                componentList.Add(btnScrollPanelRight);
 
                 Vector2i buttonSize = new Vector2i(300, 99);
                 uint fontSize = 40;
 
-                OurButton btnExit = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "wyjdz", fontSize);
-                btnExit.setPosition(new Vector2f(100, 100));
-                btnExit.MouseReleased += OnBtnExitMouseReleased;
-                componentList.Add(btnExit);
+                //OurButton btnExit = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "wyjdz", fontSize);
+                //btnExit.setPosition(new Vector2f(100, 100));
+                //btnExit.MouseReleased += OnBtnExitMouseReleased;
+                //componentList.Add(btnExit);
 
-                OurButton btnSaveShipInfo = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "Zapisz", fontSize);
-                btnSaveShipInfo.setPosition(new Vector2f(100, 200));
-                btnSaveShipInfo.MouseReleased += OnBtnSaveMouseReleased;
-                componentList.Add(btnSaveShipInfo);
-
-                OurButton btnAdd100 = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "Dodaj 100$", fontSize);
-                btnAdd100.setPosition(new Vector2f(400, 200));
-                btnAdd100.MouseReleased += OnBtnAdd100MouseReleased;
-                componentList.Add(btnAdd100);
-
-                OurButton btnGiveDmg = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "Jebnij", fontSize);
-                btnGiveDmg.setPosition(new Vector2f(400, 100));
-                btnGiveDmg.MouseReleased += OnBtnGiveDmgMouseReleased;
-                componentList.Add(btnGiveDmg);
-
+                //OurButton btnSaveShipInfo = new OurButton(new Texture(RESNAME + "buttonSprite.png"), buttonSize, "Zapisz", fontSize);
+                //btnSaveShipInfo.setPosition(new Vector2f(100, 200));
+                //btnSaveShipInfo.MouseReleased += OnBtnSaveMouseReleased;
+                //componentList.Add(btnSaveShipInfo);
 
                 //cursor
                 cursor = Cursor.Instance(new Texture(RESNAME + "cursor.png"), new Vector2f(1f, 1f));
@@ -250,21 +243,6 @@ namespace SpaceInvaders.Classes.GUI
         {
             throw new NotImplementedException();
         }
-
-        private void OnBtnGiveDmgMouseReleased(object sender, btnReleasedEventArgs e)
-        {
-            int index = panelList.IndexOf(activePanel);
-            if(++index>=panelList.Count)
-            {
-                activePanel = panelList[0];
-            }
-            else
-            {
-                activePanel = panelList[index];
-            }
-            ChangePanel(activePanel);
-        }
-
         private void ChangePanel(Panel panel)
         {
             foreach (var pnl in panelList)
@@ -275,10 +253,33 @@ namespace SpaceInvaders.Classes.GUI
             activePanel.Enable();
         }
 
-        private void OnBtnAdd100MouseReleased(object sender, btnReleasedEventArgs e)
+        private void OnScrollPanelRightMouseReleased(object sender, btnReleasedEventArgs e)
         {
             int index = panelList.IndexOf(activePanel);
-            if(--index<0)
+            if (++index >= panelList.Count)
+            {
+                activePanel = panelList[0];
+            }
+            else
+            {
+                activePanel = panelList[index];
+            }
+
+            if (activePanel == panelList[0])
+            {
+                EnableScrollBtns();
+            }
+            else
+            {
+                DisableScrollBtns();
+            }
+            ChangePanel(activePanel);
+        }
+
+        private void OnScrollPanelLeftMouseReleased(object sender, btnReleasedEventArgs e)
+        {
+            int index = panelList.IndexOf(activePanel);
+            if (--index < 0)
             {
                 activePanel = panelList[panelList.Count - 1];
             }
@@ -286,9 +287,40 @@ namespace SpaceInvaders.Classes.GUI
             {
                 activePanel = panelList[index];
             }
+            if(activePanel == panelList[0])
+            {
+                EnableScrollBtns();
+            }
+            else
+            {
+                DisableScrollBtns();
+            }
             ChangePanel(activePanel);
         }
 
+        private void DisableScrollBtns()
+        {
+            var btns = from x in componentList
+                       where x.componentID == "left" || x.componentID == "right"
+                       select x;
+            foreach (var btn in btns)
+            {
+                btn.Active = false;
+                btn.Visible = false;
+            }
+        }
+
+        private void EnableScrollBtns()
+        {
+            var btns = from x in componentList
+                       where x.componentID == "left" || x.componentID == "right"
+                       select x;
+            foreach (var btn in btns)
+            {
+                btn.Active = true;
+                btn.Visible = true;
+            }
+        }
 
         //wczytanie stanu gry z pliku
         public void ReadDataFromFile(object sender, btnReleasedEventArgs e)
@@ -327,7 +359,6 @@ namespace SpaceInvaders.Classes.GUI
         //przesuwanie listy
         private void OnBtnRightScrollMouseReleased(object sender, EventArgs e)
         {
-
             firstElemIndex++;
             foreach (OurButton button in activePanel.panelBtnList)
             {
@@ -370,6 +401,7 @@ namespace SpaceInvaders.Classes.GUI
                 activePanel.panelLblList[i + firstElemIndex].Visible = true;
                 activePanel.panelLblList[i + firstElemIndex].setPosition(new Vector2f(activePanel.panelBtnList[i + firstElemIndex].Position.X + 47, activePanel.panelBtnList[i + firstElemIndex].Position.Y + 165));
             }
+
         }
 
         //wyjscie
@@ -392,30 +424,33 @@ namespace SpaceInvaders.Classes.GUI
         public override void updateComponents(SceneManager sceneManager)
         {
             base.updateComponents(sceneManager);
-            if (firstElemIndex == 0)
+            if (activePanel == panelList[0])
             {
-                componentList.Find(x => x.componentID == "left").Visible = false;
-                componentList.Find(x => x.componentID == "left").Active = false;
-            }
-            else
-            {
-                componentList.Find(x => x.componentID == "left").Visible = true;
-                componentList.Find(x => x.componentID == "left").Active = true;
-            }
-            if (firstElemIndex == workbenchPanel.panelBtnList.Count - 5)
-            {
-                componentList.Find(x => x.componentID == "right").Visible = false;
-                componentList.Find(x => x.componentID == "right").Active = false;
-            }
-            else
-            {
-                componentList.Find(x => x.componentID == "right").Visible = true;
-                componentList.Find(x => x.componentID == "right").Active = true;
+                if (firstElemIndex == 0)
+                {
+                    componentList.Find(x => x.componentID == "left").Visible = false;
+                    componentList.Find(x => x.componentID == "left").Active = false;
+                }
+                else
+                {
+                    componentList.Find(x => x.componentID == "left").Visible = true;
+                    componentList.Find(x => x.componentID == "left").Active = true;
+                }
+                if (firstElemIndex == panelList[0].panelBtnList.Count - 5)
+                {
+                    componentList.Find(x => x.componentID == "right").Visible = false;
+                    componentList.Find(x => x.componentID == "right").Active = false;
+                }
+                else
+                {
+                    componentList.Find(x => x.componentID == "right").Visible = true;
+                    componentList.Find(x => x.componentID == "right").Active = true;
+                } 
             }
 
-            for (int i = 0; i < workbenchPanel.panelLblList.Count; i++)
+            for (int i = 0; i < panelList[0].panelLblList.Count; i++)
             {
-                workbenchPanel.panelLblList[i].Text = PlayerManager.Instance.upgradeCost((stats)(i - 1)).ToString() + " $";
+                panelList[0].panelLblList[i].Text = PlayerManager.Instance.upgradeCost((stats)(i - 1)).ToString() + " $";
             }
             PlayerHud.Instance().update();
             cursor.update();
@@ -428,7 +463,7 @@ namespace SpaceInvaders.Classes.GUI
             public int firstelemIndex;
             public Panel()
             {
-                
+
             }
             public void Disable()
             {
