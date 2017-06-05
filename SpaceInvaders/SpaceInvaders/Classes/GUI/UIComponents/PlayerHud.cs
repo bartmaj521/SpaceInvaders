@@ -13,7 +13,6 @@ namespace SpaceInvaders.Classes.GUI
     
     public class PlayerHud : Drawable
     {
-        private string RESNAME = string.Format("{0}\\Resources\\", Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName);
         private Sprite HudSprite;
         private Sprite eq;
         private Sprite neq;
@@ -37,33 +36,37 @@ namespace SpaceInvaders.Classes.GUI
 
         private PlayerHud()
         {
-            HudSprite = new Sprite(new Texture(RESNAME + "playerHud.png"));
-            eq = new Sprite(new Texture(RESNAME + "equipped.png"));
-            neq = new Sprite(new Texture(RESNAME + "notEquipped.png"));
+            HudSprite = new Sprite(new Texture(ResourcesManager.resourcesPath + "playerHud.png"));
+            eq = new Sprite(new Texture(ResourcesManager.resourcesPath + "equipped.png"));
+            neq = new Sprite(new Texture(ResourcesManager.resourcesPath + "notEquipped.png"));
             HudSprite.Position = new Vector2f(1279, 72);
-            
 
-            PlayerNameLabel = new OurLabel(new Texture(RESNAME + "blank.png"), "", 30, new Vector2i(267, 27));
+
+            ShipImg = new Sprite();
+            PlayerNameLabel = new OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"), "", 30, new Vector2i(267, 27));
             PlayerNameLabel.setPosition(new Vector2f(HudSprite.Position.X + 16, HudSprite.Position.Y + 9));
-            PlayerMoneyLabel = new OurLabel(new Texture(RESNAME + "blank.png"),"0 $", 30, new Vector2i(267, 38));
+            PlayerMoneyLabel = new OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"),"0 cr", 30, new Vector2i(267, 38));
             PlayerMoneyLabel.setPosition(new Vector2f(HudSprite.Position.X + 16, HudSprite.Position.Y + 224));
-            HealthLabel = new OurLabel(new Texture(RESNAME + "blank.png"), (0 * 100).ToString() + "%", 24, new Vector2i(64,25));
+            HealthLabel = new OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"), (0 * 100).ToString() + "%", 24, new Vector2i(64,25));
             HealthLabel.setPosition(new Vector2f(HudSprite.Position.X + 217, HudSprite.Position.Y + 732));
-            DmgProgressbar = new OurProgressbar(new Texture(RESNAME + "DamageProgressBarSprite.png"), new Vector2f(193, 23));
+            DmgProgressbar = new OurProgressbar(new Texture(ResourcesManager.resourcesPath + "DamageProgressBarSprite.png"), new Vector2f(193, 23));
             DmgProgressbar.setPosition(new Vector2f(HudSprite.Position.X + 21, HudSprite.Position.Y + 733));
+
+
         }
         public void update()
         {
             DmgProgressbar.Progress = PlayerInfo.ShipInfo.ShipHealth;
             DmgProgressbar.update();
             PlayerNameLabel.Text = PlayerInfo.PlayerName;
-            PlayerMoneyLabel.Text = PlayerInfo.PlayerMoney.ToString() + " $";
+            PlayerMoneyLabel.Text = PlayerInfo.PlayerMoney.ToString() + " cr";
             HealthLabel.Text = ((PlayerInfo.ShipInfo.ShipHealth * 100)).ToString() + "%";
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(HudSprite, states);
+            target.Draw(ShipImg, states);
             target.Draw(PlayerNameLabel, states);
             target.Draw(PlayerMoneyLabel, states);
             target.Draw(DmgProgressbar, states);

@@ -50,6 +50,11 @@ namespace SpaceInvaders.Classes.GUI
 
         }
 
+        public void ChangeTexture(Texture _texture)
+        {
+            componentSprite = new Sprite(_texture);
+        }
+
         public abstract void Draw(RenderTarget target, RenderStates states);
         public abstract void update();
 
