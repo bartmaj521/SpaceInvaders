@@ -39,14 +39,18 @@ namespace SpaceInvaders.Classes.GUI
         } //0 - sprawny 1 - zniszczony
         public int ShipPrice { get; set; }
         public int ShipValue { get; set; }
+        public int DefaultHealth { get; set; }
+        public int DefaultSpeed { get; set; }
         public int[] upgrades { get; set; }
         public int[] maxUpgrades { get; set; }
 
 
-        public Ship(Texture _texture, int _shipPrice, int[] _maxUppgrades)
+        public Ship(Texture _texture, int _shipPrice,int _defaultHealth, int _defaultSpeed ,int[] _maxUppgrades)
         {
             ShipPrice = ShipValue = _shipPrice;
             ShipTexture = _texture;
+            DefaultHealth = _defaultHealth;
+            DefaultSpeed = _defaultSpeed;
             maxUpgrades = _maxUppgrades;
             shipHealth = 0; 
             upgrades = new int[maxUpgrades.Count()];

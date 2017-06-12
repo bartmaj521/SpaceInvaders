@@ -32,12 +32,13 @@ namespace SpaceInvaders.Classes.GUI
         {
             throw new NotImplementedException();
         }
-
         //obsluga gdy scena zostanie wznowiona
         public override void reasume()
         {
             throw new NotImplementedException();
         }
+
+
 
         //inicjalizacja, dodawanie komponentów do listy komponentów
         public override void initialize(RenderWindow window)
@@ -46,7 +47,7 @@ namespace SpaceInvaders.Classes.GUI
             {                
                 //labels
                 string lblWelcomeText = "Witaj na pokladzie Kapitanie!\nNie bylo cie przez dlugi czas\nZanim wyruszymy w podroz\nPrzypomnij nam swoje imie".ToLower();
-                OurLabel lblWelcome = new OurLabel(new Texture(RESNAME+"labelBg2.png"), lblWelcomeText, 30);
+                OurLabel lblWelcome = new OurLabel(new Texture(ResourcesManager.resourcesPath + "labelBg2.png"), lblWelcomeText, 30);
                 lblWelcome.setPosition(new Vector2f(window.Size.X*0.45f-lblWelcome.Size.X/2, window.Size.Y*0.4f-lblWelcome.Size.Y/2));
                 lblWelcome.Visible = false;
                 lblWelcome.componentID = "label";
@@ -54,7 +55,7 @@ namespace SpaceInvaders.Classes.GUI
 
 
                 //texboxes
-                OurTextbox txbUsername = new OurTextbox(new Texture(RESNAME+"txbSprite.png"), new Vector2f(lblWelcome.Size.X, 0), 30);
+                OurTextbox txbUsername = new OurTextbox(new Texture(ResourcesManager.resourcesPath + "txbSprite.png"), new Vector2f(lblWelcome.Size.X, 0), 30);
                 txbUsername.setPosition(new Vector2f(lblWelcome.Position.X, lblWelcome.Position.Y+lblWelcome.Size.Y+10));
                 txbUsername.componentID = "textbox";
                 txbUsername.Visible = false;
@@ -62,7 +63,7 @@ namespace SpaceInvaders.Classes.GUI
 
 
                 //obrazek
-                OurImage imgCapral = new OurImage(new Texture(RESNAME+"capral.png"), new Vector2f(230, 230));
+                OurImage imgCapral = new OurImage(new Texture(ResourcesManager.resourcesPath + "capral.png"), new Vector2f(230, 230));
                 imgCapral.setPosition(new Vector2f(lblWelcome.Position.X + lblWelcome.Size.X +5, lblWelcome.Position.Y-20));
                 imgCapral.componentID = "capral";
                 imgCapral.Visible = false;
@@ -75,25 +76,25 @@ namespace SpaceInvaders.Classes.GUI
                 Vector2i buttonSize = new Vector2i(300, 99);
                 uint fontSize = 40;
 
-                OurButton btnNewGame = new OurButton(new Texture(RESNAME + "buttonSprite.png"),buttonSize,"nowa gra",fontSize);
+                OurButton btnNewGame = new OurButton(new Texture(ResourcesManager.resourcesPath + "buttonSprite.png"),buttonSize,"nowa gra",fontSize);
                 btnNewGame.setPosition(new Vector2f(window.Size.X * 0.67f+btnNewGame.Size.X/2, window.Size.Y * 0.30f+btnNewGame.Size.Y/2));
                 componentList.Add(btnNewGame);
 
-                OurButton btnLoadGame = new OurButton(new Texture(RESNAME + "buttonSprite.png"),buttonSize,"wczytaj gre", 35);
+                OurButton btnLoadGame = new OurButton(new Texture(ResourcesManager.resourcesPath + "buttonSprite.png"),buttonSize,"wczytaj gre", 35);
                 btnLoadGame.setPosition(new Vector2f(window.Size.X * 0.67f + btnNewGame.Size.X / 2, window.Size.Y * 0.45f + btnNewGame.Size.Y / 2));
                 componentList.Add(btnLoadGame);
 
-                OurButton btnOptions = new OurButton(new Texture(RESNAME + "buttonSprite.png"),buttonSize,"opcje", fontSize);
+                OurButton btnOptions = new OurButton(new Texture(ResourcesManager.resourcesPath + "buttonSprite.png"),buttonSize,"opcje", fontSize);
                 btnOptions.setPosition(new Vector2f(window.Size.X * 0.67f + btnNewGame.Size.X / 2, window.Size.Y * 0.6f + btnNewGame.Size.Y / 2));
                 componentList.Add(btnOptions);
 
-                OurButton btnExit = new OurButton(new Texture(RESNAME + "buttonSprite.png"),buttonSize,"wyjdz", fontSize);
+                OurButton btnExit = new OurButton(new Texture(ResourcesManager.resourcesPath + "buttonSprite.png"),buttonSize,"wyjdz", fontSize);
                 btnExit.setPosition(new Vector2f(window.Size.X * 0.67f + btnNewGame.Size.X / 2, window.Size.Y * 0.75f + btnNewGame.Size.Y / 2));
                 componentList.Add(btnExit);
 
 
                 //cursor
-                cursor = Cursor.Instance(new Texture(RESNAME + "cursor.png"), new Vector2f(1f, 1f));
+                cursor = Cursor.Instance(new Texture(ResourcesManager.resourcesPath + "cursor.png"), new Vector2f(1f, 1f));
 
 
 
@@ -109,7 +110,7 @@ namespace SpaceInvaders.Classes.GUI
 
         }
 
-        private void OnBtnLoadMouseReleased(object sender, btnReleasedEventArgs e)
+        private void OnBtnLoadMouseReleased(object sender, BtnReleasedEventArgs e)
         {
             PlayerMenu.Instance().ReadDataFromFile(sender, e);
             sceneManager.changeScene(PlayerMenu.Instance());
@@ -125,8 +126,10 @@ namespace SpaceInvaders.Classes.GUI
         //wyczyszczenie listy componentów
         public override void cleanup()
         {
+            initialized = false;
             componentList.Clear();
         }
+
         //obsluga zwolnienia przycisku exit
         private void OnExitButtonReleased(object sender, EventArgs e)
         {

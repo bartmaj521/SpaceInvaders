@@ -15,7 +15,7 @@ namespace SpaceInvaders.Classes.GUI
         hovered = 1,
         clicked = 2,
     }
-    public class btnReleasedEventArgs: EventArgs
+    public class BtnReleasedEventArgs: EventArgs
     {
         public int arg;
     }
@@ -34,11 +34,25 @@ namespace SpaceInvaders.Classes.GUI
 
         public int ArgToPass;
 
+        //event gdy najechano na button
+        public delegate void MouseHoveredEventHandler(object sender, BtnReleasedEventArgs e);
+        public event MouseHoveredEventHandler MouseHovered;
         //event gdy nacisnieto przycisk myszy
         public event EventHandler MousePressed;
         //event gdy puszczono przycisk myszy
-        public delegate void MouseReleasedEventHandler(object sender, btnReleasedEventArgs e);
+        public delegate void MouseReleasedEventHandler(object sender, BtnReleasedEventArgs e);
         public event MouseReleasedEventHandler MouseReleased;
+
+        protected virtual void OnMouseHovered()
+        {
+            if(Active)
+            {
+                if(MouseHovered != null)
+                {
+                    MouseHovered(this, new BtnReleasedEventArgs() { arg = ArgToPass });
+                }
+            }
+        }
 
         //wywolanie eventu gdy ktos o niego prosi
         protected virtual void OnMousePressed()
@@ -58,7 +72,7 @@ namespace SpaceInvaders.Classes.GUI
             {
                 if (MouseReleased != null)
                 {
-                    MouseReleased(this, new btnReleasedEventArgs() { arg = ArgToPass });
+                    MouseReleased(this, new BtnReleasedEventArgs() { arg = ArgToPass });
                 } 
             }
         }
@@ -111,7 +125,10 @@ namespace SpaceInvaders.Classes.GUI
         public void checkHover(Vector2f position)
         {
             if (collider.Contains((int)position.X, (int)position.Y))
+            {
                 currentState = State.hovered;
+                OnMouseHovered();
+            }
             else
                 currentState = State.normal;
         }

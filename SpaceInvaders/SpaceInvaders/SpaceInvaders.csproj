@@ -72,26 +72,29 @@
     <Compile Include="Classes\Enemies\Enemy.cs" />
     <Compile Include="Classes\Enemies\Randomer.cs" />
     <Compile Include="Classes\GameObject.cs" />
+    
+    <Compile Include="Classes\PlayerManager.cs" />
+    <Compile Include="Classes\ResourcesManager.cs" />
+    <Compile Include="Classes\Ship.cs" />
+    <Compile Include="Classes\GUI\UIComponents\OurProgressbar.cs" />
+    <Compile Include="Classes\GUI\Menu\EscapeMenu.cs" />
+    <Compile Include="Classes\GUI\UIComponents\OurImage.cs" />
+    <Compile Include="Classes\GUI\UIComponents\OurLabel.cs" />
+    <Compile Include="Classes\GUI\UIComponents\OurTextbox.cs" />
+    <Compile Include="Classes\GUI\UIComponents\Cursor.cs" />
+    <Compile Include="Classes\GUI\Menu\MainMenu.cs" />
+    <Compile Include="Classes\GUI\Menu\Menu.cs" />
+    <Compile Include="Classes\GUI\UIComponents\OurButton.cs" />
+    <Compile Include="Classes\GUI\UIComponents\PlayerHud.cs" />
+    <Compile Include="Classes\GUI\Menu\PlayerMenu.cs" />
+    <Compile Include="Classes\Scene.cs" />
+    <Compile Include="Classes\SceneManager.cs" />
+    <Compile Include="Classes\GUI\UIComponents\UIComponent.cs" />
+
 
     <Compile Include="Classes\Gun.cs" />
     <Compile Include="Interfaces\IDamageable.cs" />
-    
-    <Compile Include="Classes\GUI\PlayerManager.cs" />
-    <Compile Include="Classes\GUI\Ship.cs" />
-    <Compile Include="Classes\GUI\OurProgressbar.cs" />
-    <Compile Include="Classes\GUI\EscapeMenu.cs" />
-    <Compile Include="Classes\GUI\OurImage.cs" />
-    <Compile Include="Classes\GUI\OurLabel.cs" />
-    <Compile Include="Classes\GUI\OurTextbox.cs" />
-    <Compile Include="Classes\GUI\Cursor.cs" />
-    <Compile Include="Classes\GUI\MainMenu.cs" />
-    <Compile Include="Classes\GUI\Menu.cs" />
-    <Compile Include="Classes\GUI\OurButton.cs" />
-    <Compile Include="Classes\GUI\PlayerHud.cs" />
-    <Compile Include="Classes\GUI\PlayerMenu.cs" />
-    <Compile Include="Classes\GUI\Scene.cs" />
-    <Compile Include="Classes\GUI\SceneManager.cs" />
-    <Compile Include="Classes\GUI\UIComponent.cs" />
+
 
     <Compile Include="Classes\Particle.cs" />
     <Compile Include="Classes\ParticleEmitter.cs" />
@@ -125,6 +128,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\powerupInfo.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="csfml-audio-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -152,6 +158,7 @@
     <Content Include="OpenTK.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="bin\Debug\workbenchInfo.xml" />
     <None Include="Resources\capral.png" />
   </ItemGroup>
   <ItemGroup>

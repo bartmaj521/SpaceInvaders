@@ -12,16 +12,15 @@ namespace SpaceInvaders.Classes.GUI
 {
     public abstract class Menu : Scene
     {
-        protected string RESNAME = string.Format("{0}\\Resources\\", Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName);
 
         protected List<UIComponent> componentList = new List<UIComponent>();
         protected Cursor cursor;
         protected bool initialized;
-        Sprite background;
+        protected Sprite background;
 
         public Menu()
         {
-            background = new Sprite(new Texture(RESNAME + "bg.png"));
+            background = new Sprite(new Texture(ResourcesManager.resourcesPath + "bg.png"));
             initialized = false;
         }
 
@@ -64,7 +63,6 @@ namespace SpaceInvaders.Classes.GUI
             {
                 component.update();
             }
-            cursor.update();
         }
     }
 }
