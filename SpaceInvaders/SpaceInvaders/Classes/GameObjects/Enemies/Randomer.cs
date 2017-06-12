@@ -84,6 +84,5 @@ namespace SpaceInvaders.Classes.Enemies
 
             return (object)p;
         }
-
     }
 }

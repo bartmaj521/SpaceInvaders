@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
-using System.IO;
-
 
 namespace SpaceInvaders.Classes.GUI
 {
-    
     public class PlayerHud : Drawable
     {
         private Sprite HudSprite;
         private Sprite eq;
         private Sprite neq;
-        public Sprite ShipImg { get; set; }
         private OurLabel PlayerNameLabel;
         private OurLabel PlayerMoneyLabel;
         private OurLabel HealthLabel;
         private OurProgressbar DmgProgressbar;
-
+        
+        public Sprite ShipImg { get; set; }
         public PlayerManager PlayerInfo { get; set; }
+
+        #region Singleton
 
         private static PlayerHud instance;
         public static PlayerHud Instance()
@@ -45,15 +39,17 @@ namespace SpaceInvaders.Classes.GUI
             ShipImg = new Sprite();
             PlayerNameLabel = new OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"), "", 30, new Vector2i(267, 27));
             PlayerNameLabel.setPosition(new Vector2f(HudSprite.Position.X + 16, HudSprite.Position.Y + 9));
-            PlayerMoneyLabel = new OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"),"0 cr", 30, new Vector2i(267, 38));
+            PlayerMoneyLabel = new OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"), "0 cr", 30, new Vector2i(267, 38));
             PlayerMoneyLabel.setPosition(new Vector2f(HudSprite.Position.X + 16, HudSprite.Position.Y + 224));
-            HealthLabel = new OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"), (0 * 100).ToString() + "%", 24, new Vector2i(64,25));
+            HealthLabel = new OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"), (0 * 100).ToString() + "%", 24, new Vector2i(64, 25));
             HealthLabel.setPosition(new Vector2f(HudSprite.Position.X + 217, HudSprite.Position.Y + 732));
             DmgProgressbar = new OurProgressbar(new Texture(ResourcesManager.resourcesPath + "DamageProgressBarSprite.png"), new Vector2f(193, 23));
             DmgProgressbar.setPosition(new Vector2f(HudSprite.Position.X + 21, HudSprite.Position.Y + 733));
 
 
         }
+        #endregion
+
         public void update()
         {
             DmgProgressbar.Progress = PlayerInfo.ShipInfo.ShipHealth;
@@ -62,7 +58,6 @@ namespace SpaceInvaders.Classes.GUI
             PlayerMoneyLabel.Text = PlayerInfo.PlayerMoney.ToString() + " cr";
             HealthLabel.Text = ((PlayerInfo.ShipInfo.ShipHealth * 100)).ToString() + "%";
         }
-
         public void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(HudSprite, states);
@@ -87,7 +82,5 @@ namespace SpaceInvaders.Classes.GUI
 
 
         }
-
-
     }
 }

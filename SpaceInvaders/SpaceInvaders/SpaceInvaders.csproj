@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Audio\" />
+    <Folder Include="Classes\GameObjects\Projectiles\" />
     <Folder Include="Fonts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

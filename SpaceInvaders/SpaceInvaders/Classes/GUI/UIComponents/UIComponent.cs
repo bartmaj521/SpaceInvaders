@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.Window;
+﻿using SFML.Graphics;
 using SFML.System;
 
 namespace SpaceInvaders.Classes.GUI
@@ -17,13 +11,14 @@ namespace SpaceInvaders.Classes.GUI
     public abstract class UIComponent:Drawable
     {
         private static int counter = 0;
+        private Vector2f position;
+        protected Sprite componentSprite;
+
         public bool Visible { get; set; }
         public bool Selected { get; set; }
         public bool Active { get; set; }
-        private Vector2f position;
         public Vector2f Size { get; set; }
         public string  componentID { get; set; }
-
         public Vector2f Position
         {
             get
@@ -37,7 +32,6 @@ namespace SpaceInvaders.Classes.GUI
             }
         }
 
-        protected Sprite componentSprite;
         public UIComponent(Texture _texture)
         {
             counter++;
@@ -55,9 +49,9 @@ namespace SpaceInvaders.Classes.GUI
             componentSprite = new Sprite(_texture);
         }
 
+
         public abstract void Draw(RenderTarget target, RenderStates states);
         public abstract void update();
-
         public abstract void setPosition(Vector2f _position);
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
@@ -32,23 +27,16 @@ namespace SpaceInvaders.Classes.GUI
         }
         #endregion
 
-        public override void update()
-        {
-
-        }
-
-        public override void Draw(RenderTarget target, RenderStates states)
-        {
-            target.Draw(componentSprite, states);
-        }
-
         public void moveCursor(Vector2f mousePosition)
         {
             componentSprite.Position = mousePosition;
         }
 
-        public override void setPosition(Vector2f _position)
+        public override void update() { }
+        public override void Draw(RenderTarget target, RenderStates states)
         {
+            target.Draw(componentSprite, states);
         }
+        public override void setPosition(Vector2f _position) { }
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -16,13 +12,15 @@ namespace SpaceInvaders.Classes.GUI
     public class OurTextbox : UIComponent, Drawable
     {
         private Text DisplayedText;
-        private Font Font;
-
-        public string Text { get; set; }
         private bool isEmpty;
         private int maxTextLength;
+
+        public string Text { get; set; }
+
+
         public delegate void TextconfirmedEventHandler(object sender, TextboxEventArgs e);
         public event TextconfirmedEventHandler TextConfirmed;
+
 
         protected virtual void onTextureconfirmed()
         {
@@ -31,7 +29,6 @@ namespace SpaceInvaders.Classes.GUI
                 TextConfirmed(this, new TextboxEventArgs() { Text = Text });
             }
         }
-
         public OurTextbox(Texture _texture, Vector2f _boxsize, uint _fontSize) : base(_texture)
         {
             isEmpty = true;
@@ -87,6 +84,8 @@ namespace SpaceInvaders.Classes.GUI
                 }
             }
         }
+
+
         public override void Draw(RenderTarget target, RenderStates states)
         {
             if (Visible)
@@ -95,7 +94,6 @@ namespace SpaceInvaders.Classes.GUI
                 target.Draw(DisplayedText);
             }
         }
-
         public override void update()
         {
             DisplayedText.Position = new Vector2f(Position.X + Size.X / 2 - DisplayedText.GetLocalBounds().Width / 2 - DisplayedText.GetLocalBounds().Left, Position.Y + Size.Y / 2 - DisplayedText.GetLocalBounds().Height / 2 - DisplayedText.GetLocalBounds().Top);
@@ -103,7 +101,6 @@ namespace SpaceInvaders.Classes.GUI
 
             DisplayedText.DisplayedString = Text;
         }
-
         public override void setPosition(Vector2f _position)
         {
             if (DisplayedText != null)

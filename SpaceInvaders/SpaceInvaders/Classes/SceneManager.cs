@@ -16,8 +16,7 @@ namespace SpaceInvaders.Classes.GUI
         //okno gry
         public RenderWindow window;
         private bool running;
-
-        //wzorzec singleton - mozliwa tylko jedna instancja klasy
+        
         #region Singleton Constructor
         private static SceneManager instance;
         
@@ -79,22 +78,7 @@ namespace SpaceInvaders.Classes.GUI
 
         } 
         #endregion
-
-        public void pushScene(Scene scene)
-        {
-            //zatrzymanie poprzedniej sceny
-            sceneStack.Peek().pause();
-            //dodanie nowej sceny na stos
-            sceneStack.Push(scene);
-            sceneStack.Peek().initialize(window);
-        }
-        public void popScene()
-        {
-            //zdjecie obecnej sceny ze stosu
-            sceneStack.Pop();
-            //wznowienie poprzedniej sceny
-            sceneStack.Peek().reasume();
-        }
+        
         public void changeScene(Scene scene)
         {
             //zdjecie obecnej sceny
@@ -105,12 +89,6 @@ namespace SpaceInvaders.Classes.GUI
             //dodanie nowej sceny na stos
             sceneStack.Push(scene);
             sceneStack.Peek().initialize(window);
-        }
-
-        //zmiana managera gdy zmienia sie scena
-        public void setManager()
-        {
-            sceneStack.Peek().setManager(this);
         }
 
         public void update()
@@ -124,6 +102,7 @@ namespace SpaceInvaders.Classes.GUI
             sceneStack.Peek().drawComponents(this);
         }
 
+        
         //glowna petla gry
         public void run()
         {
@@ -132,9 +111,7 @@ namespace SpaceInvaders.Classes.GUI
             {
                 window.Clear();
 
-                
                 window.DispatchEvents();
-                setManager();
                 update();
                 draw();
                 window.Display();

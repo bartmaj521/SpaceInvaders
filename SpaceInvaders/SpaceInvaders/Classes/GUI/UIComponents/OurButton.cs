@@ -1,8 +1,4 @@
-﻿    using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -27,19 +23,14 @@ namespace SpaceInvaders.Classes.GUI
         public Color TextNormal { get; set; }
         public Color TextHover { get; set; }
         public Color TextClicked { get; set; }
-
         public Font Font { get; set; }
-
         public Text Text { get; set; }
-
         public int ArgToPass;
 
-        //event gdy najechano na button
+
         public delegate void MouseHoveredEventHandler(object sender, BtnReleasedEventArgs e);
         public event MouseHoveredEventHandler MouseHovered;
-        //event gdy nacisnieto przycisk myszy
         public event EventHandler MousePressed;
-        //event gdy puszczono przycisk myszy
         public delegate void MouseReleasedEventHandler(object sender, BtnReleasedEventArgs e);
         public event MouseReleasedEventHandler MouseReleased;
 
@@ -53,8 +44,6 @@ namespace SpaceInvaders.Classes.GUI
                 }
             }
         }
-
-        //wywolanie eventu gdy ktos o niego prosi
         protected virtual void OnMousePressed()
         {
             if (Active)
@@ -65,7 +54,6 @@ namespace SpaceInvaders.Classes.GUI
                 } 
             }
         }
-        //wywolanie eventu gdy ktos o niego prosi
         protected virtual void OnMouseReleased()
         {
             if (Active)
@@ -76,6 +64,7 @@ namespace SpaceInvaders.Classes.GUI
                 } 
             }
         }
+
         public OurButton(Texture _texture, Vector2i frameSize,string _text,uint fontSize):base(_texture)
         {
             currentState = 0;
@@ -93,34 +82,7 @@ namespace SpaceInvaders.Classes.GUI
             Text.Position = new Vector2f(Position.X+Size.X/2-Text.GetGlobalBounds().Width/2-Text.GetGlobalBounds().Left,Position.Y+Size.Y/2-Text.GetGlobalBounds().Height/2-Text.GetGlobalBounds().Top);
 
         }
-        //zmiana wygladu przycisku w zaleznosci od stanu
-        public override void update()
-        {
-           
-            switch (currentState)
-            {
-                case State.normal:
-                    {
-                        Text.Color = TextNormal;
-                        componentSprite.TextureRect = new IntRect(0, 0 * componentSprite.TextureRect.Height, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
-                    }
-                    break;
-                case State.hovered:
-                    {
-                        Text.Color = TextHover;
-                        componentSprite.TextureRect = new IntRect(0, 1 * componentSprite.TextureRect.Height +1 , componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
-                    }
-                    break;
-                case State.clicked:
-                    {
-                        Text.Color = TextClicked;
-                        componentSprite.TextureRect = new IntRect(0, 2 * componentSprite.TextureRect.Height +2, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+        
 
         public void checkHover(Vector2f position)
         {
@@ -132,7 +94,7 @@ namespace SpaceInvaders.Classes.GUI
             else
                 currentState = State.normal;
         }
-        public void checkClick(Vector2f position, Mouse.Button button, object sender)
+        public void checkPress(Vector2f position, Mouse.Button button, object sender)
         {
             if (collider.Contains((int)position.X, (int)position.Y) && button == Mouse.Button.Left)
             {
@@ -145,7 +107,7 @@ namespace SpaceInvaders.Classes.GUI
             else
                 currentState = State.normal;
         }
-        public void checkUnclick(Vector2f position, Mouse.Button button, object sender)
+        public void checkRelease(Vector2f position, Mouse.Button button, object sender)
         {
             if (collider.Contains((int)position.X, (int)position.Y) && button == Mouse.Button.Left)
             {
@@ -156,8 +118,35 @@ namespace SpaceInvaders.Classes.GUI
             else
                 currentState = State.normal;
         }
-        
 
+
+        public override void update()
+        {
+
+            switch (currentState)
+            {
+                case State.normal:
+                    {
+                        Text.Color = TextNormal;
+                        componentSprite.TextureRect = new IntRect(0, 0 * componentSprite.TextureRect.Height, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
+                    }
+                    break;
+                case State.hovered:
+                    {
+                        Text.Color = TextHover;
+                        componentSprite.TextureRect = new IntRect(0, 1 * componentSprite.TextureRect.Height + 1, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
+                    }
+                    break;
+                case State.clicked:
+                    {
+                        Text.Color = TextClicked;
+                        componentSprite.TextureRect = new IntRect(0, 2 * componentSprite.TextureRect.Height + 2, componentSprite.TextureRect.Width, componentSprite.TextureRect.Height);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
         public override void Draw(RenderTarget target, RenderStates states)
         {
             if (Visible)

@@ -29,7 +29,7 @@ namespace SpaceInvaders.Classes.Enemies
         protected Vector2f velocity;
 
         protected bool setting = true;
-
+        
         public static Player player;
 
         // Punkty życia przeciwnika
@@ -50,3 +50,4 @@ namespace SpaceInvaders.Classes.Enemies
         public abstract object Clone();
     }
 }
+

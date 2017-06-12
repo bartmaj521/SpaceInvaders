@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
@@ -34,6 +28,8 @@ namespace SpaceInvaders.Classes.GUI
                     progress = 0;
             }
         }
+
+
         public OurProgressbar(Texture _texture, Vector2f _size) : base(_texture)
         {
             Progress = 0;
@@ -44,20 +40,17 @@ namespace SpaceInvaders.Classes.GUI
 
         }
 
-
-
+        
         public override void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(componentSprite, states);
 
         }
-
         public override void setPosition(Vector2f _position)
         {
             componentSprite.Position = _position;
             Position = _position;
         }
-
         public override void update()
         {
 
