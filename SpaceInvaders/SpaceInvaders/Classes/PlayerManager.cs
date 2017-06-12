@@ -27,8 +27,8 @@ namespace SpaceInvaders.Classes.GUI
     [Serializable()]
     public class PlayerManager : ISerializable
     {
-        
-        private int currentShip = 0;
+
+        public int currentShip { get; private set; } = 0;
         //właściwości
         public ShipPrefab[] ShipPrefabs { get; private set; }
         public int MissionProgress { get; set; }
@@ -200,6 +200,13 @@ namespace SpaceInvaders.Classes.GUI
         {
             ShipInfo.ShipHealth += toDamage;
         }
+
+        public void missionCompleted()
+        {
+            MissionProgress++;
+        }
+
+        
 
         public class ShipPrefab
         {

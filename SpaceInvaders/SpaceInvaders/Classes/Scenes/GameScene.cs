@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 using SFML.Graphics;
 using SFML.Window;
@@ -37,6 +38,10 @@ namespace SpaceInvaders.Classes
         List<Enemy> enemyList;
         List<Projectile> enemyProjectileList;
         Clock clock;
+
+        OurLabel score;
+
+        float timeToEnd;
 
         public override void callOnKeyPressed(object sender, KeyEventArgs e, SceneManager sceneManager)
         {
@@ -90,10 +95,14 @@ namespace SpaceInvaders.Classes
 
             sceneManager.window.Draw(ParticleSystem.Instance());
             sceneManager.window.Draw(player);
+            sceneManager.window.Draw(score);
         }
 
         public override void initialize(RenderWindow window)
         {
+            timeToEnd = 2f;
+
+            Console.WriteLine("inicjalizacja");
             projectileList = new List<Projectile>();
             enemyList = new List<Enemy>();
             enemyProjectileList = new List<Projectile>();
@@ -110,21 +119,27 @@ namespace SpaceInvaders.Classes
             Enemy.rightBoundary = window.Size.X;
             Enemy.enemyProjectileList = enemyProjectileList;
 
+            ParticleSystem.Instance().clear();
+
             clock = new Clock();
 
             Background.Instance().initialize();
 
             Texture tmpPlayer = PlayerManager.Instance.ShipInfo.ShipTexture;
-            player = new Player(ref tmpPlayer, new int[1] {0}, 100f, new Vector2f(window.Size.X / 2, window.Size.Y - 100), new Vector2f(0.6f, 0.6f), 300f, 100);         // Ustawić prędkość poprawne
+            player = new Player(ref tmpPlayer, new int[1] { 0 }, 100f, new Vector2f(window.Size.X / 2, window.Size.Y - 100), new Vector2f(0.6f, 0.6f), (PlayerManager.Instance.ShipInfo.DefaultSpeed + PlayerManager.Instance.ShipInfo.upgrades[0]) * 100, Convert.ToInt32((1 - PlayerManager.Instance.ShipInfo.ShipHealth) * (PlayerManager.Instance.ShipInfo.DefaultHealth + PlayerManager.Instance.ShipInfo.upgrades[1] * 10)));         // Ustawić prędkość poprawne
             Enemy.player = player;
             Texture shot = new Texture("bullet.png");
-            player.setGun(new Gun(new Bullet(ref shot, 10, new Vector2f(0.5f, 0.5f)), 5, 1, 100, 0, 500, 10));
-            player.setPowerUps(3, 3, 3, 3, 3);
+            player.setGun(new Gun(new Bullet(ref shot, (PlayerManager.Instance.ShipInfo.upgrades[4] + 1) * 10, new Vector2f(0.5f, 0.5f)), (PlayerManager.Instance.ShipInfo.upgrades[3] + 1) * 2, PlayerManager.Instance.currentShip + 1, Int32.MaxValue, 5 - PlayerManager.Instance.ShipInfo.upgrades[2], 500, 10));
+            player.setPowerUps(PlayerManager.Instance.Powerups[4], PlayerManager.Instance.Powerups[1], PlayerManager.Instance.Powerups[0], PlayerManager.Instance.Powerups[2], PlayerManager.Instance.Powerups[3]);
             // Inicjalizacja statku
 
             // Inicjalizacja poziomu
             EnemySpawner.Instance.initialize(PlayerManager.Instance.MissionProgress, ref enemyList);
 
+            score = new GUI.OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"), "", 40);
+            score.setPosition(new SFML.System.Vector2f(window.Size.X / 2 - score.Size.X / 2, window.Size.Y / 2 - score.Size.Y / 2));
+            score.Visible = false;
+            score.Active = false;
         }
 
         public override void pause()
@@ -141,9 +156,6 @@ namespace SpaceInvaders.Classes
         {
             float deltaTime = clock.Restart().AsSeconds();
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Y))
-                ParticleSystem.Instance().enemyHitburst(new Vector2f(200, 200));
-
             player.update(deltaTime);
 
             for (int i = 0; i < enemyList.Count; i++)
@@ -156,14 +168,14 @@ namespace SpaceInvaders.Classes
             ParticleSystem.Instance().update(deltaTime);
 
             // Sprawdzenie kolizji pocisków z przeciwnikami
-            List<IDamageable> dmgList = toDamageableList(enemyList); 
+            List<IDamageable> dmgList = toDamageableList(enemyList);
             for (int i = 0; i < projectileList.Count; i++)
             {
-                 projectileList[i] = (Projectile)projectileList[i].checkCollision(dmgList);
-                 if (projectileList[i] != null)
-                 {
-                     projectileList[i] = (Projectile)projectileList[i].update(deltaTime);
-                 }
+                projectileList[i] = (Projectile)projectileList[i].checkCollision(dmgList);
+                if (projectileList[i] != null)
+                {
+                    projectileList[i] = (Projectile)projectileList[i].update(deltaTime);
+                }
             }
 
             // Sprawdzenie kolizji pocisków z graczem
@@ -212,12 +224,31 @@ namespace SpaceInvaders.Classes
             // Sprawdzenie warunku porażki
             if (player.health <= 0)
             {
-                SceneManager.Instance().changeScene(PlayerMenu.Instance());
+                timeToEnd -= deltaTime;
+                score.Visible = true;
+                score.Active = true;
+                score.Text = "Porazka";
+                if (timeToEnd < 0)
+                {
+                    //EndingMenu.Instance().hasWon = false;
+                    SceneManager.Instance().changeScene(PlayerMenu.Instance());
+                }
             }
 
             // Sprzawdzenie warunku zwycięstwa
             if (enemyList.Count == 0 && EnemySpawner.Instance.isEmpty)
-                SceneManager.Instance().changeScene(PlayerMenu.Instance());
+            {
+                timeToEnd -= deltaTime;
+                score.Visible = true;
+                score.Active = true;
+                score.Text = "Wygrana";
+                if (timeToEnd < 0)
+                {
+                    //EndingMenu.Instance().hasWon = true;
+                    PlayerManager.Instance.missionCompleted();
+                    SceneManager.Instance().changeScene(PlayerMenu.Instance());
+                }
+            }
         }
 
         private static List<IDamageable> toDamageableList(List<Enemy> enemyList)

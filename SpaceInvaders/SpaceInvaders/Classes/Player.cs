@@ -10,6 +10,7 @@ using SFML.System;
 
 using SpaceInvaders.Interfaces;
 using SpaceInvaders.Classes;
+using SpaceInvaders.Classes.GUI;
 
 namespace SpaceInvaders.Classes
 {

@@ -31,6 +31,11 @@ namespace SpaceInvaders.Classes
         private List<Particle> particleList;
         private Random rand;
 
+        public void clear()
+        {
+            particleList.Clear();
+        }
+
         public void update(float deltaTime)
         {
             for(int i = 0; i < particleList.Count; i++)

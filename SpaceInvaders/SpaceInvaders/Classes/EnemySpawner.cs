@@ -11,6 +11,7 @@ using SFML.Graphics;
 using SFML.System;
 
 using SpaceInvaders.Classes.Enemies;
+using SpaceInvaders.Classes.GUI;
 
 // Klasa tworzy nowych przeciwników na podstawie pliku poziomu
 
@@ -75,6 +76,7 @@ namespace SpaceInvaders.Classes
         {
             try
             {
+                isEmpty = false;
                 // Wczytanie pliku xml
                 enemyList = _enemyList;
                 XmlDocument xmldoc = new XmlDocument();
@@ -124,7 +126,11 @@ namespace SpaceInvaders.Classes
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                if(ex.GetType() == typeof(System.IO.FileNotFoundException))
+                    MessageBox.Show("Następny poziom dostępny w DLC");
+                else
+                    MessageBox.Show(ex.Message);
+                SceneManager.Instance().changeScene(PlayerMenu.Instance());
                 return false;
             }
         }
