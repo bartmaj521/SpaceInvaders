@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 
+using SpaceInvaders.Classes.GUI;
+
 namespace SpaceInvaders.Classes.Enemies
 {
     class Randomer : Enemy
@@ -26,6 +28,7 @@ namespace SpaceInvaders.Classes.Enemies
             if (health <= 0)
             {
                 ParticleSystem.Instance().enemyDiedburst(new Vector2f(animation.animationSprite.Position.X + animation.animationSprite.Scale.X * animation.animationSprite.Texture.Size.X / 2, animation.animationSprite.Position.Y + animation.animationSprite.Scale.Y * animation.animationSprite.Texture.Size.Y / 2));
+                PlayerManager.Instance.donatePlayer(value);
                 return null;
             }
             if (setting)

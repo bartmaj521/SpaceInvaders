@@ -112,6 +112,7 @@ namespace SpaceInvaders.Classes.GUI
         {
             sceneStack.Peek().setManager(this);
         }
+
         public void update()
         {
             //wywolanie update() na czubku stosu

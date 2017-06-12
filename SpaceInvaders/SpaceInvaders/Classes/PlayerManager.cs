@@ -60,7 +60,7 @@ namespace SpaceInvaders.Classes.GUI
         {
             Powerups = new int[5];
             MissionProgress = 1;
-            PlayerMoney = 1000000;
+            PlayerMoney = 500;
             PlayerName = _playerName;
             readPrefabs();
             ShipInfo = new Ship(new Texture(ResourcesManager.resourcesPath + ShipPrefabs[currentShip].TexturePath), ShipPrefabs[currentShip].Price,ShipPrefabs[currentShip].DefaultHealth,ShipPrefabs[currentShip].DefaultSpeed, ShipPrefabs[currentShip].MaxUpgrades);

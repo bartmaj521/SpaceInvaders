@@ -211,11 +211,13 @@ namespace SpaceInvaders.Classes
 
             // Sprawdzenie warunku porażki
             if (player.health <= 0)
-                SceneManager.Instance().quit();
+            {
+                SceneManager.Instance().changeScene(PlayerMenu.Instance());
+            }
 
             // Sprzawdzenie warunku zwycięstwa
             if (enemyList.Count == 0 && EnemySpawner.Instance.isEmpty)
-                SceneManager.Instance().quit();
+                SceneManager.Instance().changeScene(PlayerMenu.Instance());
         }
 
         private static List<IDamageable> toDamageableList(List<Enemy> enemyList)

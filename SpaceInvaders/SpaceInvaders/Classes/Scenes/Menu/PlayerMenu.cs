@@ -285,6 +285,7 @@ namespace SpaceInvaders.Classes.GUI
                 OurButton btnMission = new OurButton(new Texture(ResourcesManager.resourcesPath + "btnMission.png"), new Vector2i(300, 99), "", 0);
                 btnMission.setPosition(new Vector2f(633, 21));
                 btnMission.componentID = "mission";
+                btnMission.MouseReleased += OnBtnMissionMouseReleased;
                 componentList.Add(btnMission);
 
                 OurButton btnLeftScroll = new OurButton(new Texture(ResourcesManager.resourcesPath + "btnLeftSprite.png"), new Vector2i(40, 199), "", 0);
@@ -334,7 +335,12 @@ namespace SpaceInvaders.Classes.GUI
 
         }
 
-       
+        private void OnBtnMissionMouseReleased(object sender, BtnReleasedEventArgs e)
+        {
+            SceneManager.Instance().changeScene(GameScene.Instance());
+        }
+
+
 
 
         //wyświetlanie informacji o przyciskach
