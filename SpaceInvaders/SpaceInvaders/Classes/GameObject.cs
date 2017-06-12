@@ -11,7 +11,7 @@ using SpaceInvaders.Classes;
 
 namespace SpaceInvaders.Classes
 {
-    abstract class GameObject
+    abstract class GameObject: Drawable
     {
         // Animacja obiektu
         public Animation animation { get; set; }
@@ -25,6 +25,17 @@ namespace SpaceInvaders.Classes
         public FloatRect getCollider()
         {
             return collider;
+        }
+
+        public void setColliderPosition(Vector2f pos)
+        {
+            collider.Left = pos.X;
+            collider.Top = pos.Y;
+        }
+
+        public virtual void Draw(RenderTarget target, RenderStates states)
+        {
+            target.Draw(animation.animationSprite);
         }
 
         // Konstruktor bezargumentowy
