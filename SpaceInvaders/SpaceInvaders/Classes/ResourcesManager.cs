@@ -9,7 +9,7 @@ namespace SpaceInvaders.Classes.GUI
 {
     public static class ResourcesManager
     {
-        public static string resourcesPath =  string.Format("{0}\\Resources\\", Directory.GetCurrentDirectory());
-        public static string xmlPath = string.Format("{0}\\Xmls\\", Directory.GetCurrentDirectory());
+        public static string resourcesPath =  string.Format("{0}\\Resources\\", Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName);
+        public static string xmlPath = string.Format("{0}\\Xmls\\", Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName);
     }
 }

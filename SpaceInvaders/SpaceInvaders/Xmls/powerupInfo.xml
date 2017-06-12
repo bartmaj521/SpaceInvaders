@@ -1,0 +1,31 @@
+﻿<main>
+  <n0>Rakieta
+  
+Statek wystrzeliwuje pocisk
+samonaprowadzajacy w kierunku
+najblizszego wroga</n0>
+  <n1>Laser
+  
+Statek przez 5 sekund
+generuje pionowa wiazke
+laserowa zadajaca obrazenia 
+kazdemu obiektowi ktorego napotka</n1>
+  <n2>Bomba
+  
+Statek wystrzeliwuje bombe
+ktora po wybuchu zadaje 
+obrazenia obiektom w promieniu
+300 jednostek</n2>
+  <n3>Fala jonowa
+  
+Statek generuje fale jonowa
+ktora przemierza przez cala
+przestrzen kosmiczna
+zadajac ogromne obrazenia</n3>
+  <n4>Bariera
+  
+Otacza statek ochronna bariera
+ktora przez 10 sekund zmniejsza
+obrazenia przyjmowane
+przez statek o 50% </n4>
+</main>
