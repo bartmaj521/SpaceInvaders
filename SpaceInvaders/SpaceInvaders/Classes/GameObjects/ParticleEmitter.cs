@@ -8,9 +8,9 @@ namespace SpaceInvaders.Classes
 {
     class ParticleEmitter : GameObject
     {
-        public override void update(float deltaTime)
+        public override GameObject update(float deltaTime)
         {
-
+            return this;
         }
     }
 }
