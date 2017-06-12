@@ -12,17 +12,28 @@ namespace SpaceInvaders.Classes
 {
     class Animation
     {
-    
+        // Sprajt animacji
         public Sprite animationSprite { get; set; }
+
+        // Tablica kolejności klatek animacji
         protected int[] frames;
+
+        // Aktualna klatka animacji
         protected int currentFrame;
+
+        // Czas trwania klatki
         protected float frameTime;
+
+        // Czas trwania aktualnej klatki
         protected float currFrameTime;
 
+        // Konstruktor bezargumentowy
         public Animation()
         {
             animationSprite = new Sprite();
         }
+
+        // Kostruktor txt - textura obiektu, _frames tablica kolejności klatek animacji, _frameTime czastrwania klatki,startingPosition - pozycja startowa(lewy górny róg), Scale - skala obiektu
         public Animation(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale)
         {
             animationSprite = new Sprite();
@@ -34,8 +45,9 @@ namespace SpaceInvaders.Classes
             animationSprite.Scale = Scale;
             currFrameTime = 0;
             currentFrame = 0;
-
         }
+
+        // Ustalenie klatki animacji i położenia deltaTime - zmiana czasu, newPos - nowa pozycja
         public void updateAnimation(float deltaTime, Vector2f newPos)
         {
             animationSprite.Position = newPos;

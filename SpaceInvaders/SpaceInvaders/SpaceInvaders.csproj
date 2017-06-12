@@ -68,8 +68,11 @@
   <ItemGroup>
     <Compile Include="Classes\Animation.cs" />
     <Compile Include="Classes\Bullet.cs" />
-    <Compile Include="Classes\Enemy.cs" />
+    <Compile Include="Classes\Enemies\Circler.cs" />
+    <Compile Include="Classes\Enemies\Enemy.cs" />
+    <Compile Include="Classes\Enemies\Randomer.cs" />
     <Compile Include="Classes\GameObject.cs" />
+    
     <Compile Include="Classes\PlayerManager.cs" />
     <Compile Include="Classes\ResourcesManager.cs" />
     <Compile Include="Classes\Ship.cs" />
@@ -87,6 +90,12 @@
     <Compile Include="Classes\Scene.cs" />
     <Compile Include="Classes\SceneManager.cs" />
     <Compile Include="Classes\GUI\UIComponents\UIComponent.cs" />
+
+
+    <Compile Include="Classes\Gun.cs" />
+    <Compile Include="Interfaces\IDamageable.cs" />
+
+
     <Compile Include="Classes\Particle.cs" />
     <Compile Include="Classes\ParticleEmitter.cs" />
     <Compile Include="Classes\Player.cs" />
