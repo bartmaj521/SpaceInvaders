@@ -67,40 +67,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Animation.cs" />
-    <Compile Include="Classes\Bullet.cs" />
-    <Compile Include="Classes\Enemies\Circler.cs" />
-    <Compile Include="Classes\Enemies\Enemy.cs" />
-    <Compile Include="Classes\Enemies\Randomer.cs" />
-    <Compile Include="Classes\GameObject.cs" />
-    
+    <Compile Include="Classes\GameObjects\Enemies\Circler.cs" />
+    <Compile Include="Classes\GameObjects\Enemies\Enemy.cs" />
+    <Compile Include="Classes\GameObjects\Enemies\Randomer.cs" />
     <Compile Include="Classes\PlayerManager.cs" />
     <Compile Include="Classes\ResourcesManager.cs" />
     <Compile Include="Classes\Ship.cs" />
     <Compile Include="Classes\GUI\UIComponents\OurProgressbar.cs" />
-    <Compile Include="Classes\GUI\Menu\EscapeMenu.cs" />
+    <Compile Include="Classes\Scenes\Menu\EscapeMenu.cs" />
     <Compile Include="Classes\GUI\UIComponents\OurImage.cs" />
     <Compile Include="Classes\GUI\UIComponents\OurLabel.cs" />
     <Compile Include="Classes\GUI\UIComponents\OurTextbox.cs" />
     <Compile Include="Classes\GUI\UIComponents\Cursor.cs" />
-    <Compile Include="Classes\GUI\Menu\MainMenu.cs" />
-    <Compile Include="Classes\GUI\Menu\Menu.cs" />
+    <Compile Include="Classes\Scenes\Menu\MainMenu.cs" />
+    <Compile Include="Classes\Scenes\Menu\Menu.cs" />
     <Compile Include="Classes\GUI\UIComponents\OurButton.cs" />
     <Compile Include="Classes\GUI\UIComponents\PlayerHud.cs" />
-    <Compile Include="Classes\GUI\Menu\PlayerMenu.cs" />
+    <Compile Include="Classes\Scenes\Menu\PlayerMenu.cs" />
     <Compile Include="Classes\Scene.cs" />
     <Compile Include="Classes\SceneManager.cs" />
     <Compile Include="Classes\GUI\UIComponents\UIComponent.cs" />
-
-
     <Compile Include="Classes\Gun.cs" />
     <Compile Include="Interfaces\IDamageable.cs" />
-
-
-    <Compile Include="Classes\Particle.cs" />
-    <Compile Include="Classes\ParticleEmitter.cs" />
-    <Compile Include="Classes\Player.cs" />
-    <Compile Include="Classes\Projectile.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -163,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Audio\" />
+    <Folder Include="Classes\GameObjects\Projectiles\" />
     <Folder Include="Fonts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
