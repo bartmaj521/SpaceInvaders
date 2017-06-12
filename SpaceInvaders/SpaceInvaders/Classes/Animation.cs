@@ -31,6 +31,7 @@ namespace SpaceInvaders.Classes
         public Animation()
         {
             animationSprite = new Sprite();
+            frames = new int[1] { 0 };
         }
 
         // Kostruktor txt - textura obiektu, _frames tablica kolejności klatek animacji, _frameTime czastrwania klatki,startingPosition - pozycja startowa(lewy górny róg), Scale - skala obiektu
@@ -63,6 +64,5 @@ namespace SpaceInvaders.Classes
                 animationSprite.TextureRect = new IntRect(0, Convert.ToInt32(animationSprite.Texture.Size.Y / frames.Length * frames[currentFrame]), Convert.ToInt32(animationSprite.Texture.Size.X), Convert.ToInt32(animationSprite.Texture.Size.Y / frames.Length));
             }
         }
-
     }
 }
