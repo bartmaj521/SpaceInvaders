@@ -27,9 +27,8 @@ namespace SpaceInvaders.Classes.GUI
     [Serializable()]
     public class PlayerManager : ISerializable
     {
-        
-        public int CurrentShip { get; private set; }
-
+        public int currentShip { get; private set; } = 0;
+        //właściwości
         public ShipPrefab[] ShipPrefabs { get; private set; }
         public int MissionProgress { get; private set; }
         public Ship ShipInfo { get; private set; }
@@ -61,7 +60,7 @@ namespace SpaceInvaders.Classes.GUI
             CurrentShip = 0;
             Powerups = new int[5];
             MissionProgress = 1;
-            PlayerMoney = 1000000;
+            PlayerMoney = 500;
             PlayerName = _playerName;
             readPrefabs();
             ShipInfo = new Ship(new Texture(ResourcesManager.resourcesPath + ShipPrefabs[0].TexturePath), ShipPrefabs[0].Price,ShipPrefabs[0].DefaultHealth,ShipPrefabs[0].DefaultSpeed, ShipPrefabs[0].MaxUpgrades);
@@ -219,11 +218,16 @@ namespace SpaceInvaders.Classes.GUI
         {
             ShipInfo.ShipHealth += toDamage;
         }
-
         public void restartProgress()
         {
             instance = null;
         }
+        
+        public void missionCompleted()
+        {
+            MissionProgress++;
+        }
+        
         //klasa pomocnicza do przechowywania informacji o statkach
         public class ShipPrefab
         {

@@ -1,9 +1,20 @@
 ﻿using System;
+
 using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SFML.Graphics;
+using SFML.Window;
+using SFML.System;
+using System.IO;
+
 
 namespace SpaceInvaders.Classes.GUI
 {
@@ -21,6 +32,7 @@ namespace SpaceInvaders.Classes.GUI
         }
         private MainMenu() : base() { }
         #endregion
+
         //inicjalizacja, dodawanie komponentów do listy komponentów
         public override void initialize(RenderWindow window)
         {
@@ -45,25 +57,32 @@ namespace SpaceInvaders.Classes.GUI
                 #endregion
 
                 #region Images
+
                 OurImage imgCapral = new OurImage(new Texture(ResourcesManager.resourcesPath + "capral.png"), new Vector2f(230, 230));
                 imgCapral.setPosition(new Vector2f(lblWelcome.Position.X + lblWelcome.Size.X +5, lblWelcome.Position.Y-20));
                 imgCapral.componentID = "capral";
                 imgCapral.Visible = false;
                 componentList.Add(imgCapral);
+
                 #endregion
                 
                 #region Buttons
+
                 Vector2i buttonSize = new Vector2i(300, 99);
                 uint fontSize = 40;
 
                 OurButton btnNewGame = new OurButton(new Texture(ResourcesManager.resourcesPath + "buttonSprite.png"),buttonSize,"nowa gra",fontSize);
+
                 btnNewGame.MouseReleased += OnNewGameButtonReleased;
+
                 btnNewGame.setPosition(new Vector2f(window.Size.X * 0.67f+btnNewGame.Size.X/2, window.Size.Y * 0.30f+btnNewGame.Size.Y/2));
                 componentList.Add(btnNewGame);
 
                 OurButton btnLoadGame = new OurButton(new Texture(ResourcesManager.resourcesPath + "buttonSprite.png"),buttonSize,"wczytaj gre", 35);
                 btnLoadGame.setPosition(new Vector2f(window.Size.X * 0.67f + btnNewGame.Size.X / 2, window.Size.Y * 0.45f + btnNewGame.Size.Y / 2));
+
                 btnLoadGame.MouseReleased += OnBtnLoadMouseReleased;
+
                 componentList.Add(btnLoadGame);
 
                 OurButton btnOptions = new OurButton(new Texture(ResourcesManager.resourcesPath + "buttonSprite.png"),buttonSize,"opcje", fontSize);
@@ -72,9 +91,11 @@ namespace SpaceInvaders.Classes.GUI
 
                 OurButton btnExit = new OurButton(new Texture(ResourcesManager.resourcesPath + "buttonSprite.png"),buttonSize,"wyjdz", fontSize);
                 btnExit.setPosition(new Vector2f(window.Size.X * 0.67f + btnNewGame.Size.X / 2, window.Size.Y * 0.75f + btnNewGame.Size.Y / 2));
+
                 btnExit.MouseReleased += OnExitButtonReleased;
                 componentList.Add(btnExit);
                 #endregion
+
 
                 //cursor
                 cursor = Cursor.Instance(new Texture(ResourcesManager.resourcesPath + "cursor.png"), new Vector2f(1f, 1f));

@@ -1,8 +1,20 @@
+
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SFML.Window;
 using SFML.System;
 using SFML.Graphics;
+
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SFML.Window;
+using SFML.System;
+using SFML.Graphics;
+using System.IO;
+
 
 namespace SpaceInvaders.Classes.GUI
 {
@@ -18,6 +30,7 @@ namespace SpaceInvaders.Classes.GUI
             background = new Sprite(new Texture(ResourcesManager.resourcesPath + "bg.png"));
             initialized = false;
         }
+        
         //events
         public override void callOnKeyPressed(object sender, KeyEventArgs e, SceneManager sceneManager)
         {
@@ -45,7 +58,6 @@ namespace SpaceInvaders.Classes.GUI
             cursor.moveCursor(new Vector2f(e.X, e.Y));
         }
 
-        //
         public override void drawComponents(SceneManager sceneManager)
         {
             sceneManager.window.Draw(background);

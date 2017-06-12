@@ -20,20 +20,38 @@ namespace SpaceInvaders.Classes
         public static float rightBoundary { get; set; }
 
         public Vector2f velocity { get; set; }
+        public float speed;
         protected float damage;
 
         public override abstract GameObject update(float deltaTime);
         public abstract object Clone();
 
-        public GameObject checkCollision(List<IDamageable> colliderList)
+        public Projectile()
+        {
+
+        }
+
+        public virtual GameObject checkCollision(List<IDamageable> colliderList)
         {
             foreach (var c in colliderList)
             {
                 if (c != null && collider.Intersects(c.getCollider()))
                 {
                     c.getDamaged(damage);
+                    ParticleSystem.Instance().enemyHitburst(new Vector2f(animation.animationSprite.Position.X, animation.animationSprite.Position.Y));
                     return null;
                 }
+            }
+            return this;
+        }
+
+        public GameObject checkCollision(IDamageable coll)
+        {   
+            if (coll != null && collider.Intersects(coll.getCollider()))
+            {
+                coll.getDamaged(damage);
+                ParticleSystem.Instance().playerHitburst(new Vector2f(animation.animationSprite.Position.X, animation.animationSprite.Position.Y));
+                return null;
             }
             return this;
         }

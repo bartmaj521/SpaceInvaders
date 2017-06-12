@@ -70,6 +70,7 @@ namespace SpaceInvaders.Classes
                 if (nbOfProj == 1)
                 {
                     p.Add((Projectile)prefab.Clone());
+                    p[0].speed = speed;
                     float angle = -180 + (float)rand.NextDouble() * 2 * inaccuracy - inaccuracy;
                     p[0].velocity = new Vector2f(speed * (float)Math.Sin((angle * Math.PI / 180)), speed * (float)Math.Cos((angle * Math.PI / 180)));
                     p[0].animation.animationSprite.Position = new Vector2f(firePosition.X - p[0].animation.animationSprite.Scale.X * p[0].animation.animationSprite.Texture.Size.X / 2, firePosition.Y);
@@ -83,7 +84,8 @@ namespace SpaceInvaders.Classes
                         float angle = -180 - dispersion + i * 2 * dispersion / (nbOfProj - 1);
                         angle += (float)rand.NextDouble() * 2 * inaccuracy - inaccuracy;
                         p[i].velocity = new Vector2f(speed * (float)Math.Sin((angle * Math.PI / 180)), speed * (float)Math.Cos((angle * Math.PI / 180)));
-                        p[i].animation.animationSprite.Position = new Vector2f(firePosition.X - p[i].animation.animationSprite.Scale.X * p[i].animation.animationSprite.Texture.Size.X / 2, firePosition.Y);
+                        p[i].animation.animationSprite.Origin = new Vector2f(p[i].animation.animationSprite.Scale.X * p[i].animation.animationSprite.Texture.Size.X / 2, p[i].animation.animationSprite.Scale.Y * p[i].animation.animationSprite.Texture.Size.Y / 2);
+                        p[i].animation.animationSprite.Position = new Vector2f(firePosition.X, firePosition.Y + 15);
                     }
                 }
                 return p;

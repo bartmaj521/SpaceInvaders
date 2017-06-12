@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using SFML.Graphics;
 using SFML.System;
+
 using SFML.Window;
 
 using System.Xml;
+
+using System.Runtime.Serialization;
+using System.IO;
+using System.Xml;
+
+using System.Runtime.Serialization.Formatters.Binary;
+using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
@@ -13,6 +21,7 @@ namespace SpaceInvaders.Classes.GUI
     {
         private int firstElemIndex = 0;
         private List<Panel> panelList;
+
         private Panel activePanel;
         private string[] workbenchInfo;
         private string[] powerupInfo;
@@ -43,7 +52,7 @@ namespace SpaceInvaders.Classes.GUI
 
         }
         #endregion
-        
+
         //inicjalizacja, dodawanie komponentów do listy komponentów
         public override void initialize(RenderWindow window)
         {
@@ -54,7 +63,7 @@ namespace SpaceInvaders.Classes.GUI
                 PlayerHud.Instance().ShipImg = new Sprite(new Texture(PlayerManager.Instance.ShipInfo.ShipTexture));
                 PlayerHud.Instance().ShipImg.Position = new Vector2f(1428 - PlayerHud.Instance().ShipImg.Texture.Size.X/2, 200 - PlayerHud.Instance().ShipImg.Texture.Size.Y / 2);
                 PlayerHud.Instance().update();
-                
+
                 OurLabel pnlInfo = new OurLabel(new Texture(ResourcesManager.resourcesPath + "infoPanel.png"), "", 0, new Vector2i(1114, 452));
                 pnlInfo.setPosition(new Vector2f(83, 171));
                 componentList.Add(pnlInfo);
@@ -98,6 +107,7 @@ namespace SpaceInvaders.Classes.GUI
                 for (int i = 0; i < 6; i++)
                 {
                     workbenchPanel.panelLblList.Add(new OurLabel(new Texture(ResourcesManager.resourcesPath + "blank.png"), PlayerManager.Instance.upgradeCost((stats)(i - 1)).ToString() + " cr", 28));
+
                     workbenchPanel.panelLblList[i].setPosition(new Vector2f(workbenchPanel.panelBtnList[i].Position.X + 35, workbenchPanel.panelBtnList[i].Position.Y + 165));
                     workbenchPanel.panelLblList[i].Visible = false;
                     componentList.Add(workbenchPanel.panelLblList[i]);
@@ -179,7 +189,9 @@ namespace SpaceInvaders.Classes.GUI
                 #endregion
 
                 #region powerupsPanel
+
                 Panel powerupsPanel = new Panel();
+
                 powerupsPanel.PanelName = "Sklep";
                 string[] pupsPaths =
                 {
@@ -241,7 +253,7 @@ namespace SpaceInvaders.Classes.GUI
 
                 panelList.Add(powerupsPanel);
                 #endregion
-                
+
                 activePanel = workbenchPanel;
                 ChangePanel(workbenchPanel);
 
@@ -256,7 +268,9 @@ namespace SpaceInvaders.Classes.GUI
 
                 OurButton btnMission = new OurButton(new Texture(ResourcesManager.resourcesPath + "btnMission.png"), new Vector2i(300, 99), "", 0);
                 btnMission.setPosition(new Vector2f(633, 21));
+                btmMission.MouseReleased += OnBtnMissionMouseReleased;
                 btnMission.componentID = "mission";
+
                 componentList.Add(btnMission);
 
                 OurButton btnLeftScroll = new OurButton(new Texture(ResourcesManager.resourcesPath + "btnLeftSprite.png"), new Vector2i(40, 199), "", 0);
@@ -292,7 +306,11 @@ namespace SpaceInvaders.Classes.GUI
 
         }
 
-       
+        private void OnBtnMissionMouseReleased(object sender, BtnReleasedEventArgs e)
+        {
+            SceneManager.Instance().changeScene(GameScene.Instance());
+        }
+        
         //wyświetlanie informacji o przyciskach
         private void OnPowerupMouseHovered(object sender, BtnReleasedEventArgs e)
         {
@@ -342,6 +360,45 @@ namespace SpaceInvaders.Classes.GUI
             (componentList.Find(x => x.componentID == "currentPowerups") as OurLabel).Text = string.Format("Posiadasz: {0}", PlayerManager.Instance.Powerups[e.arg]);
         }
 
+/*
+        //wczytanie stanu gry z pliku
+        public void ReadDataFromFile(object sender, BtnReleasedEventArgs e)
+        {
+            using (Stream stream = File.Open("ship.txt", FileMode.Open))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                PlayerManager.Instance = (PlayerManager)bf.Deserialize(stream);
+                PlayerHud.Instance().PlayerInfo = PlayerManager.Instance;
+            }
+        }
+        //zapis stanu gry do pliku
+        private void SaveDataToFile(object sender, BtnReleasedEventArgs e)
+        {
+            using (Stream stream = File.Open("ship.txt", FileMode.Create))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(stream, PlayerManager.Instance);
+            }
+        }
+        //wczytanie informacji o przyciskach z panelu workbench
+        private string[] readPanelInfo(string filename)
+        {
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.Load(filename);
+
+            XmlNode mainNode = xmldoc.SelectSingleNode("/main");
+
+            int count = mainNode.ChildNodes.Count;
+            XmlNode currNode;
+            string[] info = new string[count];
+            for (int i = 0; i < count; i++)
+            {
+                currNode = mainNode.SelectSingleNode(string.Format("n{0}", i));
+                info[i] = currNode.InnerText;
+            }
+
+            return info;
+        }*/
         
         //przesuwanie listy i zmiana paneli
         //male przyciski
@@ -498,7 +555,6 @@ namespace SpaceInvaders.Classes.GUI
             }
         }
 
-
         //wczytanie informacji o przyciskach z panelu workbench
         private string[] readPanelInfo(string filename)
         {
@@ -567,7 +623,6 @@ namespace SpaceInvaders.Classes.GUI
             cursor.update();
         }
 
-
         public void cleanUp()
         {
             if (initialized)
@@ -585,6 +640,7 @@ namespace SpaceInvaders.Classes.GUI
             initialized = false;
         }
         //klasa pomocnicza panel
+
         class Panel
         {
             public List<OurButton> panelBtnList = new List<OurButton>();

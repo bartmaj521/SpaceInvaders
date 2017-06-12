@@ -1,4 +1,13 @@
+
 ﻿using SFML.Graphics;
+
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SFML.Graphics;
+
 using SFML.System;
 using SFML.Window;
 
@@ -24,6 +33,7 @@ namespace SpaceInvaders.Classes.GUI
             background = new Sprite(new Texture(ResourcesManager.resourcesPath + "bgBlank.png"));
         }
         #endregion
+
         public override void initialize(RenderWindow window)
         {
             if (!initialized)
@@ -98,7 +108,6 @@ namespace SpaceInvaders.Classes.GUI
                 bf.Serialize(stream, PlayerManager.Instance);
             }
         }
-        
 
         public override void drawComponents(SceneManager sceneManager)
         {

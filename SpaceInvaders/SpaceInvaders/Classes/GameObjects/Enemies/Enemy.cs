@@ -12,7 +12,7 @@ using SpaceInvaders.Interfaces;
 
 namespace SpaceInvaders.Classes.Enemies
 {
-    abstract class Enemy : GameObject, IDamageable
+    abstract class Enemy : GameObject, IDamageable, ICloneable
     {
         protected static Random rand;
 
@@ -22,11 +22,15 @@ namespace SpaceInvaders.Classes.Enemies
         public static float leftBoundary { get; set; }
         public static float rightBoundary { get; set; }
 
+        public static List<Projectile> enemyProjectileList;
+
         protected float speed;
         protected float moveTime;
         protected Vector2f velocity;
 
         protected bool setting = true;
+        
+        public static Player player;
 
         // Punkty życia przeciwnika
         protected float health = 100;
@@ -42,6 +46,8 @@ namespace SpaceInvaders.Classes.Enemies
             health -= damage;
         }
 
-        abstract public override GameObject update(float deltaTime);
+        public abstract override GameObject update(float deltaTime);
+        public abstract object Clone();
     }
 }
+

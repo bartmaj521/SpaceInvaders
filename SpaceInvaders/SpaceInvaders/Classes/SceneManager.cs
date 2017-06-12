@@ -90,6 +90,7 @@ namespace SpaceInvaders.Classes.GUI
             sceneStack.Push(scene);
             sceneStack.Peek().initialize(window);
         }
+
         public void update()
         {
             //wywolanie update() na czubku stosu
