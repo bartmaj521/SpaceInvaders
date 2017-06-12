@@ -130,11 +130,12 @@ namespace SpaceInvaders.Classes.GUI
             while(running)
             {
                 window.Clear();
+
+                
                 window.DispatchEvents();
                 setManager();
                 update();
                 draw();
-
                 window.Display();
             }
             cleanup();
