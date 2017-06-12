@@ -67,9 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Animation.cs" />
-    <Compile Include="Classes\Bullet.cs" />
-    <Compile Include="Classes\Enemy.cs" />
-    <Compile Include="Classes\GameObject.cs" />
+    <Compile Include="Classes\GameObjects\Bullet.cs" />
+    <Compile Include="Classes\GameObjects\Enemy.cs" />
+    <Compile Include="Classes\GameObjects\GameObject.cs" />
     <Compile Include="Classes\PlayerManager.cs" />
     <Compile Include="Classes\ResourcesManager.cs" />
     <Compile Include="Classes\Ship.cs" />
@@ -87,11 +87,11 @@
     <Compile Include="Classes\Scene.cs" />
     <Compile Include="Classes\SceneManager.cs" />
     <Compile Include="Classes\GUI\UIComponents\UIComponent.cs" />
-    <Compile Include="Classes\Particle.cs" />
-    <Compile Include="Classes\ParticleEmitter.cs" />
-    <Compile Include="Classes\Player.cs" />
-    <Compile Include="Classes\Projectile.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Classes\GameObjects\Particle.cs" />
+    <Compile Include="Classes\GameObjects\ParticleEmitter.cs" />
+    <Compile Include="Classes\GameObjects\Player.cs" />
+    <Compile Include="Classes\GameObjects\Projectile.cs" />
+    <Compile Include="Classes\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

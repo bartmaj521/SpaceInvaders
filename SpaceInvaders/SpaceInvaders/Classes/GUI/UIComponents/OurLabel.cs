@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 
 namespace SpaceInvaders.Classes.GUI
 {
@@ -19,6 +13,7 @@ namespace SpaceInvaders.Classes.GUI
         private string text;
         private Color textColor;
         private Text displayedText;
+
         public align TextAlign { get; set; }
         public Font Font { get; set; }
         public Color TextColor
@@ -56,6 +51,7 @@ namespace SpaceInvaders.Classes.GUI
             }
         }
 
+
         //przyjmuje ksztalt podany w _size
         public OurLabel(Texture _texture,string text, uint _fontSize, Vector2i _size) : base(_texture)
         {
@@ -70,7 +66,6 @@ namespace SpaceInvaders.Classes.GUI
             Size = new Vector2f(componentSprite.GetGlobalBounds().Width, componentSprite.GetGlobalBounds().Height);
             Position = componentSprite.Position;
         }
-
         //przyjmuje ksztalt textury
         public OurLabel(Texture _texture, string text, uint _fontSize) : base(_texture)
         {
@@ -84,6 +79,7 @@ namespace SpaceInvaders.Classes.GUI
             Position = componentSprite.Position;
         }
 
+
         public override void Draw(RenderTarget target, RenderStates states)
         {
             if (Visible)
@@ -93,12 +89,7 @@ namespace SpaceInvaders.Classes.GUI
                     target.Draw(displayedText, states);
             }
         }
-
-        public override void update()
-        {
-        }
-
-
+        public override void update() { }
         public override void setPosition(Vector2f _position)
         {
             if (displayedText != null)

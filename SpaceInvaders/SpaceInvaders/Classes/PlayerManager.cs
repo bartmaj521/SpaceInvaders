@@ -28,10 +28,10 @@ namespace SpaceInvaders.Classes.GUI
     public class PlayerManager : ISerializable
     {
         
-        private int currentShip = 0;
-        //właściwości
+        public int CurrentShip { get; private set; }
+
         public ShipPrefab[] ShipPrefabs { get; private set; }
-        public int MissionProgress { get; set; }
+        public int MissionProgress { get; private set; }
         public Ship ShipInfo { get; private set; }
         public int PlayerMoney { get; private set; }
         public string PlayerName { get; set; }
@@ -58,12 +58,13 @@ namespace SpaceInvaders.Classes.GUI
         }
         private PlayerManager(string _playerName)
         {
+            CurrentShip = 0;
             Powerups = new int[5];
             MissionProgress = 1;
             PlayerMoney = 1000000;
             PlayerName = _playerName;
             readPrefabs();
-            ShipInfo = new Ship(new Texture(ResourcesManager.resourcesPath + ShipPrefabs[currentShip].TexturePath), ShipPrefabs[currentShip].Price,ShipPrefabs[currentShip].DefaultHealth,ShipPrefabs[currentShip].DefaultSpeed, ShipPrefabs[currentShip].MaxUpgrades);
+            ShipInfo = new Ship(new Texture(ResourcesManager.resourcesPath + ShipPrefabs[0].TexturePath), ShipPrefabs[0].Price,ShipPrefabs[0].DefaultHealth,ShipPrefabs[0].DefaultSpeed, ShipPrefabs[0].MaxUpgrades);
         }
         #endregion
 
@@ -71,17 +72,22 @@ namespace SpaceInvaders.Classes.GUI
 
         public PlayerManager(SerializationInfo info, StreamingContext context)
         {
+            CurrentShip = (int)info.GetValue("CurrentShip", typeof(int));
             MissionProgress = (int)info.GetValue("MissionProgress", typeof(int));
             ShipInfo = (Ship)info.GetValue("ShipInfo", typeof(Ship));
             PlayerMoney = (int)info.GetValue("PlayerMoney", typeof(int));
             PlayerName = (string)info.GetValue("PlayerName", typeof(string));
+            Powerups = (int[])info.GetValue("Powerups", typeof(int[]));
+            readPrefabs();
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            info.AddValue("CurrentShip", CurrentShip);
             info.AddValue("MissionProgress", MissionProgress);
             info.AddValue("ShipInfo", ShipInfo, typeof(Ship));
             info.AddValue("PlayerMoney", PlayerMoney);
             info.AddValue("PlayerName", PlayerName);
+            info.AddValue("Powerups", Powerups);
         }
 
         #endregion
@@ -127,6 +133,7 @@ namespace SpaceInvaders.Classes.GUI
             }
         }
 
+        //zakupienie statku
         public void changeShip(int ship)
         {
             int cost = ShipPrefabs[ship].Price;
@@ -135,14 +142,18 @@ namespace SpaceInvaders.Classes.GUI
             {
                 PlayerMoney = moneyAfterSelling;
                 PlayerMoney -= cost;
-                currentShip = ship;
-                ShipInfo = new Ship(new Texture(ResourcesManager.resourcesPath + ShipPrefabs[currentShip].TexturePath), ShipPrefabs[currentShip].Price, ShipPrefabs[currentShip].DefaultHealth, ShipPrefabs[currentShip].DefaultSpeed, ShipPrefabs[currentShip].MaxUpgrades);
+                CurrentShip = ship;
+                ShipInfo = new Ship(new Texture(ResourcesManager.resourcesPath + ShipPrefabs[CurrentShip].TexturePath), ShipPrefabs[CurrentShip].Price, ShipPrefabs[CurrentShip].DefaultHealth, ShipPrefabs[CurrentShip].DefaultSpeed, ShipPrefabs[CurrentShip].MaxUpgrades);
             }
         }
+
+        //dodanie hajsu
         public void donatePlayer(int value)
         {
             PlayerMoney += value;
         }
+
+        //upgrady
         public bool upgradeShip(stats _stat)
         {
             int i = (int)_stat;
@@ -167,6 +178,13 @@ namespace SpaceInvaders.Classes.GUI
             return (int)(0.2 * ShipInfo.ShipPrice * Math.Exp(ShipInfo.upgrades[i]));
         }
 
+        //ukonczenie misji
+        public void completeMission()
+        {
+            MissionProgress++;
+        }
+
+        //powerupy
         public bool addPowerup(powerups _powerup)
         {
             int cost = powerupCost(_powerup);
@@ -178,11 +196,13 @@ namespace SpaceInvaders.Classes.GUI
             }
             return false;
         }
-
         public int powerupCost(powerups _powerup)
         {
             return (int)(0.2 * ShipInfo.ShipValue);
         }
+
+
+        //naprawianie i niszczenie statku
         public void repairShip(float toRepair)
         {
             int cost = upgradeCost(stats.repair);
@@ -195,12 +215,16 @@ namespace SpaceInvaders.Classes.GUI
                 }
             }
         }
-
         public void damageShip(float toDamage)
         {
             ShipInfo.ShipHealth += toDamage;
         }
 
+        public void restartProgress()
+        {
+            instance = null;
+        }
+        //klasa pomocnicza do przechowywania informacji o statkach
         public class ShipPrefab
         {
             public string ShipName { get; set; }

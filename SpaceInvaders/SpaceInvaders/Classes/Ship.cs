@@ -14,10 +14,8 @@ namespace SpaceInvaders.Classes.GUI
     [Serializable()]
     public class Ship:ISerializable
     {
-        //pola
         private float shipHealth;
-
-        //właściwości
+        
         public Texture ShipTexture { get; set; }
         public float ShipHealth
         {

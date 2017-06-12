@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
@@ -29,12 +24,6 @@ namespace SpaceInvaders.Classes.GUI
             background = new Sprite(new Texture(ResourcesManager.resourcesPath + "bgBlank.png"));
         }
         #endregion
-
-        public override void cleanup()
-        {
-           
-        }
-
         public override void initialize(RenderWindow window)
         {
             if (!initialized)
@@ -109,11 +98,7 @@ namespace SpaceInvaders.Classes.GUI
                 bf.Serialize(stream, PlayerManager.Instance);
             }
         }
-        //wczytanie informacji o przyciskach z panelu workbench
-
-
-
-
+        
 
         public override void drawComponents(SceneManager sceneManager)
         {
@@ -128,16 +113,6 @@ namespace SpaceInvaders.Classes.GUI
             {
                 sceneManager.changeScene(PlayerMenu.Instance());
             }
-        }
-
-        public override void pause()
-        {
-            
-        }
-
-        public override void reasume()
-        {
-
         }
     }
 }
