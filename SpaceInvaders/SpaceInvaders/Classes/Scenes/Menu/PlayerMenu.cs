@@ -27,7 +27,7 @@ namespace SpaceInvaders.Classes.GUI
         private string[] powerupInfo;
 
         #region Singleton constructor
-        private static PlayerMenu instance;
+        private static PlayerMenu instance = null;
 
         public static PlayerMenu Instance()
         {
@@ -44,6 +44,7 @@ namespace SpaceInvaders.Classes.GUI
             {
                 instance = new PlayerMenu(_playerName);
             }
+            PlayerManager.Instance.PlayerName = _playerName;
             return instance;
         }
         private PlayerMenu(string _playerName) : base()
@@ -268,7 +269,7 @@ namespace SpaceInvaders.Classes.GUI
 
                 OurButton btnMission = new OurButton(new Texture(ResourcesManager.resourcesPath + "btnMission.png"), new Vector2i(300, 99), "", 0);
                 btnMission.setPosition(new Vector2f(633, 21));
-                btmMission.MouseReleased += OnBtnMissionMouseReleased;
+                btnMission.MouseReleased += OnBtnMissionMouseReleased;
                 btnMission.componentID = "mission";
 
                 componentList.Add(btnMission);
@@ -308,7 +309,8 @@ namespace SpaceInvaders.Classes.GUI
 
         private void OnBtnMissionMouseReleased(object sender, BtnReleasedEventArgs e)
         {
-            SceneManager.Instance().changeScene(GameScene.Instance());
+            if(PlayerManager.Instance.ShipInfo.ShipHealth < 1)
+                SceneManager.Instance().changeScene(GameScene.Instance());
         }
         
         //wyświetlanie informacji o przyciskach
@@ -559,7 +561,7 @@ namespace SpaceInvaders.Classes.GUI
         private string[] readPanelInfo(string filename)
         {
             XmlDocument xmldoc = new XmlDocument();
-            xmldoc.Load(filename);
+            xmldoc.Load(ResourcesManager.xmlPath + "\\" + filename);
 
             XmlNode mainNode = xmldoc.SelectSingleNode("/main");
 

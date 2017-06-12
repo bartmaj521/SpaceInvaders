@@ -57,7 +57,7 @@ namespace SpaceInvaders.Classes.GUI
         }
         private PlayerManager(string _playerName)
         {
-            CurrentShip = 0;
+            currentShip = 0;
             Powerups = new int[5];
             MissionProgress = 1;
             PlayerMoney = 500;
@@ -71,7 +71,7 @@ namespace SpaceInvaders.Classes.GUI
 
         public PlayerManager(SerializationInfo info, StreamingContext context)
         {
-            CurrentShip = (int)info.GetValue("CurrentShip", typeof(int));
+            currentShip = (int)info.GetValue("currentShip", typeof(int));
             MissionProgress = (int)info.GetValue("MissionProgress", typeof(int));
             ShipInfo = (Ship)info.GetValue("ShipInfo", typeof(Ship));
             PlayerMoney = (int)info.GetValue("PlayerMoney", typeof(int));
@@ -81,7 +81,7 @@ namespace SpaceInvaders.Classes.GUI
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("CurrentShip", CurrentShip);
+            info.AddValue("currentShip", currentShip);
             info.AddValue("MissionProgress", MissionProgress);
             info.AddValue("ShipInfo", ShipInfo, typeof(Ship));
             info.AddValue("PlayerMoney", PlayerMoney);
@@ -94,7 +94,7 @@ namespace SpaceInvaders.Classes.GUI
         private void readPrefabs()
         {
             XmlDocument xmldoc = new XmlDocument();
-            xmldoc.Load("rocketInfo.xml");
+            xmldoc.Load(ResourcesManager.xmlPath + "rocketInfo.xml");
 
             XmlNode rocketsNode = xmldoc.SelectSingleNode("/rockets");
             int count = rocketsNode.ChildNodes.Count;
@@ -141,8 +141,8 @@ namespace SpaceInvaders.Classes.GUI
             {
                 PlayerMoney = moneyAfterSelling;
                 PlayerMoney -= cost;
-                CurrentShip = ship;
-                ShipInfo = new Ship(new Texture(ResourcesManager.resourcesPath + ShipPrefabs[CurrentShip].TexturePath), ShipPrefabs[CurrentShip].Price, ShipPrefabs[CurrentShip].DefaultHealth, ShipPrefabs[CurrentShip].DefaultSpeed, ShipPrefabs[CurrentShip].MaxUpgrades);
+                currentShip = ship;
+                ShipInfo = new Ship(new Texture(ResourcesManager.resourcesPath + ShipPrefabs[currentShip].TexturePath), ShipPrefabs[currentShip].Price, ShipPrefabs[currentShip].DefaultHealth, ShipPrefabs[currentShip].DefaultSpeed, ShipPrefabs[currentShip].MaxUpgrades);
             }
         }
 
@@ -216,8 +216,10 @@ namespace SpaceInvaders.Classes.GUI
         }
         public void damageShip(float toDamage)
         {
-            ShipInfo.ShipHealth += toDamage;
+            float tmp = toDamage / (ShipInfo.DefaultHealth + ShipInfo.upgrades[(int)stats.armor] * 10);
+            ShipInfo.ShipHealth += tmp;
         }
+
         public void restartProgress()
         {
             instance = null;
@@ -226,6 +228,11 @@ namespace SpaceInvaders.Classes.GUI
         public void missionCompleted()
         {
             MissionProgress++;
+        }
+
+        public void usePowerUp(int index)
+        {
+            Powerups[index]--;
         }
         
         //klasa pomocnicza do przechowywania informacji o statkach

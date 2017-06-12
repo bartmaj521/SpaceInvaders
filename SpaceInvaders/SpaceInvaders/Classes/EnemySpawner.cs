@@ -45,7 +45,7 @@ namespace SpaceInvaders.Classes
             for (int i = 0; i < 1; i++)
             {
                 //enemyTextures.Add(new Texture(string.Format("enemy{0}.png", i)));
-                enemyPrefabs.Add(new Randomer(new Texture(string.Format("enemy{0}.png", i)), new int[1] { 0 }, 1f, new Vector2f(1200, -250), new Vector2f(0.3f, 0.3f), 100));
+                enemyPrefabs.Add(new Randomer(new Texture(string.Format(ResourcesManager.resourcesPath + "enemy{0}.png", i)), new int[1] { 0 }, 1f, new Vector2f(1200, -250), new Vector2f(0.3f, 0.3f), 100));
             }            
         }
         #endregion
@@ -80,13 +80,13 @@ namespace SpaceInvaders.Classes
                 // Wczytanie pliku xml
                 enemyList = _enemyList;
                 XmlDocument xmldoc = new XmlDocument();
-                xmldoc.Load(string.Format("level{0}.xml", lvlNb));
+                xmldoc.Load(string.Format(ResourcesManager.xmlPath + "level{0}.xml", lvlNb));
 
                 // Inicjalizacja pierwszego przeciwnika
                 Randomer.value = Int32.Parse(xmldoc.SelectSingleNode("main").SelectSingleNode("enemy1mon").InnerText);
 
                 // Trochę na około ale działa
-                Image shotimg = new Image("enemyBullet.png");
+                Image shotimg = new Image(ResourcesManager.resourcesPath + "enemyBullet.png");
                 shotimg.FlipHorizontally();
                 Texture shot = new Texture(shotimg);
 

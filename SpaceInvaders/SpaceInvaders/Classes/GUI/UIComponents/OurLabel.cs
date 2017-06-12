@@ -56,7 +56,7 @@ namespace SpaceInvaders.Classes.GUI
         public OurLabel(Texture _texture,string text, uint _fontSize, Vector2i _size) : base(_texture)
         {
             TextAlign = align.centered;
-            Font = new Font("font.ttf");
+            Font = new Font(ResourcesManager.resourcesPath + "font.ttf");
             displayedText = new Text(text, Font);
             displayedText.CharacterSize = _fontSize;
             Text = text;
@@ -69,7 +69,7 @@ namespace SpaceInvaders.Classes.GUI
         //przyjmuje ksztalt textury
         public OurLabel(Texture _texture, string text, uint _fontSize) : base(_texture)
         {
-            Font = new Font("font.ttf");
+            Font = new Font(ResourcesManager.resourcesPath+"font.ttf");
             displayedText = new Text(text, Font);
             displayedText.CharacterSize = _fontSize;
 

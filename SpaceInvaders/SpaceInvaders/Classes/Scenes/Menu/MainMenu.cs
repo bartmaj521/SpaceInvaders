@@ -15,6 +15,8 @@ using SFML.Window;
 using SFML.System;
 using System.IO;
 
+using System.Windows.Forms;
+
 
 namespace SpaceInvaders.Classes.GUI
 {
@@ -122,16 +124,23 @@ namespace SpaceInvaders.Classes.GUI
         }
         private void OnBtnLoadMouseReleased(object sender, BtnReleasedEventArgs e)
         {
-            PlayerMenu.Instance().cleanUp();  //napisac koniecznie wczytywanie teksturki jak sie wczytuje stan gry z pliku
-            using (Stream stream = File.Open("ship.txt", FileMode.Open))
+            try
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                PlayerManager.Instance = (PlayerManager)bf.Deserialize(stream);
-                int index = PlayerManager.Instance.CurrentShip;
-                PlayerManager.Instance.ShipInfo.ShipTexture = new Texture(ResourcesManager.resourcesPath + PlayerManager.Instance.ShipPrefabs[index].TexturePath);
-                PlayerHud.Instance().PlayerInfo = PlayerManager.Instance;
+                PlayerMenu.Instance().cleanUp();  //napisac koniecznie wczytywanie teksturki jak sie wczytuje stan gry z pliku
+                using (Stream stream = File.Open("ship.txt", FileMode.Open))
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    PlayerManager.Instance = (PlayerManager)bf.Deserialize(stream);
+                    int index = PlayerManager.Instance.currentShip;
+                    PlayerManager.Instance.ShipInfo.ShipTexture = new Texture(ResourcesManager.resourcesPath + PlayerManager.Instance.ShipPrefabs[index].TexturePath);
+                    PlayerHud.Instance().PlayerInfo = PlayerManager.Instance;
+                }
+                sceneManager.changeScene(PlayerMenu.Instance());
             }
-            sceneManager.changeScene(PlayerMenu.Instance());
+            catch (System.IO.FileNotFoundException)
+            {
+                MessageBox.Show("Brak pliku zapisu");
+            }
         }
         private void onTxbUserNameTextConfirmed(object sender, TextboxEventArgs e)
         {

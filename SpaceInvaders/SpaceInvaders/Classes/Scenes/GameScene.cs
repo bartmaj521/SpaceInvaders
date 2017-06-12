@@ -63,11 +63,6 @@ namespace SpaceInvaders.Classes
             //throw new NotImplementedException();
         }
 
-        public override void cleanup()
-        {
-            //throw new NotImplementedException();
-        }
-
         public override void drawComponents(SceneManager sceneManager)
         {
             sceneManager.window.Draw(Background.Instance());
@@ -128,7 +123,7 @@ namespace SpaceInvaders.Classes
             Texture tmpPlayer = PlayerManager.Instance.ShipInfo.ShipTexture;
             player = new Player(ref tmpPlayer, new int[1] { 0 }, 100f, new Vector2f(window.Size.X / 2, window.Size.Y - 100), new Vector2f(0.6f, 0.6f), (PlayerManager.Instance.ShipInfo.DefaultSpeed + PlayerManager.Instance.ShipInfo.upgrades[0]) * 100, Convert.ToInt32((1 - PlayerManager.Instance.ShipInfo.ShipHealth) * (PlayerManager.Instance.ShipInfo.DefaultHealth + PlayerManager.Instance.ShipInfo.upgrades[1] * 10)));         // Ustawić prędkość poprawne
             Enemy.player = player;
-            Texture shot = new Texture("bullet.png");
+            Texture shot = new Texture(ResourcesManager.resourcesPath + "bullet.png");
             player.setGun(new Gun(new Bullet(ref shot, (PlayerManager.Instance.ShipInfo.upgrades[4] + 1) * 10, new Vector2f(0.5f, 0.5f)), (PlayerManager.Instance.ShipInfo.upgrades[3] + 1) * 2, PlayerManager.Instance.currentShip + 1, Int32.MaxValue, 5 - PlayerManager.Instance.ShipInfo.upgrades[2], 500, 10));
             player.setPowerUps(PlayerManager.Instance.Powerups[4], PlayerManager.Instance.Powerups[1], PlayerManager.Instance.Powerups[0], PlayerManager.Instance.Powerups[2], PlayerManager.Instance.Powerups[3]);
             // Inicjalizacja statku
@@ -140,16 +135,6 @@ namespace SpaceInvaders.Classes
             score.setPosition(new SFML.System.Vector2f(window.Size.X / 2 - score.Size.X / 2, window.Size.Y / 2 - score.Size.Y / 2));
             score.Visible = false;
             score.Active = false;
-        }
-
-        public override void pause()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void reasume()
-        {
-            throw new NotImplementedException();
         }
 
         public override void updateComponents(SceneManager sceneManager)

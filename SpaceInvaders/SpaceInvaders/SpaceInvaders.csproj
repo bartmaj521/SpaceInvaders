@@ -82,7 +82,6 @@
     <Compile Include="Classes\EnemySpawner.cs" />
     <Compile Include="Classes\PlayerManager.cs" />
     <Compile Include="Classes\ResourcesManager.cs" />
-    <Compile Include="Classes\Scenes\Menu\EndingMenu.cs" />
     <Compile Include="Classes\Ship.cs" />
     <Compile Include="Classes\GUI\UIComponents\OurProgressbar.cs" />
     <Compile Include="Classes\Scenes\Menu\EscapeMenu.cs" />
@@ -171,7 +170,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Audio\" />
-    <Folder Include="Classes\GameObjects\Projectiles\" />
     <Folder Include="Fonts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

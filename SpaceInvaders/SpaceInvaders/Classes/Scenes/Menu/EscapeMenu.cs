@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
+
 
 using SFML.System;
 using SFML.Window;
 
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+//using System.Windows.Forms;
 
 namespace SpaceInvaders.Classes.GUI
 {
@@ -92,11 +93,18 @@ namespace SpaceInvaders.Classes.GUI
 
         public void LoadDataFromFile()
         {
-            using (Stream stream = File.Open("ship.txt", FileMode.Open))
+            try
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                PlayerManager.Instance = (PlayerManager)bf.Deserialize(stream);
-                PlayerHud.Instance().PlayerInfo = PlayerManager.Instance;
+                using (Stream stream = File.Open("ship.txt", FileMode.Open))
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    PlayerManager.Instance = (PlayerManager)bf.Deserialize(stream);
+                    PlayerHud.Instance().PlayerInfo = PlayerManager.Instance;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                System.Windows.Forms.MessageBox.Show("Brak pliku zapisu.");
             }
             
         }

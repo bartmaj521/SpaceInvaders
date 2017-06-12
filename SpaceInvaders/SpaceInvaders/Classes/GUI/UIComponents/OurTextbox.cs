@@ -50,7 +50,7 @@ namespace SpaceInvaders.Classes.GUI
                 componentSprite.Scale = new Vector2f(_boxsize.X / _texture.Size.X, _boxsize.Y / _texture.Size.Y);
 
 
-            DisplayedText = new Text(Text, new Font("font.ttf"));
+            DisplayedText = new Text(Text, new Font(ResourcesManager.resourcesPath+"font.ttf"));
             DisplayedText.CharacterSize = _fontSize;
             Position = componentSprite.Position;
             Size = new Vector2f(componentSprite.GetGlobalBounds().Width, componentSprite.GetGlobalBounds().Height);

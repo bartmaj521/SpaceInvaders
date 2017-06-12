@@ -8,6 +8,8 @@ using SFML.System;
 using SFML.Window;
 using SFML.Graphics;
 
+using SpaceInvaders.Classes.GUI;
+
 namespace SpaceInvaders.Classes
 {
     class Shield
@@ -23,7 +25,7 @@ namespace SpaceInvaders.Classes
         {
             duration = _duration;
             shieldSprite = new Sprite();
-            shieldSprite.Texture = new Texture("shield.png");
+            shieldSprite.Texture = new Texture(ResourcesManager.resourcesPath + "shield.png");
             shieldSprite.Scale = new Vector2f(0.22f, 0.22f);
             shieldSprite.Origin = new Vector2f(shieldSprite.Texture.Size.X / 2, shieldSprite.Texture.Size.Y / 2);
         }
@@ -49,6 +51,7 @@ namespace SpaceInvaders.Classes
                     active = true;
                     durationLeft = duration;
                     charges--;
+                    PlayerManager.Instance.usePowerUp(4);
                 }
             }
         }

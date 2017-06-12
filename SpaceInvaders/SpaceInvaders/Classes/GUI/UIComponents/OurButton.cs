@@ -76,7 +76,7 @@ namespace SpaceInvaders.Classes.GUI
             Size = new Vector2f(componentSprite.GetGlobalBounds().Width, componentSprite.GetGlobalBounds().Height);
 
             collider = new IntRect(0,0, frameSize.X, frameSize.Y);
-            Font = new Font("font.ttf");
+            Font = new Font(ResourcesManager.resourcesPath + "font.ttf");
             Text = new Text(_text, Font);
             Text.CharacterSize = fontSize;
             Text.Position = new Vector2f(Position.X+Size.X/2-Text.GetGlobalBounds().Width/2-Text.GetGlobalBounds().Left,Position.Y+Size.Y/2-Text.GetGlobalBounds().Height/2-Text.GetGlobalBounds().Top);

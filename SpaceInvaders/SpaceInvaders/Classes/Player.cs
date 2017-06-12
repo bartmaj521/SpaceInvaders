@@ -32,6 +32,8 @@ namespace SpaceInvaders.Classes
         public List<Gun> powerUps = new List<Gun>();
         public Shield shield;
 
+        bool isDead = false;
+
         // Konstruktor txt - Tekstura gracza, _frames - kolejność klatek animacji, _frameTime - czas trawania klatki, startingPosition - pozycja startowa, Scale -skala
         public Player(ref Texture txt, int[] _frames, float _frameTime, Vector2f startingPosition, Vector2f Scale, float _playerSpeed, int _health): base(ref txt, _frames, _frameTime, startingPosition, Scale)
         {
@@ -42,8 +44,10 @@ namespace SpaceInvaders.Classes
         //aktualizowanie pozycji gracza
         public override GameObject update(float deltaTime)
         {
-            if(health <= 0)
+            if(health <= 0 && !isDead)
             {
+                isDead = true;
+                collider.Top = 1500;
                 ParticleSystem.Instance().playerDiedburst(new Vector2f(animation.animationSprite.Position.X + animation.animationSprite.Scale.X * animation.animationSprite.Texture.Size.X / 2, animation.animationSprite.Position.Y + animation.animationSprite.Scale.Y * animation.animationSprite.Texture.Size.Y / 2));
             }
             Vector2f offset = new Vector2f(0,0);
@@ -93,16 +97,16 @@ namespace SpaceInvaders.Classes
             shield = new Shield(10);
             shield.charges = shieldCharges;
 
-            Texture laser = new Texture("laser.png");
+            Texture laser = new Texture(ResourcesManager.resourcesPath + "laser.png");
             powerUps.Add(new Gun(new LaserBeam(laser, 100, 1), 0.5f, 1, laserAmmo, 0, 0, 0));
 
-            Texture missile = new Texture("missile.png");
+            Texture missile = new Texture(ResourcesManager.resourcesPath + "missile.png");
             powerUps.Add(new Gun(new Missile(missile, 100, new Vector2f(1,1)), 0.5f, 1, missileAmmo, 0, 400, 0));
 
-            Texture bomb = new Texture("bomb.png");
+            Texture bomb = new Texture(ResourcesManager.resourcesPath + "bomb.png");
             powerUps.Add(new Gun(new Bomb(bomb, 20, new Vector2f(1, 1)), 0.5f, 1, bombAmmo, 0, 200, 0));
 
-            Texture wave = new Texture("ionwave.png");
+            Texture wave = new Texture(ResourcesManager.resourcesPath + "ionwave.png");
             powerUps.Add(new Gun(new IonWave(wave, 10, new Vector2f(0.25f, 0.25f)), 0.5f, 1, waveAmmo, 0, 300, 0));
         }
 
@@ -122,7 +126,10 @@ namespace SpaceInvaders.Classes
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
             {
                 Vector2f firePosition = new Vector2f(animation.animationSprite.Position.X + animation.animationSprite.Texture.Size.X * animation.animationSprite.Scale.X / 2, animation.animationSprite.Position.Y);
-                return powerUps[0].fire(firePosition);
+                List<Projectile> tmp = powerUps[0].fire(firePosition);
+                if(tmp != null)
+                    PlayerManager.Instance.usePowerUp(1);
+                return tmp;
             }
             return null;
         }
@@ -132,7 +139,10 @@ namespace SpaceInvaders.Classes
             if (Keyboard.IsKeyPressed(Keyboard.Key.E))
             {
                 Vector2f firePosition = new Vector2f(animation.animationSprite.Position.X + animation.animationSprite.Texture.Size.X * animation.animationSprite.Scale.X / 2, animation.animationSprite.Position.Y);
-                return powerUps[1].fire(firePosition);
+                List<Projectile> tmp = powerUps[1].fire(firePosition);
+                if (tmp != null)
+                    PlayerManager.Instance.usePowerUp(0);
+                return tmp;
             }
             return null;
         }
@@ -142,7 +152,10 @@ namespace SpaceInvaders.Classes
             if (Keyboard.IsKeyPressed(Keyboard.Key.R))
             {
                 Vector2f firePosition = new Vector2f(animation.animationSprite.Position.X + animation.animationSprite.Texture.Size.X * animation.animationSprite.Scale.X / 2, animation.animationSprite.Position.Y);
-                return powerUps[2].fire(firePosition);
+                List<Projectile> tmp = powerUps[2].fire(firePosition);
+                if (tmp != null)
+                    PlayerManager.Instance.usePowerUp(2);
+                return tmp;
             }
             return null;
         }
@@ -152,7 +165,10 @@ namespace SpaceInvaders.Classes
             if (Keyboard.IsKeyPressed(Keyboard.Key.T))
             {
                 Vector2f firePosition = new Vector2f(animation.animationSprite.Position.X + animation.animationSprite.Texture.Size.X * animation.animationSprite.Scale.X / 2, animation.animationSprite.Position.Y);
-                return powerUps[3].fire(firePosition);
+                List<Projectile> tmp = powerUps[3].fire(firePosition);
+                if (tmp != null)
+                    PlayerManager.Instance.usePowerUp(3);
+                return tmp;
             }
             return null;
         }
@@ -164,14 +180,18 @@ namespace SpaceInvaders.Classes
                 damage /= 2;
             }
             health -= damage;
+            PlayerManager.Instance.damageShip(damage);
         }
 
         public override void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(animation.animationSprite);
-            if(shield.active)
+            if (health > 0)
             {
-                target.Draw(shield.shieldSprite);
+                target.Draw(animation.animationSprite);
+                if (shield.active)
+                {
+                    target.Draw(shield.shieldSprite);
+                }
             }
         }
     }
