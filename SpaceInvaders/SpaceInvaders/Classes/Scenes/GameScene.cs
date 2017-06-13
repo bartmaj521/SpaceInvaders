@@ -67,26 +67,34 @@ namespace SpaceInvaders.Classes
         {
             sceneManager.window.Draw(Background.Instance());
 
-            foreach (var proj in projectileList)
-            {
-                sceneManager.window.Draw(proj);
-            }
+            //foreach (var proj in projectileList)
+            //{
+            //    sceneManager.window.Draw(proj);
+            //}
 
-            foreach (var proj in enemyProjectileList)
-            {
-                sceneManager.window.Draw(proj);
-            }
+            projectileList.ForEach(proj => sceneManager.window.Draw(proj));
 
-            foreach (var enemy in enemyList)
-            {
-                sceneManager.window.Draw(enemy);
-            }
+            //foreach (var proj in enemyProjectileList)
+            //{
+            //    sceneManager.window.Draw(proj);
+            //}
 
-            foreach (var proj in projectileList)
-            {
-                if (proj.GetType() == typeof(Explosion))
-                    sceneManager.window.Draw(proj);
-            }
+            enemyProjectileList.ForEach(proj => sceneManager.window.Draw(proj));
+
+            enemyList.ForEach(enem => sceneManager.window.Draw(enem));
+
+            //foreach (var enemy in enemyList)
+            //{
+            //    sceneManager.window.Draw(enemy);
+            //}
+
+            var tmp = projectileList.FindAll(proj => proj.GetType() == typeof(Explosion));
+            tmp.ForEach(expl => sceneManager.window.Draw(expl));
+
+            //foreach (var expl in tmp)
+            //{
+            //        sceneManager.window.Draw(expl);
+            //}
 
             sceneManager.window.Draw(ParticleSystem.Instance());
             sceneManager.window.Draw(player);
