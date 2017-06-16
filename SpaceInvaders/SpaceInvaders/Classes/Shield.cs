@@ -39,7 +39,6 @@ namespace SpaceInvaders.Classes
             }
             else if (active)
             {
-                //shieldSprite.Transform.Rotate(deltaTime * 180);
                 shieldSprite.Rotation += deltaTime * 180;
                 byte tmp = (byte)Math.Ceiling(durationLeft * 255 / duration);
                 shieldSprite.Color = new Color((byte)(255 - tmp),tmp, tmp);

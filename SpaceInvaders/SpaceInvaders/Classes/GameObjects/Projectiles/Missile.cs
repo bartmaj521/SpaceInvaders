@@ -15,9 +15,6 @@ namespace SpaceInvaders.Classes
     class Missile : Projectile
     {
         private Enemy target;
-        //private Texture notSwapped;
-        //private Texture swapped;
-        //private bool isSwapped;
 
         public Missile(Texture txt, float _damage, Vector2f scale)
         {
@@ -29,12 +26,6 @@ namespace SpaceInvaders.Classes
 
             collider.Width = animation.animationSprite.Texture.Size.X * animation.animationSprite.Scale.X;
             collider.Height = animation.animationSprite.Texture.Size.Y * animation.animationSprite.Scale.Y;
-
-            //notSwapped = txt;
-            //Image lol = new Image(txt.CopyToImage());
-            //lol.FlipHorizontally();
-            //swapped = new Texture(lol);
-            //isSwapped = false;
         }
 
         private Vector2f getDirVector(Enemy enemy)
@@ -64,16 +55,6 @@ namespace SpaceInvaders.Classes
             if (target != null)
             {
                 velocity = getDirVector(target);
-                //if (velocity.Y < 0 && !isSwapped)
-                //{
-                //    animation.animationSprite.Texture = swapped;
-                //    isSwapped = true;
-                //}
-                //else if (velocity.X > 0 && isSwapped)
-                //{
-                //    animation.animationSprite.Texture = notSwapped;
-                //    isSwapped = false;
-                //}
             }
 
             animation.animationSprite.Position += velocity * deltaTime;

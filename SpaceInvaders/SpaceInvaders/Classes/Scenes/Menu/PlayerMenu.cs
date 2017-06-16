@@ -8,13 +8,6 @@ using SFML.Window;
 
 using System.Xml;
 
-using System.Runtime.Serialization;
-using System.IO;
-using System.Xml;
-
-using System.Runtime.Serialization.Formatters.Binary;
-using SFML.Window;
-
 namespace SpaceInvaders.Classes.GUI
 {
     public class PlayerMenu : Menu

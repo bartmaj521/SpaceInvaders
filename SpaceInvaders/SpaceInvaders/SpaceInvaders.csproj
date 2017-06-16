@@ -73,11 +73,10 @@
     <Compile Include="Classes\Background.cs" />
     <Compile Include="Classes\GameObjects\Projectiles\Bomb.cs" />
     <Compile Include="Classes\GameObjects\Projectiles\Bullet.cs" />
-    <Compile Include="Classes\GameObjects\Enemies\Circler.cs" />
     <Compile Include="Classes\GameObjects\Enemies\Enemy.cs" />
     <Compile Include="Classes\GameObjects\Enemies\Randomer.cs" />
     <Compile Include="Classes\GameObjects\Projectiles\Explosion.cs" />
-    <Compile Include="Classes\GameObject.cs" />
+    <Compile Include="Classes\GameObjects\GameObject.cs" />
     <Compile Include="Classes\Scenes\GameScene.cs" />
     <Compile Include="Classes\EnemySpawner.cs" />
     <Compile Include="Classes\PlayerManager.cs" />
@@ -99,7 +98,7 @@
     <Compile Include="Classes\GUI\UIComponents\UIComponent.cs" />
     <Compile Include="Classes\Gun.cs" />
     <Compile Include="Classes\GameObjects\Projectiles\IonWave.cs" />
-    <Compile Include="Classes\LaserBeam.cs" />
+    <Compile Include="Classes\GameObjects\Projectiles\LaserBeam.cs" />
     <Compile Include="Classes\GameObjects\Projectiles\Missile.cs" />
     <Compile Include="Classes\ParticleSystem.cs" />
     <Compile Include="Classes\Shield.cs" />
@@ -120,6 +119,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

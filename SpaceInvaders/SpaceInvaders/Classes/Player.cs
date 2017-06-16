@@ -22,7 +22,6 @@ namespace SpaceInvaders.Classes
 
         // Aktualne i maksymalne zdrowie gracza
         public float health { get; set; }
-        public float maxHealth { get; set; }
 
         // Prędkość poruszania gracza
         public float playerSpeed { get; set; }

@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-
-using SpaceInvaders.Classes;
 using SpaceInvaders.Classes.GUI;
 using SpaceInvaders.Classes.Enemies;
 using SpaceInvaders.Interfaces;
@@ -67,34 +61,14 @@ namespace SpaceInvaders.Classes
         {
             sceneManager.window.Draw(Background.Instance());
 
-            //foreach (var proj in projectileList)
-            //{
-            //    sceneManager.window.Draw(proj);
-            //}
-
             projectileList.ForEach(proj => sceneManager.window.Draw(proj));
-
-            //foreach (var proj in enemyProjectileList)
-            //{
-            //    sceneManager.window.Draw(proj);
-            //}
 
             enemyProjectileList.ForEach(proj => sceneManager.window.Draw(proj));
 
             enemyList.ForEach(enem => sceneManager.window.Draw(enem));
 
-            //foreach (var enemy in enemyList)
-            //{
-            //    sceneManager.window.Draw(enemy);
-            //}
-
             var tmp = projectileList.FindAll(proj => proj.GetType() == typeof(Explosion));
             tmp.ForEach(expl => sceneManager.window.Draw(expl));
-
-            //foreach (var expl in tmp)
-            //{
-            //        sceneManager.window.Draw(expl);
-            //}
 
             sceneManager.window.Draw(ParticleSystem.Instance());
             sceneManager.window.Draw(player);

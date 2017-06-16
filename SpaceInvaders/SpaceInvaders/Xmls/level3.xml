@@ -1,0 +1,30 @@
+<main>
+<baseMoney>100</baseMoney>
+
+<enemy1dmg>10</enemy1dmg>
+<enemy1mon>100</enemy1mon>
+
+<enemies>
+	<enemy>
+		<enemyType>0</enemyType>
+		<x>400</x>
+		<y>-200</y>
+		<spawnTimer>2</spawnTimer>
+		<spawnType>0</spawnType>
+	</enemy>
+	<enemy>
+		<enemyType>0</enemyType>
+		<x>1200</x>
+		<y>-200</y>
+		<spawnTimer>0</spawnTimer>
+		<spawnType>0</spawnType>
+	</enemy>
+	<enemy>
+		<enemyType>0</enemyType>
+		<x>1800</x>
+		<y>200</y>
+		<spawnTimer>5</spawnTimer>
+		<spawnType>1</spawnType>
+	</enemy>
+</enemies>
+</main>
